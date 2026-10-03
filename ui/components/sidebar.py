@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from ctkfontawesome import icon_to_image
 
+
 class Sidebar(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(
@@ -12,7 +13,7 @@ class Sidebar(ctk.CTkFrame):
 
         self.parent = parent
         self.pack_propagate(False)
-        
+
         self.provision_button = self.create_menu_button(
             "microchip",
             "Provision Device"
@@ -37,7 +38,7 @@ class Sidebar(ctk.CTkFrame):
             "info-circle",
             "About"
         )
-        
+
         self.footer_text = ctk.CTkLabel(
             self,
             text="© 2026 Plantera Software",
@@ -47,22 +48,19 @@ class Sidebar(ctk.CTkFrame):
             ),
             text_color="#7E948F"
         )
-
         self.footer_text.pack(
             side="bottom",
             pady=20
         )
-        
+
     def create_menu_button(self, icon, text):
-        icon_image = icon_to_image(
-            icon,
-            scale_to_width=18,
-            fill="#DCE5E3"
-        )
-        
         button = ctk.CTkButton(
             self,
-            image=icon_image,
+            image=icon_to_image(
+                icon,
+                scale_to_width=18,
+                fill="#DCE5E3"
+            ),
             text=text,
             height=62,
             corner_radius=12,
@@ -73,7 +71,6 @@ class Sidebar(ctk.CTkFrame):
                 family="Arial",
                 size=14,
                 weight="bold"
-                
             ),
             anchor="w"
         )
@@ -85,6 +82,3 @@ class Sidebar(ctk.CTkFrame):
         )
 
         return button
-    
-            
-        
