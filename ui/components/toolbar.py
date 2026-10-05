@@ -32,7 +32,7 @@ class Toolbar(ctk.CTkFrame):
             self,
             height=2,
             corner_radius=0,
-            fg_color="#E2E8F0"
+            fg_color="#F1F1F1"
         )
         self.bottom_line.place(
             x=0,

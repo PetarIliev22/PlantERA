@@ -1,8 +1,9 @@
-import customtkinter as ctk
-import subprocess
-import sys
-import threading
 import re
+import sys
+import time
+import threading
+import subprocess
+import customtkinter as ctk
 
 
 class BootDialog(ctk.CTkFrame):
@@ -110,9 +111,14 @@ class BootDialog(ctk.CTkFrame):
         ).start()
 
     def detect_esp32(self):
+        start_time = time.time()
         print(f"Waiting for ESP32 on {self.port}...")
 
         while self.running:
+            if time.time() - start_time > 15:
+                self.running = False
+                self.after(0, self.connection_failed)
+                return
             try:
                 result = subprocess.run(
                     [
@@ -187,8 +193,7 @@ class BootDialog(ctk.CTkFrame):
     def create_uid(self, mac):
         if mac == "Unknown":
             return "Unknown"
-
-        # Match ESP.getEfuseMac() formatting used by firmware
+        
         parts = mac.split(":")
         parts.reverse()
 
@@ -223,3 +228,32 @@ class BootDialog(ctk.CTkFrame):
     def cancel(self):
         self.running = False
         self.destroy()
+        
+    def connection_failed(self):
+        if not self.winfo_exists():
+            return
+
+        self.boot_icon.configure(
+            text="!",
+            fg_color="#FDECEC",
+            text_color="#E5484D",
+            font=ctk.CTkFont("Arial", 30, "bold")
+        )
+
+        self.title_label.configure(
+            text="Connection failed"
+        )
+
+        self.description.configure(
+            text="ESP32 was not detected.\nCheck the connection and try again."
+        )
+
+        self.status_label.configure(
+            text="●  Device not detected",
+            text_color="#E5484D"
+        )
+
+        self.cancel_button.configure(
+            text="Try Again",
+            command=self.try_again
+        )

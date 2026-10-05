@@ -21,7 +21,7 @@ class ProvisionView(ctk.CTkFrame):
             corner_radius=15,
             fg_color="#FFFFFF",
             border_width=1,
-            border_color="#D9E1EA"
+            border_color="#F3F3F3"
         )
         self.connection_card.place(relx=0.02, rely=0.03, relwidth=0.47)
         self.connection_card.pack_propagate(False)
