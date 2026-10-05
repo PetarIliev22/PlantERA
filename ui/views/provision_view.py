@@ -156,11 +156,13 @@ class ProvisionView(ctk.CTkFrame):
         self.status_text.configure(text=text, text_color=color)
 
     def connect_device(self):
-        # Close old serial connection if open
-        if self.serial_connection and self.serial_connection.is_open:
-            self.serial_connection.close()
-            self.serial_connection = None
+        # Disconnect
+        if self.connect_button.cget("text") == "Disconnect":
+            self.set_status("Disconnected", "#738199")
+            self.connect_button.configure(text="Connect")
+            return
 
+        # Connect
         selected = self.com_box.get()
 
         if selected in ("", "No devices found", "No device selected"):
