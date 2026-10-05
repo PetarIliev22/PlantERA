@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from ctkfontawesome import icon_to_image
 from serial.tools import list_ports
+from ui.dialogs.boot_dialog import BootDialog
 import serial
 
 
@@ -66,10 +67,10 @@ class ProvisionView(ctk.CTkFrame):
             fg_color="#F5F7FA",
 
             button_color="#D9E1EA",
-            button_hover_color="#C9D8E8",
+            button_hover_color="#1687F8",
 
-            dropdown_fg_color="#FFFFFF",
-            dropdown_hover_color="#EAF4FF",
+            dropdown_fg_color="#919191",
+            dropdown_hover_color="#1687F8",
 
             text_color="#738199",
             font=ctk.CTkFont("Arial", 14)
@@ -155,16 +156,11 @@ class ProvisionView(ctk.CTkFrame):
         self.status_text.configure(text=text, text_color=color)
 
     def connect_device(self):
-        # Disconnect
+        # Close old serial connection if open
         if self.serial_connection and self.serial_connection.is_open:
             self.serial_connection.close()
             self.serial_connection = None
 
-            self.set_status("Disconnected", "#738199")
-            self.connect_button.configure(text="Connect")
-            return
-
-        # Connect
         selected = self.com_box.get()
 
         if selected in ("", "No devices found", "No device selected"):
@@ -172,18 +168,11 @@ class ProvisionView(ctk.CTkFrame):
 
         port = selected.split(" - ")[0]
 
-        try:
-            self.serial_connection = serial.Serial(
-                port,
-                baudrate=115200,
-                timeout=2
-            )
-
-            self.set_status("Connected", "#22B573")
-            self.connect_button.configure(text="Disconnect")
-
-        except serial.SerialException:
-            self.serial_connection = None
-
-            self.set_status("Connection failed", "#E5484D")
-            self.connect_button.configure(text="Connect")
+        BootDialog(
+            self.winfo_toplevel(),
+            port,
+            self.device_connected
+        )
+    def device_connected(self):
+        self.set_status("Connected", "#22B573")
+        self.connect_button.configure(text="Disconnect")
