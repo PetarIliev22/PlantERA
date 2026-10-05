@@ -13,21 +13,29 @@ class MainWindow(ctk.CTk):
         self.overrideredirect(True)
         self.geometry("1300x800")
         self.minsize(1300, 800)
-        self.configure(fg_color="#101C1F")
+
+        # Основен светлосив фон
+        self.configure(fg_color="#F4F7FA")
 
         self.toolbar = Toolbar(self)
         self.toolbar.pack(fill="x", side="top")
 
         self.sidebar = Sidebar(self)
         self.sidebar.pack(fill="y", side="left")
-        
+
         self.provision_view = ProvisionView(self)
-        self.provision_view.pack(side="left", fill="both", expand=True)
+        self.provision_view.pack(
+            side="left",
+            fill="both",
+            expand=True
+        )
 
         self.after(100, self.round_corners)
 
     def get_hwnd(self):
-        return ctypes.windll.user32.GetParent(self.winfo_id())
+        return ctypes.windll.user32.GetParent(
+            self.winfo_id()
+        )
 
     def round_corners(self):
         self.update_idletasks()

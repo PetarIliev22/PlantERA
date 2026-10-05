@@ -8,7 +8,7 @@ class Toolbar(ctk.CTkFrame):
             parent,
             height=80,
             corner_radius=0,
-            fg_color="#0D1518"
+            fg_color="#FFFFFF"
         )
 
         self.parent = parent
@@ -17,8 +17,8 @@ class Toolbar(ctk.CTkFrame):
         self.icons = {
             name: icon_to_image(
                 icon,
-                scale_to_width=12,
-                fill="#FFFFFF"
+                scale_to_width=14,
+                fill="#8491A5"
             )
             for name, icon in {
                 "close": "xmark",
@@ -27,11 +27,12 @@ class Toolbar(ctk.CTkFrame):
             }.items()
         }
 
+        # Долна разделителна линия
         self.bottom_line = ctk.CTkFrame(
             self,
             height=2,
             corner_radius=0,
-            fg_color="#1E2527"
+            fg_color="#E2E8F0"
         )
         self.bottom_line.place(
             x=0,
@@ -40,12 +41,13 @@ class Toolbar(ctk.CTkFrame):
             anchor="sw"
         )
 
+        # Лого
         self.logo_frame = ctk.CTkFrame(
             self,
             width=56,
             height=56,
             corner_radius=12,
-            fg_color="#12372B"
+            fg_color="#1687F8"
         )
         self.logo_frame.pack(
             side="left",
@@ -54,6 +56,7 @@ class Toolbar(ctk.CTkFrame):
         )
         self.logo_frame.pack_propagate(False)
 
+        # Заглавия
         self.title_frame = ctk.CTkFrame(
             self,
             fg_color="transparent"
@@ -67,7 +70,8 @@ class Toolbar(ctk.CTkFrame):
                 family="Arial",
                 size=20,
                 weight="bold"
-            )
+            ),
+            text_color="#172033"
         )
         self.title_label.pack(anchor="w")
 
@@ -78,14 +82,15 @@ class Toolbar(ctk.CTkFrame):
                 family="Arial",
                 size=13
             ),
-            text_color="#8E9B9A"
+            text_color="#738199"
         )
         self.subtitle_label.pack(anchor="w")
 
+        # Window controls
         self.close_button = self.create_button(
             "close",
             self.parent.destroy,
-            "#C42B1C"
+            "#E5484D"
         )
 
         self.maximize_button = self.create_button(
@@ -105,31 +110,58 @@ class Toolbar(ctk.CTkFrame):
             self.subtitle_label
         )
 
-    def create_button(self, icon, command, hover_color="#080F11"):
+    def create_button(
+        self,
+        icon,
+        command,
+        hover_color="#F4F7FA"
+    ):
         button = ctk.CTkButton(
             self,
             text="",
             image=self.icons[icon],
-            width=49,
+            width=50,
             height=35,
             corner_radius=0,
             fg_color="transparent",
             hover_color=hover_color,
             command=command
         )
-        button.pack(side="right", anchor="n")
+
+        button.pack(
+            side="right",
+            anchor="n"
+        )
 
         return button
 
     def bind_drag_events(self, *widgets):
         for widget in widgets:
-            widget.bind("<Button-1>", self.start_move)
-            widget.bind("<B1-Motion>", self.do_move)
-            widget.bind("<Double-Button-1>", self.toggle_maximize)
+            widget.bind(
+                "<Button-1>",
+                self.start_move
+            )
+
+            widget.bind(
+                "<B1-Motion>",
+                self.do_move
+            )
+
+            widget.bind(
+                "<Double-Button-1>",
+                self.toggle_maximize
+            )
 
     def start_move(self, event):
-        self.drag_x = event.x_root - self.parent.winfo_x()
-        self.drag_y = event.y_root - self.parent.winfo_y()
+        self.drag_x = (
+            event.x_root -
+            self.parent.winfo_x()
+        )
+
+        self.drag_y = (
+            event.y_root -
+            self.parent.winfo_y()
+        )
 
     def do_move(self, event):
         if self.parent.state() == "zoomed":
@@ -138,7 +170,9 @@ class Toolbar(ctk.CTkFrame):
         x = event.x_root - self.drag_x
         y = event.y_root - self.drag_y
 
-        self.parent.geometry(f"+{x}+{y}")
+        self.parent.geometry(
+            f"+{x}+{y}"
+        )
 
     def minimize_window(self):
         self.parent.overrideredirect(False)
@@ -146,16 +180,19 @@ class Toolbar(ctk.CTkFrame):
 
         self.parent.after(
             100,
-            lambda: self.parent.overrideredirect(True)
+            lambda:
+            self.parent.overrideredirect(True)
         )
 
     def toggle_maximize(self, event=None):
         if self.parent.state() == "zoomed":
             self.parent.state("normal")
+
             self.parent.after(
                 50,
                 self.parent.round_corners
             )
+
         else:
             self.parent.remove_round_corners()
             self.parent.state("zoomed")
