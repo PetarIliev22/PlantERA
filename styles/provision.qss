@@ -1,3 +1,4 @@
+/* START DEVICE CONNECTION */
 QFrame#provisionView {
     background-color: transparent;
 }
@@ -134,3 +135,45 @@ QLabel#statusDot[status="failed"],
 QLabel#statusText[status="failed"] {
     color: #E5484D;
 }
+/* END DEVICE CONNECTION */
+
+/*  DEVICE INFO  */
+QFrame#deviceInfoCard {
+    background-color: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 15px;
+}
+
+QLabel#deviceInfoTitle {
+    color: #1687F8;
+    font-family: Arial;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#deviceInfoLabel {
+    color: #172033;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+QLabel#deviceInfoValue {
+    color: #172033;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+QLabel#deviceInfoValue[state="error"] {
+    color: #E5484D;
+}
+
+QPushButton#copyButton {
+    background-color: #F5F7FA;
+    border: 1px solid #D9E1EA;
+    border-radius: 9px;
+}
+
+QPushButton#copyButton:hover {
+    background-color: #EAF4FF;
+}
+/*  END DEVICE INFO */
