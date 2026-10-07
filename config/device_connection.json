@@ -1,0 +1,10 @@
+{
+  "status": {
+    "disconnected": "Disconnected",
+    "connected": "Connected"
+  },
+  "button": {
+    "disconnected": "Connect",
+    "connected": "Disconnect"
+  }
+}

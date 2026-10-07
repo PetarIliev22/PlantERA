@@ -16,8 +16,6 @@ QFrame#toolbarTitleFrame {
 QLabel#toolbarTitle {
     background-color: transparent;
     color: #172033;
-
-    font-family: Arial;
     font-size: 20px;
     font-weight: 700;
 }
@@ -25,8 +23,6 @@ QLabel#toolbarTitle {
 QLabel#toolbarSubtitle {
     background-color: transparent;
     color: #738199;
-
-    font-family: Arial;
     font-size: 13px;
 }
 

@@ -20,8 +20,13 @@ class ProvisionView(QFrame):
         self.device_connection = DeviceConnection(self)
         self.device_info = DeviceInfo(self)
 
+
         self.device_connection.connected.connect(
             self.device_connected
+        )
+
+        self.device_connection.disconnected.connect(
+            self.device_disconnected
         )
 
         connection_row = QHBoxLayout()
@@ -46,3 +51,6 @@ class ProvisionView(QFrame):
             board=info["board"],
             uid=info["uid"]
         )
+        
+    def device_disconnected(self):
+        self.device_info.clear()

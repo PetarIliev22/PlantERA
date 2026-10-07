@@ -18,15 +18,14 @@ QFrame#statusRow {
 
 QLabel#connectionTitle {
     color: #1687F8;
-    font-family: Arial;
     font-size: 17px;
     font-weight: 700;
 }
 
 QLabel#connectionLabel {
-    color: #172033;
-    font-family: Arial;
+    color: #444444;
     font-size: 14px;
+    font-weight: 700;
 }
 
 QComboBox#comBox {
@@ -38,7 +37,6 @@ QComboBox#comBox {
 
     padding-left: 10px;
 
-    font-family: Arial;
     font-size: 14px;
 }
 
@@ -73,7 +71,6 @@ QComboBox#comBox QAbstractItemView {
     selection-background-color: #1687F8;
     selection-color: #FFFFFF;
 
-    font-family: Arial;
     font-size: 14px;
 }
 
@@ -95,7 +92,6 @@ QPushButton#connectButton {
     border: none;
     border-radius: 9px;
 
-    font-family: Arial;
     font-size: 15px;
     font-weight: 700;
 }
@@ -107,14 +103,12 @@ QPushButton#connectButton:hover {
 QLabel#statusDot {
     color: #8A97AA;
 
-    font-family: Arial;
     font-size: 17px;
 }
 
 QLabel#statusText {
     color: #738199;
 
-    font-family: Arial;
     font-size: 14px;
 }
 
@@ -146,21 +140,20 @@ QFrame#deviceInfoCard {
 
 QLabel#deviceInfoTitle {
     color: #1687F8;
-    font-family: Arial;
     font-size: 17px;
     font-weight: 700;
 }
 
 QLabel#deviceInfoLabel {
-    color: #172033;
-    font-family: Arial;
+    color: #444444;
     font-size: 14px;
+    font-weight: 700;
 }
 
 QLabel#deviceInfoValue {
-    color: #172033;
-    font-family: Arial;
+    color: #4b4848;
     font-size: 14px;
+    font-weight: 400;
 }
 
 QLabel#deviceInfoValue[state="error"] {

@@ -1,20 +1,33 @@
+import json
 import qtawesome as qta
-
+from enum import Enum
 from ui.PySide6_Qt import *
 from serial.tools import list_ports
 from ui.dialogs.boot_dialog import BootDialog
 
+texts = json.load(
+    open("config/device_connection.json", encoding="utf-8")
+)
+
+class ConnectionState(Enum):
+    DISCONNECTED = "disconnected"
+    CONNECTED = "connected"
 
 class DeviceConnection(QFrame):
     connected = Signal(str)
+    disconnected = Signal()
+
     def __init__(self, parent):
         super().__init__(parent)
+
+        self.state = ConnectionState.DISCONNECTED
 
         self.setObjectName("connectionCard")
         self.setFixedHeight(170)
 
         self.create_ui()
         self.refresh_ports()
+        self.set_state(ConnectionState.DISCONNECTED)
 
     def create_ui(self):
         layout = QVBoxLayout(self)
@@ -22,18 +35,15 @@ class DeviceConnection(QFrame):
         layout.setSpacing(0)
 
         self.create_title(layout)
-        self.create_com_row(layout)
+        self.create_port_row(layout)
         self.create_status_row(layout)
 
         layout.addStretch()
 
     def create_title(self, layout):
-        row = QFrame()
-        row.setObjectName("titleRow")
-
-        row_layout = QHBoxLayout(row)
-        row_layout.setContentsMargins(10, 0, 0, 0)
-        row_layout.setSpacing(10)
+        row = QHBoxLayout()
+        row.setContentsMargins(10, 0, 0, 0)
+        row.setSpacing(10)
 
         icon = QLabel()
         icon.setPixmap(
@@ -46,19 +56,16 @@ class DeviceConnection(QFrame):
         title = QLabel("Device Connection")
         title.setObjectName("connectionTitle")
 
-        row_layout.addWidget(icon)
-        row_layout.addWidget(title)
-        row_layout.addStretch()
+        row.addWidget(icon)
+        row.addWidget(title)
+        row.addStretch()
 
-        layout.addWidget(row)
+        layout.addLayout(row)
 
-    def create_com_row(self, layout):
-        row = QFrame()
-        row.setObjectName("comRow")
-
-        row_layout = QHBoxLayout(row)
-        row_layout.setContentsMargins(0, 16, 0, 0)
-        row_layout.setSpacing(0)
+    def create_port_row(self, layout):
+        row = QHBoxLayout()
+        row.setContentsMargins(0, 16, 0, 0)
+        row.setSpacing(0)
 
         label = QLabel("COM Port:")
         label.setObjectName("connectionLabel")
@@ -68,38 +75,35 @@ class DeviceConnection(QFrame):
         self.com_box.setObjectName("comBox")
         self.com_box.setFixedHeight(35)
 
-        self.refresh_button = QPushButton()
-        self.refresh_button.setObjectName("refreshButton")
-        self.refresh_button.setFixedSize(40, 35)
-        self.refresh_button.setIcon(
+        refresh = QPushButton()
+        refresh.setObjectName("refreshButton")
+        refresh.setFixedSize(40, 35)
+        refresh.setIcon(
             qta.icon(
                 "fa6s.arrows-rotate",
                 color="#1687F8"
             )
         )
-        self.refresh_button.clicked.connect(self.refresh_ports)
+        refresh.clicked.connect(self.refresh_ports)
 
-        self.connect_button = QPushButton("Connect")
+        self.connect_button = QPushButton()
         self.connect_button.setObjectName("connectButton")
         self.connect_button.setFixedSize(115, 35)
-        self.connect_button.clicked.connect(self.connect_device)
+        self.connect_button.clicked.connect(self.toggle_connection)
 
-        row_layout.addWidget(label)
-        row_layout.addWidget(self.com_box, 1)
-        row_layout.addSpacing(10)
-        row_layout.addWidget(self.refresh_button)
-        row_layout.addSpacing(15)
-        row_layout.addWidget(self.connect_button)
+        row.addWidget(label)
+        row.addWidget(self.com_box, 1)
+        row.addSpacing(10)
+        row.addWidget(refresh)
+        row.addSpacing(15)
+        row.addWidget(self.connect_button)
 
-        layout.addWidget(row)
+        layout.addLayout(row)
 
     def create_status_row(self, layout):
-        row = QFrame()
-        row.setObjectName("statusRow")
-
-        row_layout = QHBoxLayout(row)
-        row_layout.setContentsMargins(0, 12, 0, 0)
-        row_layout.setSpacing(5)
+        row = QHBoxLayout()
+        row.setContentsMargins(0, 12, 0, 0)
+        row.setSpacing(5)
 
         label = QLabel("Status:")
         label.setObjectName("connectionLabel")
@@ -109,83 +113,85 @@ class DeviceConnection(QFrame):
         self.status_dot.setObjectName("statusDot")
         self.status_dot.setFixedWidth(20)
 
-        self.status_text = QLabel("Disconnected")
+        self.status_text = QLabel()
         self.status_text.setObjectName("statusText")
 
-        self.set_status(
-            "Disconnected",
-            "disconnected"
-        )
+        row.addWidget(label)
+        row.addWidget(self.status_dot)
+        row.addWidget(self.status_text)
+        row.addStretch()
 
-        row_layout.addWidget(label)
-        row_layout.addWidget(self.status_dot)
-        row_layout.addWidget(self.status_text)
-        row_layout.addStretch()
-
-        layout.addWidget(row)
+        layout.addLayout(row)
 
     def refresh_ports(self):
-        ports = [
-            f"{port.device} - {port.description}"
-            for port in list_ports.comports()
-        ]
-
         self.com_box.clear()
 
-        if ports:
-            self.com_box.addItems(ports)
-            self.com_box.setCurrentIndex(0)
-        else:
-            self.com_box.addItem("No devices found")
+        ports = list_ports.comports()
 
-    def set_status(self, text, status):
-        self.status_text.setText(text)
+        for port in ports:
+            self.com_box.addItem(
+                f"{port.device} - {port.description}",
+                port.device
+            )
+
+        if not ports:
+            self.com_box.addItem(
+                "No devices found",
+                None
+            )
+
+    def toggle_connection(self):
+        if self.state is ConnectionState.CONNECTED:
+            self.disconnect_device()
+        else:
+            self.connect_device()
+
+    def connect_device(self):
+        port = self.com_box.currentData()
+
+        if not port:
+            return
+
+        self.boot_dialog = BootDialog(
+            self.window(),
+            port,
+            lambda: self.device_connected(port)
+        )
+
+    def disconnect_device(self):
+        self.set_state(
+            ConnectionState.DISCONNECTED
+        )
+        
+        self.disconnected.emit()
+
+    def device_connected(self, port):
+        self.set_state(
+            ConnectionState.CONNECTED
+        )
+
+        self.set_state(ConnectionState.CONNECTED)
+        self.connected.emit(port)
+
+    def set_state(self, state):
+        self.state = state
+
+        self.status_text.setText(
+            texts["status"][state.value]
+        )
+
+        self.connect_button.setText(
+            texts["button"][state.value]
+        )
 
         for widget in (
             self.status_dot,
             self.status_text
         ):
-            widget.setProperty("status", status)
-            widget.style().unpolish(widget)
-            widget.style().polish(widget)
-
-    def connect_device(self):
-        if self.connect_button.text() == "Disconnect":
-            self.set_status(
-                "Disconnected",
-                "disconnected"
+            widget.setProperty(
+                "status",
+                state.value
             )
 
-            self.connect_button.setText("Connect")
-            return
-
-        selected = self.com_box.currentText()
-
-        if selected in (
-            "",
-            "No devices found",
-            "No device selected"
-        ):
-            return
-
-        port = selected.split(" - ")[0]
-
-        self.boot_dialog = BootDialog(
-            self.window(),
-            port,
-            self.device_connected
-        )
-
-    def device_connected(self):
-        self.set_status(
-            "Connected",
-            "connected"
-        )
-
-        self.connect_button.setText(
-            "Disconnect"
-        )
-        
-        self.connected.emit(
-            self.com_box.currentText().split(" - ")[0]
-        )
+            widget.style().unpolish(widget)
+            widget.style().polish(widget)
