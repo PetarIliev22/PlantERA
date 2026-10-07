@@ -1,8 +1,8 @@
+import serial
 import customtkinter as ctk
 from ctkfontawesome import icon_to_image
 from serial.tools import list_ports
 from ui.dialogs.boot_dialog import BootDialog
-import serial
 
 
 class ProvisionView(ctk.CTkFrame):
