@@ -1,0 +1,136 @@
+QFrame#provisionView {
+    background-color: transparent;
+}
+
+QFrame#connectionCard {
+    background-color: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 15px;
+}
+
+QFrame#titleRow,
+QFrame#comRow,
+QFrame#statusRow {
+    background-color: transparent;
+    border: none;
+}
+
+QLabel#connectionTitle {
+    color: #1687F8;
+    font-family: Arial;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#connectionLabel {
+    color: #172033;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+QComboBox#comBox {
+    background-color: #F5F7FA;
+    color: #738199;
+
+    border: 1px solid #D9E1EA;
+    border-radius: 9px;
+
+    padding-left: 10px;
+
+    font-family: Arial;
+    font-size: 14px;
+}
+
+QComboBox#comBox:hover {
+    border-color: #1687F8;
+}
+
+QComboBox#comBox::drop-down {
+    width: 34px;
+    background-color: #D9E1EA;
+    border: none;
+    border-left: 1px solid #D9E1EA;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+}
+
+QComboBox#comBox::drop-down:hover {
+    background-color: #1687F8;
+}
+
+QComboBox#comBox::down-arrow {
+    width: 10px;
+    height: 10px;
+}
+
+QComboBox#comBox QAbstractItemView {
+    background-color: #919191;
+    color: #FFFFFF;
+
+    border: none;
+
+    selection-background-color: #1687F8;
+    selection-color: #FFFFFF;
+
+    font-family: Arial;
+    font-size: 14px;
+}
+
+QPushButton#refreshButton {
+    background-color: #FFFFFF;
+
+    border: 1px solid #D9E1EA;
+    border-radius: 9px;
+}
+
+QPushButton#refreshButton:hover {
+    background-color: #EAF4FF;
+}
+
+QPushButton#connectButton {
+    background-color: #1687F8;
+    color: #FFFFFF;
+
+    border: none;
+    border-radius: 9px;
+
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+QPushButton#connectButton:hover {
+    background-color: #0878E8;
+}
+
+QLabel#statusDot {
+    color: #8A97AA;
+
+    font-family: Arial;
+    font-size: 17px;
+}
+
+QLabel#statusText {
+    color: #738199;
+
+    font-family: Arial;
+    font-size: 14px;
+}
+
+QLabel#statusDot[status="disconnected"] {
+    color: #8A97AA;
+}
+
+QLabel#statusText[status="disconnected"] {
+    color: #738199;
+}
+
+QLabel#statusDot[status="connected"],
+QLabel#statusText[status="connected"] {
+    color: #22B573;
+}
+
+QLabel#statusDot[status="failed"],
+QLabel#statusText[status="failed"] {
+    color: #E5484D;
+}

@@ -1,198 +1,159 @@
-import customtkinter as ctk
-from ctkfontawesome import icon_to_image
+import qtawesome as qta
+
+from PySide6.QtCore import Qt, QPoint, QTimer
+from PySide6.QtWidgets import (
+    QFrame,
+    QLabel,
+    QPushButton,
+    QHBoxLayout,
+    QVBoxLayout
+)
 
 
-class Toolbar(ctk.CTkFrame):
+class Toolbar(QFrame):
     def __init__(self, parent):
-        super().__init__(
-            parent,
-            height=80,
-            corner_radius=0,
-            fg_color="#FFFFFF"
-        )
+        super().__init__(parent)
 
         self.parent = parent
-        self.pack_propagate(False)
+        self.drag_position = QPoint()
 
-        self.icons = {
-            name: icon_to_image(
-                icon,
-                scale_to_width=14,
-                fill="#8491A5"
-            )
-            for name, icon in {
-                "close": "xmark",
-                "maximize": "window-maximize",
-                "minimize": "window-minimize"
-            }.items()
-        }
+        self.setObjectName("toolbar")
+        self.setFixedHeight(80)
 
-        # Долна разделителна линия
-        self.bottom_line = ctk.CTkFrame(
-            self,
-            height=2,
-            corner_radius=0,
-            fg_color="#F1F1F1"
-        )
-        self.bottom_line.place(
-            x=0,
-            rely=1.0,
-            relwidth=1.0,
-            anchor="sw"
+        self.create_ui()
+
+    def create_ui(self):
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(24, 0, 0, 0)
+        layout.setSpacing(0)
+
+        # Logo
+        self.logo_frame = QFrame()
+        self.logo_frame.setObjectName("toolbarLogo")
+        self.logo_frame.setFixedSize(56, 56)
+
+        layout.addWidget(
+            self.logo_frame,
+            0,
+            Qt.AlignmentFlag.AlignVCenter
         )
 
-        # Лого
-        self.logo_frame = ctk.CTkFrame(
-            self,
-            width=56,
-            height=56,
-            corner_radius=12,
-            fg_color="#1687F8"
-        )
-        self.logo_frame.pack(
-            side="left",
-            padx=(24, 16),
-            pady=12
-        )
-        self.logo_frame.pack_propagate(False)
+        layout.addSpacing(16)
 
-        # Заглавия
-        self.title_frame = ctk.CTkFrame(
-            self,
-            fg_color="transparent"
-        )
-        self.title_frame.pack(side="left")
+        # Titles
+        self.title_frame = QFrame()
+        self.title_frame.setObjectName("toolbarTitleFrame")
 
-        self.title_label = ctk.CTkLabel(
+        title_layout = QVBoxLayout(self.title_frame)
+        title_layout.setContentsMargins(0, 0, 0, 0)
+        title_layout.setSpacing(0)
+
+        self.title_label = QLabel(
+            "PlantERA - Provisioning Tool"
+        )
+        self.title_label.setObjectName("toolbarTitle")
+
+        self.subtitle_label = QLabel(
+            "Prepare. Secure. Grow."
+        )
+        self.subtitle_label.setObjectName("toolbarSubtitle")
+
+        title_layout.addWidget(self.title_label)
+        title_layout.addWidget(self.subtitle_label)
+
+        layout.addWidget(
             self.title_frame,
-            text="PlantERA - Provisioning Tool",
-            font=ctk.CTkFont(
-                family="Arial",
-                size=20,
-                weight="bold"
+            0,
+            Qt.AlignmentFlag.AlignVCenter
+        )
+
+        layout.addStretch()
+
+        # Window buttons
+        button_data = [
+            (
+                "minimize",
+                "fa6s.window-minimize",
+                self.parent.showMinimized
             ),
-            text_color="#172033"
-        )
-        self.title_label.pack(anchor="w")
-
-        self.subtitle_label = ctk.CTkLabel(
-            self.title_frame,
-            text="Prepare. Secure. Grow.",
-            font=ctk.CTkFont(
-                family="Arial",
-                size=13
-            ),
-            text_color="#738199"
-        )
-        self.subtitle_label.pack(anchor="w")
-
-        # Window controls
-        self.close_button = self.create_button(
-            "close",
-            self.parent.destroy,
-            "#E5484D"
-        )
-
-        self.maximize_button = self.create_button(
-            "maximize",
-            self.toggle_maximize
-        )
-
-        self.minimize_button = self.create_button(
-            "minimize",
-            self.minimize_window
-        )
-
-        self.bind_drag_events(
-            self,
-            self.title_frame,
-            self.title_label,
-            self.subtitle_label
-        )
-
-    def create_button(
-        self,
-        icon,
-        command,
-        hover_color="#F4F7FA"
-    ):
-        button = ctk.CTkButton(
-            self,
-            text="",
-            image=self.icons[icon],
-            width=50,
-            height=35,
-            corner_radius=0,
-            fg_color="transparent",
-            hover_color=hover_color,
-            command=command
-        )
-
-        button.pack(
-            side="right",
-            anchor="n"
-        )
-
-        return button
-
-    def bind_drag_events(self, *widgets):
-        for widget in widgets:
-            widget.bind(
-                "<Button-1>",
-                self.start_move
-            )
-
-            widget.bind(
-                "<B1-Motion>",
-                self.do_move
-            )
-
-            widget.bind(
-                "<Double-Button-1>",
+            (
+                "maximize",
+                "fa6s.window-maximize",
                 self.toggle_maximize
+            ),
+            (
+                "close",
+                "fa6s.xmark",
+                self.parent.close
+            ),
+        ]
+
+        for name, icon, command in button_data:
+            button = QPushButton()
+            button.setObjectName(f"{name}Button")
+            button.setFixedSize(50, 35)
+
+            button.setIcon(
+                qta.icon(
+                    icon,
+                    color="#8491A5"
+                )
             )
 
-    def start_move(self, event):
-        self.drag_x = (
-            event.x_root -
-            self.parent.winfo_x()
-        )
+            button.clicked.connect(command)
 
-        self.drag_y = (
-            event.y_root -
-            self.parent.winfo_y()
-        )
+            layout.addWidget(
+                button,
+                0,
+                Qt.AlignmentFlag.AlignTop
+            )
 
-    def do_move(self, event):
-        if self.parent.state() == "zoomed":
-            return
+        # Bottom line
+        self.bottom_line = QFrame(self)
+        self.bottom_line.setObjectName("toolbarBottomLine")
+        self.bottom_line.setFixedHeight(2)
 
-        x = event.x_root - self.drag_x
-        y = event.y_root - self.drag_y
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.drag_position = (
+                event.globalPosition().toPoint()
+                - self.parent.frameGeometry().topLeft()
+            )
 
-        self.parent.geometry(
-            f"+{x}+{y}"
-        )
+    def mouseMoveEvent(self, event):
+        if (
+            event.buttons()
+            & Qt.MouseButton.LeftButton
+            and not self.parent.isMaximized()
+        ):
+            self.parent.move(
+                event.globalPosition().toPoint()
+                - self.drag_position
+            )
 
-    def minimize_window(self):
-        self.parent.overrideredirect(False)
-        self.parent.iconify()
+    def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.toggle_maximize()
 
-        self.parent.after(
-            100,
-            lambda:
-            self.parent.overrideredirect(True)
-        )
+    def toggle_maximize(self):
+        if self.parent.isMaximized():
+            self.parent.showNormal()
 
-    def toggle_maximize(self, event=None):
-        if self.parent.state() == "zoomed":
-            self.parent.state("normal")
-
-            self.parent.after(
+            QTimer.singleShot(
                 50,
                 self.parent.round_corners
             )
 
         else:
             self.parent.remove_round_corners()
-            self.parent.state("zoomed")
+            self.parent.showMaximized()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        self.bottom_line.setGeometry(
+            0,
+            self.height() - 2,
+            self.width(),
+            2
+        )

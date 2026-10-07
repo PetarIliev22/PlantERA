@@ -1,0 +1,11 @@
+QMainWindow#mainWindow {
+    background-color: transparent;
+}
+
+QWidget#mainContainer {
+    background-color: #F4F7FA;
+}
+
+QWidget#mainContent {
+    background-color: #F4F7FA;
+}

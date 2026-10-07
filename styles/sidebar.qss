@@ -1,0 +1,42 @@
+QFrame#sidebar {
+    background-color: #FFFFFF;
+    border: none;
+}
+
+QFrame#activeIndicator {
+    background-color: #1687F8;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+QPushButton#sidebarButton {
+    background-color: transparent;
+    color: #8491A5;
+    border: none;
+    border-radius: 10px;
+    text-align: left;
+    padding-left: 16px;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+QPushButton#sidebarButton:hover {
+    background-color: #F1F6FC;
+}
+
+QPushButton#sidebarButton[active="true"] {
+    background-color: #EAF4FF;
+    color: #1687F8;
+}
+
+QPushButton#sidebarButton[active="true"]:hover {
+    background-color: #E1F0FF;
+}
+
+QLabel#sidebarFooter {
+    background-color: transparent;
+    color: #8491A5;
+    font-family: Arial;
+    font-size: 12px;
+}

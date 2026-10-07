@@ -1,0 +1,55 @@
+QFrame#toolbar {
+    background-color: #FFFFFF;
+    border: none;
+}
+
+QFrame#toolbarLogo {
+    background-color: #1687F8;
+    border-radius: 12px;
+}
+
+QFrame#toolbarTitleFrame {
+    background-color: transparent;
+    border: none;
+}
+
+QLabel#toolbarTitle {
+    background-color: transparent;
+    color: #172033;
+
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+QLabel#toolbarSubtitle {
+    background-color: transparent;
+    color: #738199;
+
+    font-family: Arial;
+    font-size: 13px;
+}
+
+QFrame#toolbarBottomLine {
+    background-color: #F1F1F1;
+    border: none;
+}
+
+QPushButton#minimizeButton,
+QPushButton#maximizeButton,
+QPushButton#closeButton {
+    background-color: transparent;
+    border: none;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+QPushButton#minimizeButton:hover,
+QPushButton#maximizeButton:hover {
+    background-color: #F4F7FA;
+}
+
+QPushButton#closeButton:hover {
+    background-color: #E5484D;
+}

@@ -1,63 +1,86 @@
-import ctypes
-import customtkinter as ctk
+from PySide6.QtCore import Qt, QTimer, QRectF
+from PySide6.QtGui import QPainterPath, QRegion
+from PySide6.QtWidgets import (
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout
+)
 
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from ui.views.provision_view import ProvisionView
 
 
-class MainWindow(ctk.CTk):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.overrideredirect(True)
-        self.geometry("1300x800")
-        self.minsize(1300, 800)
+        self.setObjectName("mainWindow")
 
-        # Основен светлосив фон
-        self.configure(fg_color="#F4F7FA")
+        self.resize(1300, 800)
+        self.setMinimumSize(1300, 800)
 
-        self.toolbar = Toolbar(self)
-        self.toolbar.pack(fill="x", side="top")
-
-        self.sidebar = Sidebar(self)
-        self.sidebar.pack(fill="y", side="left")
-
-        self.provision_view = ProvisionView(self)
-        self.provision_view.pack(
-            side="left",
-            fill="both",
-            expand=True
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint
         )
 
-        self.after(100, self.round_corners)
+        self.create_ui()
 
-    def get_hwnd(self):
-        return ctypes.windll.user32.GetParent(
-            self.winfo_id()
+        QTimer.singleShot(
+            100,
+            self.round_corners
+        )
+
+    def create_ui(self):
+        self.central = QWidget()
+        self.central.setObjectName("mainContainer")
+        self.setCentralWidget(self.central)
+
+        main_layout = QVBoxLayout(self.central)
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
+
+        # Toolbar
+        self.toolbar = Toolbar(self)
+        main_layout.addWidget(self.toolbar)
+
+        # Content
+        content = QWidget()
+        content.setObjectName("mainContent")
+
+        content_layout = QHBoxLayout(content)
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        content_layout.setSpacing(0)
+
+        self.sidebar = Sidebar(self)
+        content_layout.addWidget(self.sidebar)
+
+        self.provision_view = ProvisionView(self)
+        content_layout.addWidget(
+            self.provision_view,
+            1
+        )
+
+        main_layout.addWidget(
+            content,
+            1
         )
 
     def round_corners(self):
-        self.update_idletasks()
+        path = QPainterPath()
 
-        region = ctypes.windll.gdi32.CreateRoundRectRgn(
-            0,
-            0,
-            self.winfo_width() + 1,
-            self.winfo_height() + 1,
+        path.addRoundedRect(
+            QRectF(self.rect()),
             20,
             20
         )
 
-        ctypes.windll.user32.SetWindowRgn(
-            self.get_hwnd(),
-            region,
-            True
+        self.setMask(
+            QRegion(
+                path.toFillPolygon().toPolygon()
+            )
         )
 
     def remove_round_corners(self):
-        ctypes.windll.user32.SetWindowRgn(
-            self.get_hwnd(),
-            0,
-            True
-        )
+        self.clearMask()

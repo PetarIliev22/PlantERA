@@ -1,146 +1,135 @@
-import serial
-import customtkinter as ctk
-from ctkfontawesome import icon_to_image
+import qtawesome as qta
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QFrame,
+    QLabel,
+    QPushButton,
+    QComboBox,
+    QHBoxLayout,
+    QVBoxLayout
+)
+
 from serial.tools import list_ports
 from ui.dialogs.boot_dialog import BootDialog
 
 
-class ProvisionView(ctk.CTkFrame):
+class ProvisionView(QFrame):
     def __init__(self, parent):
-        super().__init__(parent, fg_color="transparent")
+        super().__init__(parent)
 
-        self.serial_connection = None
+        self.setObjectName("provisionView")
 
         self.create_connection_card()
         self.refresh_ports()
 
     def create_connection_card(self):
-        self.connection_card = ctk.CTkFrame(
-            self,
-            height=170,
-            corner_radius=15,
-            fg_color="#FFFFFF",
-            border_width=1,
-            border_color="#F3F3F3"
-        )
-        self.connection_card.place(relx=0.02, rely=0.03, relwidth=0.47)
-        self.connection_card.pack_propagate(False)
+        self.connection_card = QFrame(self)
+        self.connection_card.setObjectName("connectionCard")
 
-        self.create_title()
-        self.create_com_row()
-        self.create_status_row()
+        layout = QVBoxLayout(self.connection_card)
+        layout.setContentsMargins(14, 16, 14, 14)
+        layout.setSpacing(0)
 
-    def create_title(self):
-        title = ctk.CTkLabel(
-            self.connection_card,
-            text="Device Connection",
-            image=icon_to_image("link", scale_to_width=23, fill="#1687F8"),
-            compound="left",
-            padx=10,
-            font=ctk.CTkFont("Arial", 17, "bold"),
-            text_color="#1687F8"
-        )
-        title.pack(anchor="w", padx=10, pady=(16, 0))
+        self.create_title(layout)
+        self.create_com_row(layout)
+        self.create_status_row(layout)
 
-    def create_com_row(self):
-        row = ctk.CTkFrame(self.connection_card, fg_color="transparent")
-        row.pack(fill="x", padx=14, pady=(16, 0))
+        layout.addStretch()
 
-        ctk.CTkLabel(
-            row,
-            text="COM Port:",
-            width=80,
-            anchor="w",
-            font=ctk.CTkFont("Arial", 14),
-            text_color="#172033"
-        ).pack(side="left")
+    def create_title(self, layout):
+        row = QFrame()
+        row.setObjectName("titleRow")
 
-        self.com_box = ctk.CTkComboBox(
-            row,
-            values=[],
-            height=35,
-            corner_radius=9,
-            border_width=1,
-            state="readonly",
+        row_layout = QHBoxLayout(row)
+        row_layout.setContentsMargins(10, 0, 0, 0)
+        row_layout.setSpacing(10)
 
-            border_color="#D9E1EA",
-            fg_color="#F5F7FA",
-
-            button_color="#D9E1EA",
-            button_hover_color="#1687F8",
-
-            dropdown_fg_color="#919191",
-            dropdown_hover_color="#1687F8",
-
-            text_color="#738199",
-            font=ctk.CTkFont("Arial", 14)
-        )
-        self.com_box.pack(side="left", fill="x", expand=True)
-        self.com_box.set("No device selected")
-
-        refresh_icon = icon_to_image(
-            "refresh",
-            scale_to_width=15,
-            fill="#1687F8"
+        icon = QLabel()
+        icon.setPixmap(
+            qta.icon(
+                "fa6s.link",
+                color="#1687F8"
+            ).pixmap(23, 23)
         )
 
-        ctk.CTkButton(
-            row,
-            text="",
-            image=refresh_icon,
-            width=40,
-            height=35,
-            corner_radius=9,
-            fg_color="#FFFFFF",
-            hover_color="#EAF4FF",
-            border_width=1,
-            border_color="#D9E1EA",
-            command=self.refresh_ports
-        ).pack(side="left", padx=(10, 15))
+        title = QLabel("Device Connection")
+        title.setObjectName("connectionTitle")
 
-        self.connect_button = ctk.CTkButton(
-            row,
-            text="Connect",
-            width=115,
-            height=35,
-            corner_radius=9,
-            fg_color="#1687F8",
-            hover_color="#0878E8",
-            text_color="#FFFFFF",
-            font=ctk.CTkFont("Arial", 15, "bold"),
-            command=self.connect_device
+        row_layout.addWidget(icon)
+        row_layout.addWidget(title)
+        row_layout.addStretch()
+
+        layout.addWidget(row)
+
+    def create_com_row(self, layout):
+        row = QFrame()
+        row.setObjectName("comRow")
+
+        row_layout = QHBoxLayout(row)
+        row_layout.setContentsMargins(0, 16, 0, 0)
+        row_layout.setSpacing(0)
+
+        label = QLabel("COM Port:")
+        label.setObjectName("connectionLabel")
+        label.setFixedWidth(80)
+
+        self.com_box = QComboBox()
+        self.com_box.setObjectName("comBox")
+        self.com_box.setFixedHeight(35)
+        
+        self.refresh_button = QPushButton()
+        self.refresh_button.setObjectName("refreshButton")
+        self.refresh_button.setFixedSize(40, 35)
+        self.refresh_button.setIcon(
+            qta.icon(
+                "fa6s.arrows-rotate",
+                color="#1687F8"
+            )
         )
-        self.connect_button.pack(side="left")
+        self.refresh_button.clicked.connect(self.refresh_ports)
 
-    def create_status_row(self):
-        row = ctk.CTkFrame(self.connection_card, fg_color="transparent")
-        row.pack(fill="x", padx=14, pady=(12, 0))
+        self.connect_button = QPushButton("Connect")
+        self.connect_button.setObjectName("connectButton")
+        self.connect_button.setFixedSize(115, 35)
+        self.connect_button.clicked.connect(self.connect_device)
 
-        ctk.CTkLabel(
-            row,
-            text="Status:",
-            width=80,
-            anchor="w",
-            font=ctk.CTkFont("Arial", 14),
-            text_color="#172033"
-        ).pack(side="left")
+        row_layout.addWidget(label)
+        row_layout.addWidget(self.com_box, 1)
+        row_layout.addSpacing(10)
+        row_layout.addWidget(self.refresh_button)
+        row_layout.addSpacing(15)
+        row_layout.addWidget(self.connect_button)
 
-        self.status_dot = ctk.CTkLabel(
-            row,
-            text="●",
-            width=20,
-            font=ctk.CTkFont("Arial", 17),
-            text_color="#8A97AA"
-        )
-        self.status_dot.pack(side="left")
+        layout.addWidget(row)
 
-        self.status_text = ctk.CTkLabel(
-            row,
-            text="Disconnected",
-            font=ctk.CTkFont("Arial", 14),
-            text_color="#738199"
-        )
-        self.status_text.pack(side="left", padx=(5, 0))
+    def create_status_row(self, layout):
+        row = QFrame()
+        row.setObjectName("statusRow")
+
+        row_layout = QHBoxLayout(row)
+        row_layout.setContentsMargins(0, 12, 0, 0)
+        row_layout.setSpacing(5)
+
+        label = QLabel("Status:")
+        label.setObjectName("connectionLabel")
+        label.setFixedWidth(80)
+
+        self.status_dot = QLabel("●")
+        self.status_dot.setObjectName("statusDot")
+        self.status_dot.setFixedWidth(20)
+
+        self.status_text = QLabel("Disconnected")
+        self.status_text.setObjectName("statusText")
+
+        self.set_status("Disconnected", "disconnected")
+
+        row_layout.addWidget(label)
+        row_layout.addWidget(self.status_dot)
+        row_layout.addWidget(self.status_text)
+        row_layout.addStretch()
+
+        layout.addWidget(row)
 
     def refresh_ports(self):
         ports = [
@@ -148,33 +137,69 @@ class ProvisionView(ctk.CTkFrame):
             for port in list_ports.comports()
         ]
 
-        self.com_box.configure(values=ports)
-        self.com_box.set(ports[0] if ports else "No devices found")
+        self.com_box.clear()
 
-    def set_status(self, text, color):
-        self.status_dot.configure(text_color=color)
-        self.status_text.configure(text=text, text_color=color)
+        if ports:
+            self.com_box.addItems(ports)
+            self.com_box.setCurrentIndex(0)
+        else:
+            self.com_box.addItem("No devices found")
+
+    def set_status(self, text, status):
+        self.status_text.setText(text)
+
+        for widget in (
+            self.status_dot,
+            self.status_text
+        ):
+            widget.setProperty("status", status)
+            widget.style().unpolish(widget)
+            widget.style().polish(widget)
 
     def connect_device(self):
         # Disconnect
-        if self.connect_button.cget("text") == "Disconnect":
-            self.set_status("Disconnected", "#738199")
-            self.connect_button.configure(text="Connect")
+        if self.connect_button.text() == "Disconnect":
+            self.set_status(
+                "Disconnected",
+                "disconnected"
+            )
+            self.connect_button.setText("Connect")
             return
 
         # Connect
-        selected = self.com_box.get()
+        selected = self.com_box.currentText()
 
-        if selected in ("", "No devices found", "No device selected"):
+        if selected in (
+            "",
+            "No devices found",
+            "No device selected"
+        ):
             return
 
         port = selected.split(" - ")[0]
 
         BootDialog(
-            self.winfo_toplevel(),
+            self.window(),
             port,
             self.device_connected
         )
+
     def device_connected(self):
-        self.set_status("Connected", "#22B573")
-        self.connect_button.configure(text="Disconnect")
+        self.set_status(
+            "Connected",
+            "connected"
+        )
+
+        self.connect_button.setText(
+            "Disconnect"
+        )
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        self.connection_card.setGeometry(
+            int(self.width() * 0.02),
+            int(self.height() * 0.03),
+            int(self.width() * 0.47),
+            170
+        )

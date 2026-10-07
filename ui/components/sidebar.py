@@ -1,129 +1,77 @@
-import customtkinter as ctk
-from ctkfontawesome import icon_to_image
+import qtawesome as qta
+
+from PySide6.QtCore import Qt, QSize
+from PySide6.QtWidgets import (
+    QFrame,
+    QLabel,
+    QPushButton,
+    QVBoxLayout
+)
 
 
-class Sidebar(ctk.CTkFrame):
+class Sidebar(QFrame):
     def __init__(self, parent):
-        super().__init__(
-            parent,
-            width=250,
-            corner_radius=0,
-            fg_color="#FFFFFF"
-        )
+        super().__init__(parent)
 
-        self.parent = parent
-        self.pack_propagate(False)
-        
-        self.active_indicator = ctk.CTkCanvas(
-            self,
-            width=8,
-            height=54,
-            bg="#FFFFFF",
-            highlightthickness=0
-        )
+        self.setObjectName("sidebar")
+        self.setFixedWidth(250)
 
-        self.active_indicator.place(
-            x=0,
-            y=5
-        )
+        self.create_ui()
 
-        self.active_indicator.create_polygon(
-            0, 0,
-            4, 2,
-            7, 7,
-            7, 47,
-            4, 52,
-            0, 54,
-            fill="#1687F8",
-            outline=""
-        )
-        
-        # ACTIVE - Provision Device
-        self.provision_button = self.create_menu_button(
-            "microchip",
-            "Provision Device",
-            active=True
-        )
+    def create_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(15, 5, 15, 20)
+        layout.setSpacing(10)
 
-        self.firmware_button = self.create_menu_button(
-            "download",
-            "Firmware"
-        )
+        # Active indicator
+        self.active_indicator = QFrame(self)
+        self.active_indicator.setObjectName("activeIndicator")
+        self.active_indicator.setGeometry(0, 5, 8, 54)
 
-        self.security_button = self.create_menu_button(
-            "lock",
-            "Keys & Security"
-        )
+        # Menu
+        menu_items = [
+            ("provision", "fa6s.microchip", "Provision Device", True),
+            ("firmware", "fa6s.download", "Firmware", False),
+            ("security", "fa6s.lock", "Keys & Security", False),
+            ("settings", "fa6s.gear", "Settings", False),
+            ("about", "fa6s.circle-info", "About", False),
+        ]
 
-        self.settings_button = self.create_menu_button(
-            "cog",
-            "Settings"
-        )
+        self.buttons = {}
 
-        self.about_button = self.create_menu_button(
-            "info-circle",
-            "About"
-        )
+        for name, icon, text, active in menu_items:
+            button = QPushButton(text)
+
+            button.setObjectName("sidebarButton")
+            button.setProperty("active", active)
+            
+            button.setFixedHeight(54)
+
+            button.setIcon(
+                qta.icon(
+                    icon,
+                    color="#1687F8" if active else "#8491A5"
+                )
+            )
+            button.setIconSize(QSize(20, 20))
+            
+            button.setCursor(
+                Qt.CursorShape.PointingHandCursor
+            )
+
+            self.buttons[name] = button
+            layout.addWidget(button)
+
+        layout.addStretch()
 
         # Footer
-        self.footer_text = ctk.CTkLabel(
-            self,
-            text="© 2026 Plantera Software",
-            font=ctk.CTkFont(
-                family="Arial",
-                size=12
-            ),
-            text_color="#8491A5"
+        self.footer_text = QLabel(
+            "© 2026 Plantera Software"
         )
 
-        self.footer_text.pack(
-            side="bottom",
-            pady=20
+        self.footer_text.setObjectName("sidebarFooter")
+        self.footer_text.setAlignment(
+            Qt.AlignmentFlag.AlignCenter
         )
 
-    def create_menu_button(
-        self,
-        icon,
-        text,
-        active=False
-    ):
-        if active:
-            background_color = "#EAF4FF"
-            hover_color = "#E1F0FF"
-            text_color = "#1687F8"
-            icon_color = "#1687F8"
-
-        else:
-            background_color = "transparent"
-            hover_color = "#F1F6FC"
-            text_color = "#8491A5"
-            icon_color = "#8491A5"
-
-        button = ctk.CTkButton(
-            self,
-            image=icon_to_image(
-                icon,
-                scale_to_width=18,
-                fill=icon_color
-            ),
-            text=text,
-            height=54,
-            corner_radius=10,
-            fg_color=background_color,
-            hover_color=hover_color,
-            text_color=text_color,
-            font=ctk.CTkFont(
-                family="Arial",
-                size=14,
-                weight="bold"
-            ),
-            anchor="w"
-        )
-
-        button.pack(
-            fill="x",
-            padx=15,
-            pady=5
-        )
-
-        return button
+        layout.addWidget(self.footer_text)
