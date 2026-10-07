@@ -9,8 +9,8 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setObjectName("mainWindow")
-        self.resize(1300, 800)
-        self.setMinimumSize(1300, 800)
+        self.resize(1400, 800)
+        self.setMinimumSize(1400, 800)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
         self.create_ui()

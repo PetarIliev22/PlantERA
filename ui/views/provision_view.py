@@ -1,13 +1,14 @@
 from ui.PySide6_Qt import *
 
 from ui.components.provision.device_connection import DeviceConnection
+from services.device_info_service import DeviceInfoService
 from ui.components.provision.device_info import DeviceInfo
-
 
 class ProvisionView(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
-
+        
+        self.info_service = DeviceInfoService()
         self.setObjectName("provisionView")
         self.create_ui()
 
@@ -19,15 +20,29 @@ class ProvisionView(QFrame):
         self.device_connection = DeviceConnection(self)
         self.device_info = DeviceInfo(self)
 
+        self.device_connection.connected.connect(
+            self.device_connected
+        )
+
         connection_row = QHBoxLayout()
-        connection_row.addWidget(self.device_connection, 60)
-        connection_row.addStretch(40)
+        connection_row.addWidget(self.device_connection, 65)
+        connection_row.addStretch(35)
 
         info_row = QHBoxLayout()
-        info_row.addWidget(self.device_info, 60)
-        info_row.addStretch(40)
+        info_row.addWidget(self.device_info, 65)
+        info_row.addStretch(35)
 
         layout.addLayout(connection_row)
         layout.addLayout(info_row)
-
         layout.addStretch()
+
+    def device_connected(self, port):
+        info = self.info_service.read(port)
+
+        if not info:
+            return
+
+        self.device_info.set_device_info(
+            board=info["board"],
+            uid=info["uid"]
+        )

@@ -6,6 +6,7 @@ from ui.dialogs.boot_dialog import BootDialog
 
 
 class DeviceConnection(QFrame):
+    connected = Signal(str)
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -183,4 +184,8 @@ class DeviceConnection(QFrame):
 
         self.connect_button.setText(
             "Disconnect"
+        )
+        
+        self.connected.emit(
+            self.com_box.currentText().split(" - ")[0]
         )
