@@ -1,0 +1,34 @@
+{
+  "sidebar": [
+    {
+      "name": "provision",
+      "text": "Provision Device",
+      "icon": "fa6s.microchip",
+      "active": true
+    },
+    {
+      "name": "firmware",
+      "text": "Firmware",
+      "icon": "fa6s.download",
+      "active": false
+    },
+    {
+      "name": "security",
+      "text": "Keys & Security",
+      "icon": "fa6s.lock",
+      "active": false
+    },
+    {
+      "name": "settings",
+      "text": "Settings",
+      "icon": "fa6s.gear",
+      "active": false
+    },
+    {
+      "name": "about",
+      "text": "About",
+      "icon": "fa6s.circle-info",
+      "active": false
+    }
+  ]
+}

@@ -1,13 +1,10 @@
+import json
 import qtawesome as qta
+from ui.PySide6_Qt import *
 
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtWidgets import (
-    QFrame,
-    QLabel,
-    QPushButton,
-    QVBoxLayout
-)
-
+sidebar = json.load(
+    open("config/sidebar.json", encoding="utf-8")
+)["sidebar"]
 
 class Sidebar(QFrame):
     def __init__(self, parent):
@@ -23,55 +20,36 @@ class Sidebar(QFrame):
         layout.setContentsMargins(15, 5, 15, 20)
         layout.setSpacing(10)
 
-        # Active indicator
-        self.active_indicator = QFrame(self)
-        self.active_indicator.setObjectName("activeIndicator")
-        self.active_indicator.setGeometry(0, 5, 8, 54)
-
-        # Menu
-        menu_items = [
-            ("provision", "fa6s.microchip", "Provision Device", True),
-            ("firmware", "fa6s.download", "Firmware", False),
-            ("security", "fa6s.lock", "Keys & Security", False),
-            ("settings", "fa6s.gear", "Settings", False),
-            ("about", "fa6s.circle-info", "About", False),
-        ]
+        indicator = QFrame(self)
+        indicator.setObjectName("activeIndicator")
+        indicator.setGeometry(0, 5, 8, 54)
 
         self.buttons = {}
 
-        for name, icon, text, active in menu_items:
-            button = QPushButton(text)
+        for item in sidebar:
+            button = QPushButton(item["text"], self)
 
             button.setObjectName("sidebarButton")
-            button.setProperty("active", active)
-            
+            button.setProperty("active", item["active"])
             button.setFixedHeight(54)
 
             button.setIcon(
                 qta.icon(
-                    icon,
-                    color="#1687F8" if active else "#8491A5"
+                    item["icon"],
+                    color="#1687F8" if item["active"] else "#8491A5"
                 )
             )
-            button.setIconSize(QSize(20, 20))
-            
-            button.setCursor(
-                Qt.CursorShape.PointingHandCursor
-            )
 
-            self.buttons[name] = button
+            button.setIconSize(QSize(20, 20))
+            button.setCursor(Qt.CursorShape.PointingHandCursor)
+
+            self.buttons[item["name"]] = button
             layout.addWidget(button)
 
         layout.addStretch()
 
-        # Footer
-        self.footer_text = QLabel(
-            "© 2026 Plantera Software"
-        )
+        footer = QLabel("© 2026 Plantera Software")
+        footer.setObjectName("sidebarFooter")
+        footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.footer_text.setObjectName("sidebarFooter")
-        self.footer_text.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
-
-        layout.addWidget(self.footer_text)
+        layout.addWidget(footer)
