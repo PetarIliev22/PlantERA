@@ -9,12 +9,12 @@ class MainWindow(QMainWindow):
 
         self.setObjectName("mainWindow")
         self.resize(1400, 800)
-        self.setMinimumSize(1400, 800)
+        self.setMinimumSize(1100, 700)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
+        QTimer.singleShot(100, self.round_corners)
         self.create_ui()
 
-        QTimer.singleShot(100, self.round_corners)
 
     def create_ui(self):
         central = QWidget()
@@ -59,3 +59,7 @@ class MainWindow(QMainWindow):
 
     def remove_round_corners(self):
         self.clearMask()
+        
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.round_corners()

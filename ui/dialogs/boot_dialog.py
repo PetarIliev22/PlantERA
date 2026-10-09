@@ -5,7 +5,7 @@ from config.config_loader import load_config
 
 texts = load_config("boot_dialog.json")
 
-class State(Enum):
+class BootState(Enum):
     WAITING = "waiting"
     SUCCESS = "success"
     FAILED = "failed"
@@ -25,7 +25,7 @@ class BootDialog(QFrame):
         self.setGeometry(parent.rect())
 
         self.create_ui()
-        self.set_state(State.WAITING)
+        self.set_state(BootState.WAITING)
 
         self.raise_()
         self.show()
@@ -87,9 +87,9 @@ class BootDialog(QFrame):
         data = texts[state.value]
 
         icons = {
-            State.WAITING: "BOOT",
-            State.SUCCESS: "✓",
-            State.FAILED: "!"
+            BootState.WAITING: "BOOT",
+            BootState.SUCCESS: "✓",
+            BootState.FAILED: "!"
         }
 
         self.boot_icon.setText(icons[state])
@@ -104,7 +104,7 @@ class BootDialog(QFrame):
 
         self.set_button_action(
             self.try_again
-            if state == State.FAILED
+            if state == BootState.FAILED
             else self.cancel
         )
 
@@ -112,14 +112,14 @@ class BootDialog(QFrame):
 
     def device_detected(self, info):
         print(info)
-        self.set_state(State.SUCCESS)
+        self.set_state(BootState.SUCCESS)
         self.on_connected(info)
 
     def connection_failed(self):
-        self.set_state(State.FAILED)
+        self.set_state(BootState.FAILED)
 
     def try_again(self):
-        self.set_state(State.WAITING)
+        self.set_state(BootState.WAITING)
         self.service.start(self.port)
 
     def cancel(self):
