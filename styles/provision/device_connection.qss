@@ -31,12 +31,9 @@ QLabel#connectionLabel {
 QComboBox#comBox {
     background-color: #F5F7FA;
     color: #738199;
-
     border: 1px solid #D9E1EA;
     border-radius: 9px;
-
     padding-left: 10px;
-
     font-size: 14px;
 }
 
@@ -65,18 +62,14 @@ QComboBox#comBox::down-arrow {
 QComboBox#comBox QAbstractItemView {
     background-color: #919191;
     color: #FFFFFF;
-
     border: none;
-
     selection-background-color: #1687F8;
     selection-color: #FFFFFF;
-
     font-size: 14px;
 }
 
 QPushButton#refreshButton {
     background-color: #FFFFFF;
-
     border: 1px solid #D9E1EA;
     border-radius: 9px;
 }

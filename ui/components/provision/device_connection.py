@@ -73,17 +73,17 @@ class DeviceConnection(QFrame):
         self.com_box = QComboBox()
         self.com_box.setObjectName("comBox")
         self.com_box.setFixedHeight(35)
-
-        refresh = QPushButton()
-        refresh.setObjectName("refreshButton")
-        refresh.setFixedSize(40, 35)
-        refresh.setIcon(
+      
+        self.refresh_button = QPushButton()
+        self.refresh_button.setObjectName("refreshButton")
+        self.refresh_button.setFixedSize(40, 35)
+        self.refresh_button.setIcon(
             qta.icon(
                 "fa6s.arrows-rotate",
                 color="#1687F8"
             )
         )
-        refresh.clicked.connect(self.refresh_ports)
+        self.refresh_button.clicked.connect(self.refresh_ports)
 
         self.connect_button = QPushButton()
         self.connect_button.setObjectName("connectButton")
@@ -93,7 +93,7 @@ class DeviceConnection(QFrame):
         row.addWidget(label)
         row.addWidget(self.com_box, 1)
         row.addSpacing(10)
-        row.addWidget(refresh)
+        row.addWidget(self.refresh_button)
         row.addSpacing(15)
         row.addWidget(self.connect_button)
 
