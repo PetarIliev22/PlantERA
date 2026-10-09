@@ -14,7 +14,7 @@ class ConnectionState(Enum):
     CONNECTED = "connected"
 
 class DeviceConnection(QFrame):
-    connected = Signal(str)
+    connected = Signal(str, dict)
     disconnected = Signal()
 
     def __init__(self, parent):
@@ -155,23 +155,16 @@ class DeviceConnection(QFrame):
         self.boot_dialog = BootDialog(
             self.window(),
             port,
-            lambda: self.device_connected(port)
+            lambda info: self.device_connected(port, info)
         )
 
     def disconnect_device(self):
-        self.set_state(
-            ConnectionState.DISCONNECTED
-        )
-        
+        self.set_state(ConnectionState.DISCONNECTED)
         self.disconnected.emit()
 
-    def device_connected(self, port):
-        self.set_state(
-            ConnectionState.CONNECTED
-        )
-
+    def device_connected(self, port, info):
         self.set_state(ConnectionState.CONNECTED)
-        self.connected.emit(port)
+        self.connected.emit(port, info)
 
     def set_state(self, state):
         self.state = state

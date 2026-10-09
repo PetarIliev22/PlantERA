@@ -4,17 +4,14 @@ from enum import Enum
 from ui.PySide6_Qt import *
 from services.device_service import DeviceService
 
-
 texts = json.load(
     open("config/boot_dialog.json", encoding="utf-8")
 )
-
 
 class State(Enum):
     WAITING = "waiting"
     SUCCESS = "success"
     FAILED = "failed"
-
 
 class BootDialog(QFrame):
     def __init__(self, parent, port, on_connected):
@@ -116,9 +113,10 @@ class BootDialog(QFrame):
 
         self.refresh_style()
 
-    def device_detected(self):
+    def device_detected(self, info):
+        print(info)
         self.set_state(State.SUCCESS)
-        self.on_connected()
+        self.on_connected(info)
 
     def connection_failed(self):
         self.set_state(State.FAILED)

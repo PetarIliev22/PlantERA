@@ -1,13 +1,11 @@
-import sys
 import time
 import threading
-import subprocess
 
+from esptool.cmds import detect_chip
 from ui.PySide6_Qt import *
 
-
 class DeviceService(QObject):
-    detected = Signal()
+    detected = Signal(dict)
     failed = Signal()
 
     def __init__(self):
@@ -36,24 +34,25 @@ class DeviceService(QObject):
                 return
 
             try:
-                result = subprocess.run(
-                    [
-                        sys.executable,
-                        "-m",
-                        "esptool",
-                        "--port",
-                        port,
-                        "chip-id"
-                    ],
-                    capture_output=True,
-                    text=True,
-                    timeout=8
-                )
+                with detect_chip(port) as esp:
+                    board = esp.get_chip_description()
+                    mac = esp.read_mac()
 
-                if result.returncode == 0:
                     self.running = False
-                    self.detected.emit()
+
+                    self.detected.emit({
+                        "board": board,
+                        "uid": self.create_uid(mac)
+                    })
+
                     return
 
-            except subprocess.TimeoutExpired:
+            except Exception:
                 pass
+
+    @staticmethod
+    def create_uid(mac):
+        return "PC-" + "".join(
+            f"{byte:02X}"
+            for byte in reversed(mac)
+        )
