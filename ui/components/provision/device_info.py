@@ -2,9 +2,14 @@ import qtawesome as qta
 
 from ui.PySide6_Qt import *
 
+DEFAULT_VALUE = "Not available"
 
-DEFAULT_VALUE = "-- / --"
-
+rows = [
+    ("board", "Board:", False),
+    ("uid", "Chip ID (UID):", True),
+    ("firmware", "Firmware:", False),
+    ("signature", "Signature:", False),
+]
 
 class DeviceInfo(QFrame):
     def __init__(self, parent):
@@ -21,14 +26,10 @@ class DeviceInfo(QFrame):
         layout.setSpacing(8)
 
         self.create_title(layout)
-
-        self.board_value = self.create_row(layout, "Board:")
-        self.uid_value = self.create_row(layout, "Chip ID (UID):", copy=True)
-        self.firmware_value = self.create_row(layout, "Firmware:")
-        self.signature_value = self.create_row(layout, "Signature:")
-
-        layout.addStretch()
-
+        
+        for name, text, copy in rows:
+            setattr(self, name, self.create_row(layout, text, copy))
+        
     def create_title(self, layout):
         row = QHBoxLayout()
         row.setSpacing(12)
@@ -75,25 +76,23 @@ class DeviceInfo(QFrame):
                     color="#8491A5"
                 )
             )
-
+            
+            button.clicked.connect(
+                lambda: QApplication.clipboard().setText(value.text())
+            )
+            
             row.addWidget(button)
 
         row.addStretch()
         layout.addLayout(row)
 
         return value
-
-    def set_device_info(
-        self,
-        board=DEFAULT_VALUE,
-        uid=DEFAULT_VALUE,
-        firmware=DEFAULT_VALUE,
-        signature=DEFAULT_VALUE
-    ):
-        self.board_value.setText(board)
-        self.uid_value.setText(uid)
-        self.firmware_value.setText(firmware)
-        self.signature_value.setText(signature)
+    
+    def set_device_info(self, **info):
+        for name, *_ in rows:
+            getattr(self, name).setText(
+                info.get(name) or DEFAULT_VALUE
+            )
         
     def clear(self):
         self.set_device_info()

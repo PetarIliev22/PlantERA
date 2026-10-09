@@ -3,7 +3,6 @@ from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from ui.views.provision_view import ProvisionView
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

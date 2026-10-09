@@ -1,6 +1,4 @@
-import json
 from enum import Enum
-
 from ui.PySide6_Qt import *
 from services.device_service import DeviceService
 from config.config_loader import load_config

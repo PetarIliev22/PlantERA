@@ -1,0 +1,44 @@
+/*  DEVICE INFO  */
+QFrame#deviceInfoCard {
+    background-color: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 15px;
+}
+
+QLabel#deviceInfoTitle {
+    color: #1687F8;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#deviceInfoLabel {
+    color: #444444;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+QLabel#deviceInfoValue {
+    color: #4b4848;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+QLabel#deviceInfoValue[state="error"] {
+    color: #E5484D;
+}
+
+QPushButton#copyButton {
+    background-color: #F5F7FA;
+    border: 1px solid #D9E1EA;
+    border-radius: 9px;
+}
+
+QPushButton#copyButton:hover {
+    background-color: #EAF4FF;
+}
+
+QPushButton#copyButton[copied="true"] {
+    background-color: #E9F8F1;
+    border-color: #22B573;
+}
+/*  END DEVICE INFO */

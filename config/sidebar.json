@@ -3,32 +3,27 @@
     {
       "name": "provision",
       "text": "Provision Device",
-      "icon": "fa6s.microchip",
-      "active": true
+      "icon": "fa6s.microchip"
     },
     {
       "name": "firmware",
       "text": "Firmware",
-      "icon": "fa6s.download",
-      "active": false
+      "icon": "fa6s.download"
     },
     {
       "name": "security",
       "text": "Keys & Security",
-      "icon": "fa6s.lock",
-      "active": false
+      "icon": "fa6s.lock"
     },
     {
       "name": "settings",
       "text": "Settings",
-      "icon": "fa6s.gear",
-      "active": false
+      "icon": "fa6s.gear"
     },
     {
       "name": "about",
       "text": "About",
-      "icon": "fa6s.circle-info",
-      "active": false
+      "icon": "fa6s.circle-info"
     }
   ]
 }

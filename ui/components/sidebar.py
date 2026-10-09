@@ -1,9 +1,8 @@
-import json
 import qtawesome as qta
 from ui.PySide6_Qt import *
 from config.config_loader import load_config
 
-sidebar = load_config("sidebar.json")
+sidebar = load_config("sidebar.json")["sidebar"]
 
 class Sidebar(QFrame):
     def __init__(self, parent):
@@ -11,7 +10,7 @@ class Sidebar(QFrame):
 
         self.setObjectName("sidebar")
         self.setFixedWidth(250)
-
+        self.active_name = "provision"
         self.create_ui()
 
     def create_ui(self):
@@ -26,16 +25,19 @@ class Sidebar(QFrame):
         self.buttons = {}
 
         for item in sidebar:
+            
+            # TODO: MAKE THIS DYNAMIC
+            active = item["name"] == self.active_name
             button = QPushButton(item["text"], self)
 
             button.setObjectName("sidebarButton")
-            button.setProperty("active", item["active"])
+            button.setProperty("active", active)
             button.setFixedHeight(54)
 
             button.setIcon(
                 qta.icon(
                     item["icon"],
-                    color="#1687F8" if item["active"] else "#8491A5"
+                    color="#1687F8" if active else "#8491A5"
                 )
             )
 

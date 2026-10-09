@@ -7,7 +7,8 @@ def load_styles():
         "main_window.qss",
         "toolbar.qss",
         "sidebar.qss",
-        "provision.qss",
+        "provision/device_connection.qss",
+        "provision/device_info.qss",
         "boot_dialog.qss",
     ]
 

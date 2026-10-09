@@ -39,7 +39,7 @@ class ProvisionView(QFrame):
         layout.addLayout(info_row)
         layout.addStretch()
 
-    def device_connected(self, port, info):
+    def device_connected(self, _, info):
         self.device_info.set_device_info(
             board=info["board"],
             uid=info["uid"]

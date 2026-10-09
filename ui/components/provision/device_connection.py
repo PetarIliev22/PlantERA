@@ -1,4 +1,3 @@
-import json
 import qtawesome as qta
 from enum import Enum
 from ui.PySide6_Qt import *
@@ -20,7 +19,8 @@ class DeviceConnection(QFrame):
         super().__init__(parent)
 
         self.state = ConnectionState.DISCONNECTED
-
+        self.connected_port = None
+        
         self.setObjectName("connectionCard")
         self.setFixedHeight(170)
 
@@ -125,7 +125,6 @@ class DeviceConnection(QFrame):
 
     def refresh_ports(self):
         self.com_box.clear()
-
         ports = list_ports.comports()
 
         for port in ports:
@@ -159,16 +158,18 @@ class DeviceConnection(QFrame):
         )
 
     def disconnect_device(self):
+        self.connected_port = None
         self.set_state(ConnectionState.DISCONNECTED)
         self.disconnected.emit()
 
     def device_connected(self, port, info):
+        print(self.connected_port)
         self.set_state(ConnectionState.CONNECTED)
         self.connected.emit(port, info)
 
     def set_state(self, state):
         self.state = state
-
+    
         self.status_text.setText(
             texts["status"][state.value]
         )
