@@ -4,10 +4,9 @@ from enum import Enum
 from ui.PySide6_Qt import *
 from serial.tools import list_ports
 from ui.dialogs.boot_dialog import BootDialog
+from config.config_loader import load_config
 
-texts = json.load(
-    open("config/device_connection.json", encoding="utf-8")
-)
+texts = load_config("device_connection.json")
 
 class ConnectionState(Enum):
     DISCONNECTED = "disconnected"
@@ -105,13 +104,14 @@ class DeviceConnection(QFrame):
         row.setContentsMargins(0, 12, 0, 0)
         row.setSpacing(5)
 
+        self.status_dot = QLabel("●")
+        self.status_dot.setObjectName("statusDot")
+        self.status_dot.setFixedWidth(20)
+        
         label = QLabel("Status:")
         label.setObjectName("connectionLabel")
         label.setFixedWidth(80)
 
-        self.status_dot = QLabel("●")
-        self.status_dot.setObjectName("statusDot")
-        self.status_dot.setFixedWidth(20)
 
         self.status_text = QLabel()
         self.status_text.setObjectName("statusText")
@@ -177,10 +177,7 @@ class DeviceConnection(QFrame):
             texts["button"][state.value]
         )
 
-        for widget in (
-            self.status_dot,
-            self.status_text
-        ):
+        for widget in (self.status_dot, self.status_text):
             widget.setProperty(
                 "status",
                 state.value

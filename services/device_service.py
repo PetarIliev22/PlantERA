@@ -10,35 +10,36 @@ class DeviceService(QObject):
 
     def __init__(self):
         super().__init__()
-        self.running = False
+        self.stop_event = False
 
     def start(self, port):
-        self.running = True
-
+        self.stop_event = threading.Event()
         threading.Thread(
             target=self.detect,
-            args=(port,),
+            args=(port, self.stop_event),
             daemon=True
         ).start()
 
     def stop(self):
-        self.running = False
+        if self.stop_event:
+            self.stop_event.set()
 
-    def detect(self, port):
+    def detect(self, port, stop_event):
         start_time = time.time()
 
-        while self.running:
+        while not stop_event.is_set():
             if time.time() - start_time > 15:
-                self.running = False
-                self.failed.emit()
+                if not stop_event.is_set():
+                    self.failed.emit()
                 return
 
             try:
                 with detect_chip(port) as esp:
+                    if stop_event.is_set():
+                        return
+                    
                     board = esp.get_chip_description()
                     mac = esp.read_mac()
-
-                    self.running = False
 
                     self.detected.emit({
                         "board": board,

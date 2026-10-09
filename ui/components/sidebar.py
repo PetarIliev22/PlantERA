@@ -1,10 +1,9 @@
 import json
 import qtawesome as qta
 from ui.PySide6_Qt import *
+from config.config_loader import load_config
 
-sidebar = json.load(
-    open("config/sidebar.json", encoding="utf-8")
-)["sidebar"]
+sidebar = load_config("sidebar.json")
 
 class Sidebar(QFrame):
     def __init__(self, parent):
