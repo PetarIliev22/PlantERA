@@ -1,6 +1,11 @@
+import sys
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 def resource_path(*parts):
-    return BASE_DIR.joinpath(*parts)
+    try:
+        base_dir = Path(sys._MEIPASS)
+    except Exception:
+        base_dir = Path(__file__).resolve().parent.parent
+
+    return base_dir.joinpath(*parts)

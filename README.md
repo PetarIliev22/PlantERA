@@ -19,6 +19,7 @@ PlantERA is a desktop provisioning and management tool for ESP32-based plant car
 - pyserial
 - esptool
 
+```md
 ## Run
 
 ```powershell

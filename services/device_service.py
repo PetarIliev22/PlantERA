@@ -48,7 +48,7 @@ class DeviceService(QObject):
                     return
 
             except Exception:
-                pass
+                time.sleep(0.2)
 
     @staticmethod
     def create_uid(mac):
