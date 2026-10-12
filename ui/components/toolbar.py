@@ -1,5 +1,6 @@
 import qtawesome as qta
 from ui.PySide6_Qt import *
+from utils.paths import resource_path
 
 class Toolbar(QFrame):
     def __init__(self, parent):
@@ -15,12 +16,24 @@ class Toolbar(QFrame):
 
     def create_ui(self):
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(24, 0, 0, 0)
+        layout.setContentsMargins(40, 0, 0, 0)
         layout.setSpacing(0)
 
-        logo = QFrame()
+        logo = QLabel()
         logo.setObjectName("toolbarLogo")
-        logo.setFixedSize(56, 56)
+        logo.setFixedSize(180, 80)
+        logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        pixmap = QPixmap(str(resource_path("assets", "img", "logo", "plantera_full_logo.png")))
+        
+        logo.setPixmap(
+            pixmap.scaled(
+                230,
+                80,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+        )
 
         layout.addWidget(
             logo,
@@ -34,13 +47,13 @@ class Toolbar(QFrame):
         title_frame.setObjectName("toolbarTitleFrame")
 
         title_layout = QVBoxLayout(title_frame)
-        title_layout.setContentsMargins(0, 0, 0, 0)
+        title_layout.setContentsMargins(50, 0, 0, 0)
         title_layout.setSpacing(0)
 
-        title = QLabel("PlantERA - Provisioning Tool")
+        title = QLabel("Device Provisioning")
         title.setObjectName("toolbarTitle")
 
-        subtitle = QLabel("Prepare. Secure. Grow.")
+        subtitle = QLabel("Secure Device Configuration & Management")
         subtitle.setObjectName("toolbarSubtitle")
 
         title_layout.addWidget(title)

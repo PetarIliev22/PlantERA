@@ -38,8 +38,8 @@ class ProvisionView(QFrame):
         left.addWidget(self.device_info)
         left.addStretch()
 
-        content.addLayout(left, 50)
-        content.addWidget(self.device_profile, 50, Qt.AlignmentFlag.AlignTop)
+        content.addLayout(left, 55)
+        content.addWidget(self.device_profile, 45, Qt.AlignmentFlag.AlignTop)
 
         layout.addLayout(content)
         layout.addStretch()

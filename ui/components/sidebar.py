@@ -37,7 +37,7 @@ class Sidebar(QFrame):
             button.setIcon(
                 qta.icon(
                     item["icon"],
-                    color="#1687F8" if active else "#FFFFFF",
+                    color="#1687F8" if active else "#64748B",
                 )
             )
 

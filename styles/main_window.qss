@@ -7,5 +7,5 @@ QWidget#mainContainer {
 }
 
 QWidget#mainContent {
-    background-color: #F4F7FA;
+    background-color: #f5f9ff;
 }
