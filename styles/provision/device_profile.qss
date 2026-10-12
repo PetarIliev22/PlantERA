@@ -1,0 +1,50 @@
+QFrame#deviceProfileCard {
+    background-color: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 15px;
+}
+
+QLabel#deviceProfileEmptyText {
+    color: #8491A5;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+QLabel#deviceProfileImage {
+    background-color: transparent;
+}
+
+QLabel#deviceProfileTitle {
+    color: #1687F8;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+QLabel#deviceProfileDescription {
+    color: #5F6B7A;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+QLabel#deviceProfileFeature {
+    color: #444444;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+QFrame#deviceProfileSeparator {
+    background-color: #E6EAF0;
+    border: none;
+}
+
+QLabel#deviceProfileSpecLabel {
+    color: #8491A5;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QLabel#deviceProfileSpecValue {
+    color: #444444;
+    font-size: 12px;
+    font-weight: 400;
+}

@@ -1,0 +1,50 @@
+{
+  "profiles": [
+    {
+      "id": "1",
+      "chip": [
+        "ESP32-D0WD-V3 (revision v3.1)"
+      ],
+      "name": "ESP-WROOM-32D Development Board v3.1 (ESP32-D0WD-V3)",
+      "image": "assets/img/boards/esp32_board.png",
+      "specs": [
+        {
+          "label": "CPU",
+          "value": "Dual-core 32-bit, up to 240 MHz"
+        },
+        {
+          "label": "Memory",
+          "value": "520 KB SRAM"
+        },
+        {
+          "label": "Flash",
+          "value": "32 Mbit"
+        },
+        {
+          "label": "Wi-Fi",
+          "value": "802.11 b/g/n, 2.4 GHz"
+        },
+        {
+          "label": "Bluetooth",
+          "value": "4.2 BR/EDR + BLE"
+        },
+        {
+          "label": "Interfaces",
+          "value": "UART, SPI, I2C, PWM, I2S, ADC, DAC"
+        },
+        {
+          "label": "USB",
+          "value": "CH340C"
+        },
+        {
+          "label": "Display",
+          "value": "0.96\" OLED"
+        },
+        {
+          "label": "Size",
+          "value": "53.2 × 28.7 mm"
+        }
+      ]
+    }
+  ]
+}

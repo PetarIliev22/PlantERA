@@ -15,8 +15,8 @@ class Sidebar(QFrame):
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(15, 5, 15, 20)
-        layout.setSpacing(10)
+        layout.setContentsMargins(16, 5, 15, 20)
+        layout.setSpacing(12)
 
         indicator = QFrame(self)
         indicator.setObjectName("activeIndicator")
@@ -28,7 +28,7 @@ class Sidebar(QFrame):
             
             # TODO: MAKE THIS DYNAMIC
             active = item["name"] == self.active_name
-            button = QPushButton(item["text"], self)
+            button = QPushButton("  " + item["text"], self)
 
             button.setObjectName("sidebarButton")
             button.setProperty("active", active)
@@ -37,7 +37,7 @@ class Sidebar(QFrame):
             button.setIcon(
                 qta.icon(
                     item["icon"],
-                    color="#1687F8" if active else "#8491A5"
+                    color="#1687F8" if active else "#FFFFFF",
                 )
             )
 

@@ -2,6 +2,7 @@ from ui.PySide6_Qt import *
 
 from ui.components.provision.device_connection import DeviceConnection
 from ui.components.provision.device_info import DeviceInfo
+from ui.components.provision.device_profile import DeviceProfile
 
 class ProvisionView(QFrame):
     def __init__(self, parent):
@@ -17,7 +18,7 @@ class ProvisionView(QFrame):
 
         self.device_connection = DeviceConnection(self)
         self.device_info = DeviceInfo(self)
-
+        self.device_profile = DeviceProfile(self)
 
         self.device_connection.connected.connect(
             self.device_connected
@@ -27,16 +28,20 @@ class ProvisionView(QFrame):
             self.device_disconnected
         )
 
-        connection_row = QHBoxLayout()
-        connection_row.addWidget(self.device_connection, 65)
-        connection_row.addStretch(35)
+        content = QHBoxLayout()
+        content.setSpacing(20)
 
-        info_row = QHBoxLayout()
-        info_row.addWidget(self.device_info, 65)
-        info_row.addStretch(35)
+        left = QVBoxLayout()
+        left.setSpacing(20)
 
-        layout.addLayout(connection_row)
-        layout.addLayout(info_row)
+        left.addWidget(self.device_connection)
+        left.addWidget(self.device_info)
+        left.addStretch()
+
+        content.addLayout(left, 50)
+        content.addWidget(self.device_profile, 50, Qt.AlignmentFlag.AlignTop)
+
+        layout.addLayout(content)
         layout.addStretch()
 
     def device_connected(self, _, info):
@@ -45,5 +50,10 @@ class ProvisionView(QFrame):
             uid=info["uid"]
         )
         
+        self.device_profile.load_profile(
+            info["board"]
+        )
+        
     def device_disconnected(self):
         self.device_info.clear()
+        self.device_profile.show_empty()

@@ -9,6 +9,7 @@ def load_styles():
         "sidebar.qss",
         "provision/device_connection.qss",
         "provision/device_info.qss",
+        "provision/device_profile.qss",
         "boot_dialog.qss",
     ]
 
