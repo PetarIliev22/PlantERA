@@ -1,27 +1,73 @@
+<div align="center">
+
+<table>
+<tr>
+<td bgcolor="#ffffff" align="center">
+
+<img src="assets/img/logo/plantera_logo.png" alt="PlantERA Logo" width="180">
+
+</td>
+</tr>
+</table>
+
 # PlantERA
 
-PlantERA is a desktop provisioning and management tool for ESP32-based plant care devices.
+### ESP32 Provisioning & Device Management Tool
 
-## Current features
+PlantERA is a desktop application for detecting, provisioning, configuring and managing ESP32-based plant care devices.
 
-- ESP32 detection
-- Device UID generation
-- COM port selection
+Built with **Python + PySide6**.
+
+</div>
+
+---
+
+## Overview
+
+PlantERA provides a desktop environment for preparing ESP32 devices before deployment.
+
+The application is designed to handle the complete provisioning workflow — from detecting the connected board and reading its unique identity to firmware installation, device configuration and future security operations.
+
+---
+
+## Current Features
+
+- Automatic ESP32 detection
+- COM port discovery and selection
+- ESP32 board identification
+- Device UID generation from the ESP32 hardware MAC
 - Device information display
-- Provisioning UI
-- PySide6 interface
+- Hardware profile detection
+- Hardware specifications display
+- Copyable device UID
+- Connection / disconnection state handling
+- BOOT detection dialog
+- JSON-based device profiles
+- Modular PySide6 interface
+- QSS component styling
+- Unit tests for UID generation and configuration loading
 
-## Tech stack
+---
 
-- Python
-- PySide6
-- QtAwesome
-- pyserial
-- esptool
+## Planned Provisioning Flow
 
-```md
-## Run
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-python main.py
+```text
+Detect ESP32
+    ↓
+Identify hardware
+    ↓
+Read device UID
+    ↓
+Select PlantERA model
+    ↓
+Flash firmware
+    ↓
+Write configuration
+    ↓
+Generate device identity
+    ↓
+Register device
+    ↓
+Run hardware tests
+    ↓
+Finalize & secure device
