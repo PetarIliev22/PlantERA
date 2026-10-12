@@ -29,8 +29,7 @@ class DeviceService(QObject):
 
         while not stop_event.is_set():
             if time.time() - start_time > 15:
-                if not stop_event.is_set():
-                    self.failed.emit()
+                self.failed.emit()
                 return
 
             try:

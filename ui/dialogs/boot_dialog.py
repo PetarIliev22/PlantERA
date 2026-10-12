@@ -111,7 +111,6 @@ class BootDialog(QFrame):
         self.refresh_style()
 
     def device_detected(self, info):
-        print(info)
         self.set_state(BootState.SUCCESS)
         self.on_connected(info)
 

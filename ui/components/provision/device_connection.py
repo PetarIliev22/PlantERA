@@ -163,13 +163,17 @@ class DeviceConnection(QFrame):
         self.disconnected.emit()
 
     def device_connected(self, port, info):
-        print(self.connected_port)
+        self.connected_port = port
         self.set_state(ConnectionState.CONNECTED)
         self.connected.emit(port, info)
 
     def set_state(self, state):
         self.state = state
-    
+        connected = state == ConnectionState.CONNECTED
+
+        self.com_box.setEnabled(not connected)
+        self.refresh_button.setEnabled(not connected)
+        
         self.status_text.setText(
             texts["status"][state.value]
         )

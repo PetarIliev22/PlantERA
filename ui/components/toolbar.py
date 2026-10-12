@@ -1,7 +1,6 @@
 import qtawesome as qta
 from ui.PySide6_Qt import *
 
-
 class Toolbar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -102,10 +101,11 @@ class Toolbar(QFrame):
     def toggle_maximize(self):
         if self.parent.isMaximized():
             self.parent.showNormal()
-            QTimer.singleShot(50, self.parent.round_corners)
+            QTimer.singleShot(20, self.parent.round_corners)
         else:
-            self.parent.remove_round_corners()
             self.parent.showMaximized()
+            QTimer.singleShot(20, self.parent.remove_round_corners)
+            
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

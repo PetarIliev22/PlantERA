@@ -35,10 +35,7 @@ QPushButton#copyButton {
 
 QPushButton#copyButton:hover {
     background-color: #EAF4FF;
-}
-
-QPushButton#copyButton[copied="true"] {
-    background-color: #E9F8F1;
-    border-color: #22B573;
+    border: 1px solid #C6D9F1;
+    border-radius: 9px;
 }
 /*  END DEVICE INFO */
