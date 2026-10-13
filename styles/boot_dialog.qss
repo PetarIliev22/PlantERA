@@ -1,85 +1,81 @@
 QFrame#bootOverlay {
-    background-color: #E9EEF3;
+    background-color: rgba(233, 238, 243, 235);
 }
 
 QFrame#bootCard {
     background-color: #FFFFFF;
-
-    border: 1px solid #D9E1EA;
-    border-radius: 18px;
+    border: 1px solid #E2E8F0;
+    border-radius: 22px;
 }
 
 QLabel#bootIcon {
-    background-color: #EAF4FF;
+    background-color: #EEF6FF;
     color: #1687F8;
-
     border: none;
-    border-radius: 35px;
-
-    font-size: 14px;
+    border-radius: 42px;
+    font-size: 16px;
     font-weight: 700;
 }
 
 QLabel#bootIcon[state="success"] {
-    background-color: #E9F8F1;
+    background-color: #ECFDF3;
     color: #22B573;
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 32px;
 }
 
 QLabel#bootIcon[state="failed"] {
-    background-color: #FDECEC;
+    background-color: #FFF1F1;
     color: #E5484D;
-
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 32px;
 }
 
 QLabel#bootTitle {
     background-color: transparent;
     color: #172033;
-
-    font-size: 21px;
+    font-size: 22px;
     font-weight: 700;
 }
 
 QLabel#bootDescription {
     background-color: transparent;
-    color: #738199;
-
+    color: #7B8798;
     font-size: 14px;
+    font-weight: 400;
 }
 
 QLabel#bootStatus {
-    background-color: transparent;
+    background-color: #EEF6FF;
     color: #1687F8;
-
-    font-size: 14px;
-    font-weight: 700;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 QLabel#bootStatus[state="success"] {
+    background-color: #ECFDF3;
     color: #22B573;
 }
 
 QLabel#bootStatus[state="failed"] {
+    background-color: #FFF1F1;
     color: #E5484D;
 }
 
 QPushButton#bootButton {
-    background-color: #F4F7FA;
-    color: #172033;
-
-    border: 1px solid #D9E1EA;
-    border-radius: 9px;
-
+    background-color: #172033;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
     font-size: 14px;
+    font-weight: 600;
 }
 
 QPushButton#bootButton:hover {
-    background-color: #EAF4FF;
+    background-color: #263249;
 }
 
 QPushButton#bootButton:pressed {
-    background-color: #DCEEFF;
+    background-color: #0F172A;
 }

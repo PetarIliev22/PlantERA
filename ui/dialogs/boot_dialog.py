@@ -38,7 +38,7 @@ class BootDialog(QFrame):
         self.card.setFixedSize(460, 360)
 
         layout = QVBoxLayout(self.card)
-        layout.setContentsMargins(0, 35, 0, 0)
+        layout.setContentsMargins(0, 35, 0, 35)
         layout.setSpacing(0)
         layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
