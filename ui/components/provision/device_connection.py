@@ -10,6 +10,7 @@ texts = load_config("device_connection.json")
 class ConnectionState(Enum):
     DISCONNECTED = "disconnected"
     CONNECTED = "connected"
+    FAILED = "failed"
 
 class DeviceConnection(QFrame):
     connected = Signal(str, dict)
@@ -149,6 +150,11 @@ class DeviceConnection(QFrame):
         port = self.com_box.currentData()
 
         if not port:
+            self.set_state(ConnectionState.FAILED)
+            QTimer.singleShot(
+                3000,
+                lambda: self.set_state(ConnectionState.DISCONNECTED)
+            )
             return
 
         self.boot_dialog = BootDialog(
@@ -170,7 +176,7 @@ class DeviceConnection(QFrame):
     def set_state(self, state):
         self.state = state
         connected = state == ConnectionState.CONNECTED
-
+    
         self.com_box.setEnabled(not connected)
         self.refresh_button.setEnabled(not connected)
         

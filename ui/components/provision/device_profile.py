@@ -1,4 +1,5 @@
 import qtawesome as qta
+
 from ui.PySide6_Qt import *
 from config.config_loader import load_config
 from utils.paths import resource_path
@@ -11,12 +12,11 @@ class DeviceProfile(QFrame):
 
         self.setObjectName("deviceProfileCard")
         self.setMinimumHeight(390)
-        
         self.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred
         )
-    
+        
         self.create_ui()
         self.show_empty()
 
@@ -44,21 +44,12 @@ class DeviceProfile(QFrame):
                 color="#AAB4C3"
             ).pixmap(48, 48)
         )
+        icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        icon.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
-
-        text = QLabel(
-            "No device detected"
-        )
-        text.setObjectName(
-            "deviceProfileEmptyText"
-        )
-        text.setAlignment(
-            Qt.AlignmentFlag.AlignCenter
-        )
-
+        text = QLabel("No device detected")
+        text.setObjectName("deviceProfileEmptyText")
+        text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
         layout.addWidget(icon)
         layout.addWidget(text)
 
@@ -72,21 +63,17 @@ class DeviceProfile(QFrame):
         layout.setSpacing(25)
 
         self.image = QLabel()
-        self.image.setObjectName(
-            "deviceProfileImage"
-        )
+        self.image.setObjectName("deviceProfileImage")
         self.image.setFixedWidth(210)
         self.image.setAlignment(
             Qt.AlignmentFlag.AlignCenter
         )
-
+    
         right = QVBoxLayout()
         right.setSpacing(10)
 
         self.title = QLabel()
-        self.title.setObjectName(
-            "deviceProfileTitle"
-        )
+        self.title.setObjectName("deviceProfileTitle")
         self.title.setWordWrap(True)
         self.title.setAlignment(Qt.AlignmentFlag.AlignLeft)
         
@@ -138,10 +125,7 @@ class DeviceProfile(QFrame):
         )
         
         for spec in profile["specs"]:
-            self.add_spec(
-                spec["label"],
-                spec["value"]
-            )
+            self.add_spec(spec["label"], spec["value"])
             
         self.show_profile()
     
@@ -174,11 +158,7 @@ class DeviceProfile(QFrame):
                         child.widget().deleteLater()    
 
     def show_empty(self):
-        self.stack.setCurrentWidget(
-            self.empty_page
-        )
+        self.stack.setCurrentWidget(self.empty_page)
 
     def show_profile(self):
-        self.stack.setCurrentWidget(
-            self.profile_page
-        )
+        self.stack.setCurrentWidget(self.profile_page)

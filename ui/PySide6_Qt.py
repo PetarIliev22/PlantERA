@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt, QSize, QPoint, QRectF, QObject, Signal
+from PySide6.QtCore import Qt, QSize, QPoint, QRectF, QObject, Signal, QTimer
 from PySide6.QtGui import QIcon, QPainter, QPainterPath, QRegion, QFont, QFontDatabase, QPixmap
 from PySide6.QtWidgets import (
     QApplication,
@@ -11,5 +11,6 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QStackedLayout,
-    QSizePolicy
+    QSizePolicy,
+    QMessageBox,
 )

@@ -7,10 +7,10 @@ sidebar = load_config("sidebar.json")["sidebar"]
 class Sidebar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
+        self.active_name = "provision"
 
         self.setObjectName("sidebar")
         self.setFixedWidth(250)
-        self.active_name = "provision"
         self.create_ui()
 
     def create_ui(self):

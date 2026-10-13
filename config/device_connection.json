@@ -1,10 +1,12 @@
 {
   "status": {
     "disconnected": "Disconnected",
-    "connected": "Connected"
+    "connected": "Connected",
+    "failed": "No device connected. Please connect a device and try again."
   },
   "button": {
     "disconnected": "Connect",
-    "connected": "Disconnect"
+    "connected": "Disconnect",
+    "failed": "Connect"
   }
 }
