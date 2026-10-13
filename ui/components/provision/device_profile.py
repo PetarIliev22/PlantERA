@@ -58,13 +58,19 @@ class DeviceProfile(QFrame):
     def create_profile_page(self):
         page = QWidget()
 
-        layout = QHBoxLayout(page)
-        layout.setContentsMargins(24, 24, 24, 24)
-        layout.setSpacing(25)
+        self.profile_layout = QBoxLayout(
+            QBoxLayout.Direction.LeftToRight,
+            page
+        )
+
+        layout = self.profile_layout
+        layout.setContentsMargins(14, 18, 14, 18)
+        layout.setSpacing(12)
 
         self.image = QLabel()
         self.image.setObjectName("deviceProfileImage")
-        self.image.setFixedWidth(210)
+        self.image.setMinimumWidth(120)
+        self.image.setMaximumWidth(170)
         self.image.setAlignment(
             Qt.AlignmentFlag.AlignCenter
         )
@@ -85,11 +91,11 @@ class DeviceProfile(QFrame):
         right.addLayout(self.specs_layout)
         right.addStretch()
 
-        layout.addWidget(self.image)
+        layout.addWidget(self.image, 1)
         layout.addLayout(right, 1)
 
         return page
-
+    
     @staticmethod
     def find_profile(chip):
         return next(
@@ -117,7 +123,7 @@ class DeviceProfile(QFrame):
         pixmap = QPixmap(str(resource_path(*profile["image"].split("/"))))
         self.image.setPixmap(
             pixmap.scaled(
-                210,
+                180,
                 320,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation

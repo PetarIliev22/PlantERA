@@ -16,7 +16,7 @@ class Toolbar(QFrame):
 
     def create_ui(self):
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(40, 0, 0, 0)
+        layout.setContentsMargins(18, 0, 0, 0)
         layout.setSpacing(0)
 
         logo = QLabel()
@@ -47,7 +47,7 @@ class Toolbar(QFrame):
         title_frame.setObjectName("toolbarTitleFrame")
 
         title_layout = QVBoxLayout(title_frame)
-        title_layout.setContentsMargins(50, 0, 0, 0)
+        title_layout.setContentsMargins(25, 0, 0, 0)
         title_layout.setSpacing(0)
 
         title = QLabel("Device Provisioning")

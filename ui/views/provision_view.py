@@ -19,7 +19,7 @@ class ProvisionView(QFrame):
         self.device_connection = DeviceConnection(self)
         self.device_info = DeviceInfo(self)
         self.device_profile = DeviceProfile(self)
-
+        
         self.device_connection.connected.connect(
             self.device_connected
         )

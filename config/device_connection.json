@@ -2,7 +2,7 @@
   "status": {
     "disconnected": "Disconnected",
     "connected": "Connected",
-    "failed": "No device connected. Please connect a device and try again."
+    "failed": "No device connected. Please connect a device."
   },
   "button": {
     "disconnected": "Connect",

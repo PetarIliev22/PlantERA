@@ -10,7 +10,7 @@ class Sidebar(QFrame):
         self.active_name = "provision"
 
         self.setObjectName("sidebar")
-        self.setFixedWidth(250)
+        self.setFixedWidth(210)
         self.create_ui()
 
     def create_ui(self):

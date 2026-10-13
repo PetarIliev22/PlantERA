@@ -13,4 +13,5 @@ from PySide6.QtWidgets import (
     QStackedLayout,
     QSizePolicy,
     QMessageBox,
+    QBoxLayout
 )

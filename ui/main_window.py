@@ -8,11 +8,20 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setObjectName("mainWindow")
-        self.resize(1500, 900)
-        self.setMinimumSize(1100, 700)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
-        self.round_corners
+        screen = QApplication.primaryScreen().availableGeometry()
+
+        self.setMinimumSize(
+            min(1100, int(screen.width() * 0.8)),
+            min(700, int(screen.height() * 0.8))
+        )
+
+        self.resize(
+            min(1550, int(screen.width() * 0.9)),
+            min(900, int(screen.height() * 0.9))
+        )
+
         self.create_ui()
 
 

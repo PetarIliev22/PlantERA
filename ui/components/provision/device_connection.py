@@ -18,7 +18,6 @@ class DeviceConnection(QFrame):
 
     def __init__(self, parent):
         super().__init__(parent)
-
         self.state = ConnectionState.DISCONNECTED
         self.connected_port = None
         
@@ -27,6 +26,9 @@ class DeviceConnection(QFrame):
 
         self.create_ui()
         self.refresh_ports()
+        self.port_timer = QTimer(self)
+        self.port_timer.timeout.connect(self.refresh_ports)
+        self.port_timer.start(500)
         self.set_state(ConnectionState.DISCONNECTED)
 
     def create_ui(self):
@@ -111,7 +113,8 @@ class DeviceConnection(QFrame):
         
         label = QLabel("Status:")
         label.setObjectName("connectionLabel")
-        label.setFixedWidth(80)
+        label.setWordWrap(True)
+        label.setFixedWidth(70)
 
 
         self.status_text = QLabel()
@@ -125,8 +128,20 @@ class DeviceConnection(QFrame):
         layout.addLayout(row)
 
     def refresh_ports(self):
-        self.com_box.clear()
         ports = list_ports.comports()
+        port_names = [port.device for port in ports]
+
+        if (
+            self.state is ConnectionState.CONNECTED
+            and self.connected_port not in port_names
+        ):
+            self.disconnect_device()
+            return
+
+        if self.state is ConnectionState.CONNECTED:
+            return
+
+        self.com_box.clear()
 
         for port in ports:
             self.com_box.addItem(
@@ -135,10 +150,7 @@ class DeviceConnection(QFrame):
             )
 
         if not ports:
-            self.com_box.addItem(
-                "No devices found",
-                None
-            )
+            self.com_box.addItem("No devices found", None)
 
     def toggle_connection(self):
         if self.state is ConnectionState.CONNECTED:
@@ -148,7 +160,6 @@ class DeviceConnection(QFrame):
 
     def connect_device(self):
         port = self.com_box.currentData()
-
         if not port:
             self.set_state(ConnectionState.FAILED)
             QTimer.singleShot(
@@ -172,7 +183,7 @@ class DeviceConnection(QFrame):
         self.connected_port = port
         self.set_state(ConnectionState.CONNECTED)
         self.connected.emit(port, info)
-
+        
     def set_state(self, state):
         self.state = state
         connected = state == ConnectionState.CONNECTED

@@ -5,7 +5,7 @@ from ui.PySide6_Qt import *
 DEFAULT_VALUE = "Not available"
 
 rows = [
-    ("board", "Board:", False),
+    ("chip", "Board:", False),
     ("uid", "Chip ID (UID):", True),
     ("firmware", "Firmware:", False),
     ("signature", "Signature:", False),
@@ -22,7 +22,7 @@ class DeviceInfo(QFrame):
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 16, 20, 16)
+        layout.setContentsMargins(22, 18, 14, 18)
         layout.setSpacing(8)
 
         self.create_title(layout)
@@ -32,7 +32,7 @@ class DeviceInfo(QFrame):
         
     def create_title(self, layout):
         row = QHBoxLayout()
-        row.setSpacing(12)
+        row.setSpacing(15)
 
         icon = QLabel()
         icon.setPixmap(
