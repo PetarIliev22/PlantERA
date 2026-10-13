@@ -20,7 +20,7 @@ QLabel#deviceInfoLabel {
 QLabel#deviceInfoValue {
     color: #4b4848;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 QLabel#deviceInfoValue[state="error"] {

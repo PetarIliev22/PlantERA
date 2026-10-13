@@ -1,6 +1,7 @@
 import qtawesome as qta
 from ui.PySide6_Qt import *
 from config.config_loader import load_config
+from utils.paths import resource_path
 
 profiles = load_config("device_profiles.json")["profiles"]
 
@@ -9,7 +10,7 @@ class DeviceProfile(QFrame):
         super().__init__(parent)
 
         self.setObjectName("deviceProfileCard")
-        self.setFixedHeight(390)
+        self.setMinimumHeight(390)
         
         self.setSizePolicy(
             QSizePolicy.Policy.Expanding,
@@ -75,7 +76,7 @@ class DeviceProfile(QFrame):
         self.image.setObjectName(
             "deviceProfileImage"
         )
-        self.image.setFixedWidth(170)
+        self.image.setFixedWidth(210)
         self.image.setAlignment(
             Qt.AlignmentFlag.AlignCenter
         )
@@ -108,7 +109,10 @@ class DeviceProfile(QFrame):
             (
                 profile
                 for profile in profiles
-                if board in profile["chip"]
+                if any(
+                    chip in board
+                    for chip in profile["chip"]
+                )
             ),
             None
         )
@@ -123,11 +127,11 @@ class DeviceProfile(QFrame):
 
         self.title.setText(profile["name"])
         
-        pixmap = QPixmap(profile["image"])
+        pixmap = QPixmap(str(resource_path(*profile["image"].split("/"))))
         self.image.setPixmap(
             pixmap.scaled(
-                360,
-                360,
+                210,
+                320,
                 Qt.AspectRatioMode.KeepAspectRatio,
                 Qt.TransformationMode.SmoothTransformation
             )

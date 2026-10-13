@@ -63,3 +63,12 @@ class MainWindow(QMainWindow):
     def resizeEvent(self, event):
         super().resizeEvent(event)
         self.round_corners()
+    
+    def toggle_maximize(self):
+        if self.isMaximized():
+            self.showNormal()
+            QTimer.singleShot(20, self.round_corners)
+        else:
+            self.showMaximized()
+            QTimer.singleShot(20, self.remove_round_corners)
+                

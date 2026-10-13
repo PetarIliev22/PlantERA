@@ -1,22 +1,14 @@
 <div align="center">
 
-<table>
-<tr>
-<td bgcolor="#ffffff" align="center">
-
-<img src="assets/img/logo/plantera_logo.png" alt="PlantERA Logo" width="180">
-
-</td>
-</tr>
-</table>
+<img src="assets/img/logo/plantera_full_logo.png" alt="PlantERA Logo" width="320">
 
 # PlantERA
 
 ### ESP32 Provisioning & Device Management Tool
 
-PlantERA is a desktop application for detecting, provisioning, configuring and managing ESP32-based plant care devices.
+A desktop application for detecting, provisioning, configuring and managing ESP32-based PlantERA devices.
 
-Built with **Python + PySide6**.
+Built with **Python**, **PySide6**, **esptool** and **pyserial**.
 
 </div>
 
@@ -24,50 +16,35 @@ Built with **Python + PySide6**.
 
 ## Overview
 
-PlantERA provides a desktop environment for preparing ESP32 devices before deployment.
+PlantERA is a desktop provisioning tool designed to prepare ESP32-based devices before deployment.
 
-The application is designed to handle the complete provisioning workflow — from detecting the connected board and reading its unique identity to firmware installation, device configuration and future security operations.
+The application provides a structured workflow for:
+
+- detecting connected ESP32 boards
+- identifying the hardware
+- generating a stable device UID
+- displaying board specifications
+- preparing devices for firmware provisioning
+- supporting future security and registration workflows
+
+The project is designed with a modular architecture so that new boards, device profiles and provisioning steps can be added without rewriting the entire application.
 
 ---
 
 ## Current Features
 
-- Automatic ESP32 detection
-- COM port discovery and selection
-- ESP32 board identification
-- Device UID generation from the ESP32 hardware MAC
-- Device information display
+- Automatic COM port discovery
+- ESP32 detection through `esptool`
+- Hardware chip identification
+- Device UID generation from ESP32 hardware identity
+- Device information panel
 - Hardware profile detection
-- Hardware specifications display
-- Copyable device UID
-- Connection / disconnection state handling
+- Hardware specifications loaded from JSON
+- Device connection state handling
 - BOOT detection dialog
-- JSON-based device profiles
 - Modular PySide6 interface
-- QSS component styling
-- Unit tests for UID generation and configuration loading
+- Component-based QSS styling
+- Resource path handling for future packaging
+- Unit tests for critical helper logic
 
 ---
-
-## Planned Provisioning Flow
-
-```text
-Detect ESP32
-    ↓
-Identify hardware
-    ↓
-Read device UID
-    ↓
-Select PlantERA model
-    ↓
-Flash firmware
-    ↓
-Write configuration
-    ↓
-Generate device identity
-    ↓
-Register device
-    ↓
-Run hardware tests
-    ↓
-Finalize & secure device

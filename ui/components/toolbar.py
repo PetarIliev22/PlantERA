@@ -5,7 +5,7 @@ from utils.paths import resource_path
 class Toolbar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
-
+        
         self.parent = parent
         self.drag_position = QPoint()
 
@@ -69,7 +69,7 @@ class Toolbar(QFrame):
 
         buttons = [
             ("minimize", "fa6s.window-minimize", self.parent.showMinimized),
-            ("maximize", "fa6s.window-maximize", self.toggle_maximize),
+            ("maximize", "fa6s.window-maximize", self.parent.toggle_maximize),
             ("close", "fa6s.xmark", self.parent.close),
         ]
 
@@ -109,16 +109,7 @@ class Toolbar(QFrame):
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-            self.toggle_maximize()
-
-    def toggle_maximize(self):
-        if self.parent.isMaximized():
-            self.parent.showNormal()
-            QTimer.singleShot(20, self.parent.round_corners)
-        else:
-            self.parent.showMaximized()
-            QTimer.singleShot(20, self.parent.remove_round_corners)
-            
+            self.parent.toggle_maximize()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
