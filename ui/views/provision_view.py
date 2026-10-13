@@ -10,7 +10,23 @@ class ProvisionView(QFrame):
 
         self.setObjectName("provisionView")
         self.create_ui()
+        self.fade_in()
 
+    def fade_in(self):
+        self.opacity_effect = QGraphicsOpacityEffect(self)
+        self.setGraphicsEffect(self.opacity_effect)
+
+        self.fade_animation = QPropertyAnimation(
+            self.opacity_effect,
+            b"opacity"
+        )
+
+        self.fade_animation.setDuration(200)
+        self.fade_animation.setStartValue(0.0)
+        self.fade_animation.setEndValue(1.0)
+
+        self.fade_animation.start()
+    
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(25, 25, 25, 25)

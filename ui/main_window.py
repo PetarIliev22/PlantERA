@@ -23,8 +23,7 @@ class MainWindow(QMainWindow):
         )
 
         self.create_ui()
-
-
+        
     def create_ui(self):
         central = QWidget()
         central.setObjectName("mainContainer")
