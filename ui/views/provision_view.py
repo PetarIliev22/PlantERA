@@ -46,12 +46,12 @@ class ProvisionView(QFrame):
 
     def device_connected(self, _, info):
         self.device_info.set_device_info(
-            board=info["board"],
+            chip=info["chip"],
             uid=info["uid"]
         )
         
         self.device_profile.load_profile(
-            info["board"]
+            info["chip"]
         )
         
     def device_disconnected(self):

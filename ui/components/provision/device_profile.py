@@ -34,7 +34,6 @@ class DeviceProfile(QFrame):
 
         layout = QVBoxLayout(page)
         layout.setContentsMargins(18, 18, 18, 18)
-        layout.setSpacing(16)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setSpacing(12)
 
@@ -104,22 +103,23 @@ class DeviceProfile(QFrame):
 
         return page
 
-    def find_profile(self, board):
+    @staticmethod
+    def find_profile(chip):
         return next(
             (
                 profile
                 for profile in profiles
                 if any(
-                    chip in board
-                    for chip in profile["chip"]
+                    supported_chip in chip
+                    for supported_chip in profile["chip"]
                 )
             ),
             None
         )
         
-    def load_profile(self, board):
+    def load_profile(self, chip):
         self.clear_specs()
-        profile = self.find_profile(board)
+        profile = self.find_profile(chip)
 
         if not profile:
             self.show_empty()

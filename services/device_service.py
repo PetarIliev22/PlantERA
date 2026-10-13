@@ -10,7 +10,7 @@ class DeviceService(QObject):
 
     def __init__(self):
         super().__init__()
-        self.stop_event = False
+        self.stop_event = None
 
     def start(self, port):
         self.stop_event = threading.Event()
@@ -37,11 +37,11 @@ class DeviceService(QObject):
                     if stop_event.is_set():
                         return
                     
-                    board = esp.get_chip_description()
+                    chip = esp.get_chip_description()
                     mac = esp.read_mac()
 
                     self.detected.emit({
-                        "board": board,
+                        "chip": chip,
                         "uid": self.create_uid(mac)
                     })
 

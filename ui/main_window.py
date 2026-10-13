@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(1100, 700)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
-        QTimer.singleShot(100, self.round_corners)
+        self.round_corners
         self.create_ui()
 
 
@@ -62,13 +62,15 @@ class MainWindow(QMainWindow):
         
     def resizeEvent(self, event):
         super().resizeEvent(event)
-        self.round_corners()
-    
+
+        if self.isMaximized():
+            self.remove_round_corners()
+        else:
+            self.round_corners()
+        
     def toggle_maximize(self):
         if self.isMaximized():
             self.showNormal()
-            QTimer.singleShot(20, self.round_corners)
         else:
             self.showMaximized()
-            QTimer.singleShot(20, self.remove_round_corners)
                 

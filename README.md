@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/img/logo/plantera_full_logo.png" alt="PlantERA Logo" width="520" style="margin: 0 auto;">
+<img src="assets/img/logo/plantera_full_logo.png" alt="PlantERA Logo" width="600" style="margin: 0 auto;">
 
 ### ESP32 Provisioning & Device Management Tool
 

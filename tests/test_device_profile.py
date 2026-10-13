@@ -2,7 +2,6 @@ from ui.components.provision.device_profile import DeviceProfile
 
 def test_find_profile():
     profile = DeviceProfile.find_profile(
-        None,
         "ESP32-D0WD-V3"
     )
 
