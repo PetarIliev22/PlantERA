@@ -1,6 +1,5 @@
 from enum import Enum
 from ui.PySide6_Qt import *
-from services.device_service import DeviceService
 from config.config_loader import load_config
 
 texts = load_config("boot_dialog.json")
@@ -13,6 +12,8 @@ class BootState(Enum):
 class BootDialog(QFrame):
     def __init__(self, parent, port, on_connected):
         super().__init__(parent)
+        
+        from services.device_service import DeviceService
 
         self.port = port
         self.on_connected = on_connected

@@ -1,7 +1,6 @@
 import time
 import threading
 
-from esptool.cmds import detect_chip
 from ui.PySide6_Qt import *
 
 class DeviceService(QObject):
@@ -25,6 +24,7 @@ class DeviceService(QObject):
             self.stop_event.set()
 
     def detect(self, port, stop_event):
+        from esptool.cmds import detect_chip
         start_time = time.time()
 
         while not stop_event.is_set():

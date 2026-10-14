@@ -1,4 +1,7 @@
 import sys
+import time
+
+START_TIME = time.perf_counter()
 
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
@@ -13,9 +16,7 @@ if __name__ == "__main__":
         str(resource_path("assets", "fonts", "Inter-Regular.ttf"))
     )
 
-    app.setFont(
-        QFont("Inter", 10)
-    )
+    app.setFont(QFont("Inter", 10))
     
     app.setStyleSheet(
         load_styles()
@@ -23,5 +24,11 @@ if __name__ == "__main__":
 
     window = MainWindow()
     window.show()
+    
+    startup_time = time.perf_counter() - START_TIME
+    print(
+        f"Startup time: {startup_time:.3f} seconds"
+    )
+
 
     sys.exit(app.exec())

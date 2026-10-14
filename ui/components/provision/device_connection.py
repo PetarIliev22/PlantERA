@@ -2,7 +2,6 @@ import qtawesome as qta
 from enum import Enum
 from ui.PySide6_Qt import *
 from serial.tools import list_ports
-from ui.dialogs.boot_dialog import BootDialog
 from config.config_loader import load_config
 
 texts = load_config("device_connection.json")
@@ -166,6 +165,8 @@ class DeviceConnection(QFrame):
             self.connect_device()
 
     def connect_device(self):
+        from ui.dialogs.boot_dialog import BootDialog
+       
         port = self.com_box.currentData()
         if not port:
             self.set_state(ConnectionState.FAILED)
