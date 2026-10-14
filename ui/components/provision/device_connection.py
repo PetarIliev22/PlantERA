@@ -128,6 +128,8 @@ class DeviceConnection(QFrame):
         layout.addLayout(row)
 
     def refresh_ports(self):
+        current_port = self.com_box.currentData()
+        
         ports = list_ports.comports()
         port_names = [port.device for port in ports]
 
@@ -151,6 +153,11 @@ class DeviceConnection(QFrame):
 
         if not ports:
             self.com_box.addItem("No devices found", None)
+            
+        index = self.com_box.findData(current_port)
+
+        if index >= 0:
+            self.com_box.setCurrentIndex(index)
 
     def toggle_connection(self):
         if self.state is ConnectionState.CONNECTED:
@@ -164,7 +171,11 @@ class DeviceConnection(QFrame):
             self.set_state(ConnectionState.FAILED)
             QTimer.singleShot(
                 3000,
-                lambda: self.set_state(ConnectionState.DISCONNECTED)
+                lambda: (
+                    self.set_state(ConnectionState.DISCONNECTED)
+                    if self.state is ConnectionState.FAILED
+                    else None
+                )
             )
             return
 

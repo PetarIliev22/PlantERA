@@ -5,7 +5,7 @@
       "chip": [
         "ESP32-D0WD-V3"
       ],
-      "name": "ESP-WROOM-32D Development Board v3.1",
+      "name": "ESP32-D0WD-V3 Device Profile",
       "image": "assets/img/boards/esp32_board.png",
       "specs": [
         {
