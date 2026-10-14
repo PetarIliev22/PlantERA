@@ -16,6 +16,7 @@ class BootDialog(QFrame):
         from services.device_service import DeviceService
         self.on_log = on_log
         self.port = port
+        self.button_action = None
         self.on_connected = on_connected
 
         self.service = DeviceService()
@@ -139,12 +140,11 @@ class BootDialog(QFrame):
         self.deleteLater()
 
     def set_button_action(self, action):
-        try:
-            self.button.clicked.disconnect()
-        except RuntimeError:
-            pass
+        if self.button_action is not None:
+            self.button.clicked.disconnect(self.button_action)
 
         self.button.clicked.connect(action)
+        self.button_action = action
 
     def refresh_style(self):
         for widget in (self.boot_icon, self.status_label):

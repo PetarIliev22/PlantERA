@@ -24,8 +24,9 @@ class DeviceService(QObject):
 
     def detect(self, port, stop_event):
         from esptool.cmds import detect_chip
-        start_time = time.time()
-
+        start_time = time.time()    
+        last_error = None
+        
         while not stop_event.is_set():
             if time.time() - start_time > 15:
                 self.failed.emit()
@@ -46,7 +47,13 @@ class DeviceService(QObject):
 
                     return
 
-            except Exception:
+            except Exception as e:
+                error = str(e)
+
+                if error != last_error:
+                    print(f"[DeviceService] Detection error: {error}")
+                    last_error = error
+
                 time.sleep(0.2)
 
     @staticmethod

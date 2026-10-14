@@ -184,10 +184,19 @@ class DeviceConnection(QFrame):
             )
             return
 
+        self.log_requested.emit(
+            "connecting",
+            "INFO",
+            {"port": port}
+        )
+
         self.boot_dialog = BootDialog(
             self.window(),
             port,
-            lambda info: self.device_connected(port, info)
+            lambda info: self.device_connected(port, info),
+            on_log=lambda key, level, data: self.log_requested.emit(
+                key, level, data
+            )
         )
 
     def disconnect_device(self):
