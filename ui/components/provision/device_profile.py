@@ -11,7 +11,7 @@ class DeviceProfile(QFrame):
         super().__init__(parent)
 
         self.setObjectName("deviceProfileCard")
-        self.setMinimumHeight(390)
+        self.setMinimumHeight(360)
         self.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred

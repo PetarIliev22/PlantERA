@@ -21,7 +21,7 @@ class DeviceConnection(QFrame):
         self.connected_port = None
         
         self.setObjectName("connectionCard")
-        self.setFixedHeight(170)
+        self.setFixedHeight(140)
 
         self.create_ui()
         self.refresh_ports()

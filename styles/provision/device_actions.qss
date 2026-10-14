@@ -1,0 +1,120 @@
+QFrame#deviceActionsCard {
+    background-color: #FFFFFF;
+    border: 1px solid #E6EDF5;
+    border-radius: 14px;
+}
+
+QLabel#deviceActionsTitle {
+    color: #1687F8;
+    font-size: 16px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#flashButton,
+QPushButton#provisionButton,
+QPushButton#verifyButton,
+QPushButton#eraseButton {
+    border-radius: 10px;
+    padding: 0px;
+    text-align: left;
+}
+
+QPushButton#flashButton {
+    background-color: #EAF8F1;
+    border: 1px solid #B1E7CC;
+}
+
+QPushButton#flashButton:hover {
+    background-color: #DDF5E9;
+    border: 1px solid #65CFA0;
+}
+
+QPushButton#flashButton:pressed {
+    background-color: #C9EBD9;
+}
+
+QPushButton#provisionButton {
+    background-color: #EBF4FF;
+    border: 1px solid #BDD9FC;
+}
+
+QPushButton#provisionButton:hover {
+    background-color: #DBEBFF;
+    border: 1px solid #70B2FC;
+}
+
+QPushButton#provisionButton:pressed {
+    background-color: #C9E0FC;
+}
+
+QPushButton#verifyButton {
+    background-color: #F1F5FA;
+    border: 1px solid #D1DCE9;
+}
+
+QPushButton#verifyButton:hover {
+    background-color: #E6EEF8;
+    border: 1px solid #A5BBD5;
+}
+
+QPushButton#verifyButton:pressed {
+    background-color: #D9E5F3;
+}
+
+QPushButton#eraseButton {
+    background-color: #FFF0F2;
+    border: 1px solid #F8BDC5;
+}
+
+QPushButton#eraseButton:hover {
+    background-color: #FFE2E6;
+    border: 1px solid #F08B9B;
+}
+
+QPushButton#eraseButton:pressed {
+    background-color: #FFD0D8;
+}
+
+QLabel#flashButtonTitle,
+QLabel#provisionButtonTitle,
+QLabel#verifyButtonTitle,
+QLabel#eraseButtonTitle {
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+}
+
+QLabel#flashButtonTitle {
+    color: #07875D;
+}
+
+QLabel#provisionButtonTitle {
+    color: #1476D4;
+}
+
+QLabel#verifyButtonTitle {
+    color: #244B76;
+}
+
+QLabel#eraseButtonTitle {
+    color: #DC3545;
+}
+
+QLabel#actionSubtitle {
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 400;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#flashButton:disabled,
+QPushButton#provisionButton:disabled,
+QPushButton#verifyButton:disabled,
+QPushButton#eraseButton:disabled {
+    background-color: #F3F5F8;
+    border: 1px solid #DFE4EA;
+}
