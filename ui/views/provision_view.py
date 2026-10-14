@@ -16,7 +16,6 @@ class ProvisionView(QFrame):
 
         self.create_ui()
         self.connect_signals()
-        self.fade_in()
         
         self.device_console.log("app_ready")
 
