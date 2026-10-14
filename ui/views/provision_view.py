@@ -1,12 +1,12 @@
 
 from ui.PySide6_Qt import *
 
+from utils.shadow import apply_shadow
 from ui.components.provision.device_connection import DeviceConnection
 from ui.components.provision.device_info import DeviceInfo
 from ui.components.provision.device_profile import DeviceProfile
 from ui.components.provision.device_actions import DeviceActions
 from ui.components.provision.device_console import DeviceConsole
-
 
 class ProvisionView(QFrame):
     def __init__(self, parent):
@@ -26,11 +26,18 @@ class ProvisionView(QFrame):
         layout.setSpacing(0)
 
         self.device_connection = DeviceConnection(self)
+        
         self.device_info = DeviceInfo(self)
         self.device_profile = DeviceProfile(self)
         self.device_actions = DeviceActions(self)
         self.device_console = DeviceConsole(self)
 
+        apply_shadow(self.device_connection)
+        apply_shadow(self.device_info)
+        apply_shadow(self.device_profile)
+        apply_shadow(self.device_actions)
+        apply_shadow(self.device_console)
+        
         self.scroll = QScrollArea(self)
         self.scroll.setObjectName("provisionScroll")
 
@@ -102,18 +109,16 @@ class ProvisionView(QFrame):
 
 
     def fade_in(self):
-        self.opacity_effect = QGraphicsOpacityEffect(self)
-        self.setGraphicsEffect(self.opacity_effect)
+        window = self.window()
 
         self.fade_animation = QPropertyAnimation(
-            self.opacity_effect,
-            b"opacity"
+            window,
+            b"windowOpacity"
         )
 
         self.fade_animation.setDuration(200)
         self.fade_animation.setStartValue(0.0)
         self.fade_animation.setEndValue(1.0)
-
         self.fade_animation.start()
 
     

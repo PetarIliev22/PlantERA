@@ -4,6 +4,7 @@ from config.config_loader import load_config
 
 sidebar = load_config("sidebar.json")["sidebar"]
 
+
 class Sidebar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -18,15 +19,13 @@ class Sidebar(QFrame):
         layout.setContentsMargins(16, 5, 15, 20)
         layout.setSpacing(10)
 
-        indicator = QFrame(self)
-        indicator.setObjectName("activeIndicator")
-        indicator.setGeometry(0, 5, 8, 54)
+        self.indicator = QFrame(self)
+        self.indicator.setObjectName("activeIndicator")
+        self.indicator.setGeometry(0, 5, 4, 54)
 
         self.buttons = {}
 
         for item in sidebar:
-            
-            # TODO: MAKE THIS DYNAMIC
             active = item["name"] == self.active_name
             button = QPushButton("  " + item["text"], self)
 
@@ -37,7 +36,9 @@ class Sidebar(QFrame):
             button.setIcon(
                 qta.icon(
                     item["icon"],
-                    color="#1687F8" if active else "#64748B",
+                    color="#FFFFFF" if active else "#D5E1F0",
+                    color_active="#FFFFFF",
+                    color_disabled="#8491A5"
                 )
             )
 
