@@ -10,16 +10,18 @@ class MainWindow(QMainWindow):
         self.setObjectName("mainWindow")
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
-        screen = QApplication.primaryScreen().availableGeometry()
+        screen = self.screen().availableGeometry()
 
-        self.setMinimumSize(
-            min(1100, int(screen.width() * 0.8)),
-            min(700, int(screen.height() * 0.8))
-        )
+        self.setMinimumSize(800, 550)
 
-        self.resize(
-            min(1550, int(screen.width() * 0.9)),
-            min(900, int(screen.height() * 0.9))
+        width = min(1550, int(screen.width() * 0.9))
+        height = min(900, int(screen.height() * 0.9))
+
+        self.resize(width, height)
+
+        self.move(
+            screen.x() + (screen.width() - width) // 2,
+            screen.y() + (screen.height() - height) // 2
         )
 
         self.create_ui()
@@ -81,4 +83,4 @@ class MainWindow(QMainWindow):
             self.showNormal()
         else:
             self.showMaximized()
-                
+            

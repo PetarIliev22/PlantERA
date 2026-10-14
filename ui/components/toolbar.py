@@ -102,10 +102,25 @@ class Toolbar(QFrame):
             event.buttons() & Qt.MouseButton.LeftButton
             and not self.parent.isMaximized()
         ):
-            self.parent.move(
+            new_pos = (
                 event.globalPosition().toPoint()
                 - self.drag_position
             )
+
+            screen = self.parent.screen().availableGeometry()
+
+            x = max(
+                screen.left(),
+                min(new_pos.x(), screen.right() - self.parent.width() + 1)
+            )
+
+            y = max(
+                screen.top(),
+                min(new_pos.y(), screen.bottom() - self.parent.height() + 1)
+            )
+
+            self.parent.move(x, y)
+            
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
