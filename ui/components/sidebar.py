@@ -10,13 +10,13 @@ class Sidebar(QFrame):
         self.active_name = "provision"
 
         self.setObjectName("sidebar")
-        self.setFixedWidth(210)
+        self.setFixedWidth(215)
         self.create_ui()
 
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(16, 5, 15, 20)
-        layout.setSpacing(12)
+        layout.setSpacing(10)
 
         indicator = QFrame(self)
         indicator.setObjectName("activeIndicator")

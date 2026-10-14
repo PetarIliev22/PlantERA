@@ -1,6 +1,6 @@
 QFrame#deviceActionsCard {
     background-color: #FFFFFF;
-    border: 1px solid #E6EDF5;
+    border: none;
     border-radius: 14px;
 }
 

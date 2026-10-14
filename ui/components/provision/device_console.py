@@ -1,4 +1,3 @@
-
 import qtawesome as qta
 
 from ui.PySide6_Qt import *

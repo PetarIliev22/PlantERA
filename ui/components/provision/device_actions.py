@@ -53,7 +53,7 @@ class DeviceActions(QFrame):
 
             button = QPushButton()
             button.setObjectName(f"{name}Button")
-            button.setMinimumHeight(55)
+            button.setMinimumHeight(58)
             button.setSizePolicy(
                 QSizePolicy.Policy.Expanding,
                 QSizePolicy.Policy.Fixed
@@ -68,7 +68,7 @@ class DeviceActions(QFrame):
                 qta.icon(
                     action["icon"],
                     color=color
-                ).pixmap(25, 25)
+                ).pixmap(35, 35)
             )
 
             icon_label.setAttribute(

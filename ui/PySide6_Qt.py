@@ -17,5 +17,5 @@ from PySide6.QtWidgets import (
     QGraphicsOpacityEffect,
     QPlainTextEdit,
     QScrollArea,
-    QLayout,
+    QLayout
 )

@@ -1,6 +1,6 @@
 
 from ui.PySide6_Qt import *
-
+from time import perf_counter
 from ui.components.provision.device_connection import DeviceConnection
 from ui.components.provision.device_info import DeviceInfo
 from ui.components.provision.device_profile import DeviceProfile
@@ -161,3 +161,4 @@ class ProvisionView(QFrame):
             level,
             **data
         )
+        
