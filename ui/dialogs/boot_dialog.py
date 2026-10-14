@@ -10,11 +10,11 @@ class BootState(Enum):
     FAILED = "failed"
 
 class BootDialog(QFrame):
-    def __init__(self, parent, port, on_connected):
+    def __init__(self, parent, port, on_connected, on_log=None):
         super().__init__(parent)
         
         from services.device_service import DeviceService
-
+        self.on_log = on_log
         self.port = port
         self.on_connected = on_connected
 
@@ -117,9 +117,21 @@ class BootDialog(QFrame):
 
     def connection_failed(self):
         self.set_state(BootState.FAILED)
+        if self.on_log:
+            self.on_log(
+                "connection_failed",
+                "ERROR",
+                {"port": self.port}
+            )
 
     def try_again(self):
         self.set_state(BootState.WAITING)
+        if self.on_log:
+            self.on_log(
+                "retry_connection",
+                "INFO",
+                {"port": self.port}
+            )
         self.service.start(self.port)
 
     def cancel(self):

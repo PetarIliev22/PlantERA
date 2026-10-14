@@ -71,17 +71,9 @@ class DeviceConsole(QFrame):
 
         layout.addWidget(self.console)
 
-    def append_log(self, message):
-        self.console.appendPlainText(str(message))
-
-        scrollbar = self.console.verticalScrollBar()
-        scrollbar.setValue(scrollbar.maximum())
-
     def clear_logs(self):
         self.console.clear()
 
-    
-    
     def append_log(self, message, level=None):
         appearance = console_config["appearance"]
 

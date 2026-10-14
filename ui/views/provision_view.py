@@ -86,6 +86,7 @@ class ProvisionView(QFrame):
 
         return content
 
+   
     def connect_signals(self):
         self.device_connection.connected.connect(
             self.device_connected
@@ -94,10 +95,11 @@ class ProvisionView(QFrame):
         self.device_connection.disconnected.connect(
             self.device_disconnected
         )
-        
-        self.device_connection.connection_failed.connect(
-            self.device_connection_failed
+
+        self.device_connection.log_requested.connect(
+            self.console_log
         )
+
 
     def fade_in(self):
         self.opacity_effect = QGraphicsOpacityEffect(self)
@@ -153,8 +155,9 @@ class ProvisionView(QFrame):
         )
 
 
-    def device_connection_failed(self, message):
-        self.device_console.append_log(
-            message,
-            "ERROR"
+    def console_log(self, key, level, data):
+        self.device_console.log(
+            key,
+            level,
+            **data
         )

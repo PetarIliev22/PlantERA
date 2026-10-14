@@ -14,6 +14,8 @@ class ConnectionState(Enum):
 class DeviceConnection(QFrame):
     connected = Signal(str, dict)
     disconnected = Signal()
+    connection_failed = Signal(str)
+    log_requested = Signal(str, str, dict)
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -170,6 +172,7 @@ class DeviceConnection(QFrame):
         port = self.com_box.currentData()
         if not port:
             self.set_state(ConnectionState.FAILED)
+            self.log_requested.emit("no_port", "ERROR", {})
         
             QTimer.singleShot(
                 3000,

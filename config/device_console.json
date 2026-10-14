@@ -14,40 +14,20 @@
       "color": "#F87171"
     }
   },
-
   "appearance": {
     "timestamp_color": "#94A3B8",
     "message_color": "#E2E8F0",
     "default_level": "INFO"
   },
-
   "messages": {
     "app_ready": "PlantERA ready. Waiting for device connection.",
-
     "connecting": "Connecting to {port}...",
     "connected": "Device connected on {port}",
     "connection_failed": "Connection failed on {port}",
     "no_port": "Connection failed: No COM port selected",
     "retry_connection": "Retrying connection to {port}...",
     "disconnected": "Device disconnected",
-
     "chip_detected": "Detected chip: {chip}",
-    "device_info_loaded": "Device information loaded",
-
-    "flash_started": "Flashing firmware...",
-    "flash_success": "Firmware flashed successfully",
-    "flash_failed": "Firmware flashing failed",
-
-    "provision_started": "Provisioning device...",
-    "provision_success": "Device provisioned successfully",
-    "provision_failed": "Device provisioning failed",
-
-    "verify_started": "Verifying device...",
-    "verify_success": "Device verification successful",
-    "verify_failed": "Device verification failed",
-
-    "erase_started": "Erasing device data...",
-    "erase_success": "Device data erased successfully",
-    "erase_failed": "Device erase failed"
+    "device_info_loaded": "Device information loaded"
   }
 }
