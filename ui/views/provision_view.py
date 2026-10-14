@@ -17,6 +17,8 @@ class ProvisionView(QFrame):
         self.create_ui()
         self.connect_signals()
         self.fade_in()
+        
+        self.device_console.log("app_ready")
 
     def create_ui(self):
         layout = QVBoxLayout(self)
@@ -92,6 +94,10 @@ class ProvisionView(QFrame):
         self.device_connection.disconnected.connect(
             self.device_disconnected
         )
+        
+        self.device_connection.connection_failed.connect(
+            self.device_connection_failed
+        )
 
     def fade_in(self):
         self.opacity_effect = QGraphicsOpacityEffect(self)
@@ -108,7 +114,8 @@ class ProvisionView(QFrame):
 
         self.fade_animation.start()
 
-    def device_connected(self, _, info):
+    
+    def device_connected(self, port, info):
         self.device_info.set_device_info(
             chip=info["chip"],
             uid=info["uid"]
@@ -118,6 +125,36 @@ class ProvisionView(QFrame):
             info["chip"]
         )
 
+        self.device_console.log(
+            "connected",
+            "SUCCESS",
+            port=port
+        )
+
+        self.device_console.log(
+            "device_info_loaded",
+            "SUCCESS"
+        )
+
+        self.device_console.log(
+            "chip_detected",
+            "INFO",
+            chip=info["chip"]
+        )
+
+
     def device_disconnected(self):
         self.device_info.clear()
         self.device_profile.show_empty()
+
+        self.device_console.log(
+            "disconnected",
+            "WARNING"
+        )
+
+
+    def device_connection_failed(self, message):
+        self.device_console.append_log(
+            message,
+            "ERROR"
+        )

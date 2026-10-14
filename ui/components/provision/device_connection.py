@@ -170,6 +170,7 @@ class DeviceConnection(QFrame):
         port = self.com_box.currentData()
         if not port:
             self.set_state(ConnectionState.FAILED)
+        
             QTimer.singleShot(
                 3000,
                 lambda: (

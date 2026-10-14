@@ -2,7 +2,10 @@
 import qtawesome as qta
 
 from ui.PySide6_Qt import *
+from datetime import datetime
+from config.config_loader import load_config
 
+console_config = load_config("device_console.json")
 
 class DeviceConsole(QFrame):
     def __init__(self, parent=None):
@@ -58,10 +61,6 @@ class DeviceConsole(QFrame):
         self.console = QPlainTextEdit()
         self.console.setObjectName("consoleOutput")
         self.console.setReadOnly(True)
-        self.console.setPlaceholderText(
-            "Device logs will appear here..."
-        )
-
         self.console.setMaximumBlockCount(1000)
         self.console.setLineWrapMode(
             QPlainTextEdit.LineWrapMode.NoWrap
@@ -80,3 +79,70 @@ class DeviceConsole(QFrame):
 
     def clear_logs(self):
         self.console.clear()
+
+    
+    
+    def append_log(self, message, level=None):
+        appearance = console_config["appearance"]
+
+        if level is None:
+            level = appearance["default_level"]
+
+        level = level.upper()
+
+        color = console_config["levels"].get(
+            level,
+            {"color": appearance["message_color"]}
+        )["color"]
+
+        timestamp = datetime.now().strftime("%H:%M:%S")
+
+        cursor = self.console.textCursor()
+        cursor.movePosition(QTextCursor.MoveOperation.End)
+
+        # Timestamp
+        timestamp_format = QTextCharFormat()
+        timestamp_format.setForeground(
+            QColor(appearance["timestamp_color"])
+        )
+
+        cursor.insertText(
+            f"[{timestamp}] ",
+            timestamp_format
+        )
+
+        # Level
+        level_format = QTextCharFormat()
+        level_format.setForeground(QColor(color))
+        level_format.setFontWeight(QFont.Weight.Bold)
+
+        cursor.insertText(
+            f"[{level}] ",
+            level_format
+        )
+
+        # Message
+        message_format = QTextCharFormat()
+        message_format.setForeground(
+            QColor(appearance["message_color"])
+        )
+
+        cursor.insertText(
+            str(message),
+            message_format
+        )
+
+        cursor.insertBlock()
+
+        self.console.setTextCursor(cursor)
+        self.console.ensureCursorVisible()
+        
+    
+    def log(self, key, level=None, **kwargs):
+        message = console_config["messages"][key].format(
+            **kwargs
+        )
+
+        self.append_log(message, level)
+
+

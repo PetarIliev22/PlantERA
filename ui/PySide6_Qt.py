@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt, QSize, QPoint, QRectF, QObject, Signal, QTimer, QPropertyAnimation
-from PySide6.QtGui import QIcon, QPainter, QPainterPath, QRegion, QFont, QFontDatabase, QPixmap
+from PySide6.QtGui import QIcon, QPainter, QPainterPath, QRegion, QFont, QFontDatabase, QPixmap, QTextCharFormat, QColor, QTextCursor
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -17,5 +17,5 @@ from PySide6.QtWidgets import (
     QGraphicsOpacityEffect,
     QPlainTextEdit,
     QScrollArea,
-    QLayout
+    QLayout,
 )
