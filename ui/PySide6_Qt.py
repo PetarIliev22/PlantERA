@@ -18,5 +18,6 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QScrollArea,
     QLayout,
-    QGraphicsDropShadowEffect
+    QGraphicsDropShadowEffect,
+    QStackedWidget
 )

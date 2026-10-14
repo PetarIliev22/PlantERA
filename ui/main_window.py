@@ -1,7 +1,7 @@
 from ui.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
-from ui.views.provision_view import ProvisionView
+from core.page_manager import PageManager
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -46,10 +46,14 @@ class MainWindow(QMainWindow):
         content_layout.setSpacing(0)
 
         self.sidebar = Sidebar(self)
-        self.provision_view = ProvisionView(self)
+        self.page_manager = PageManager(content)
+
+        self.sidebar.page_changed.connect(
+            self.page_manager.change_page
+        )
 
         content_layout.addWidget(self.sidebar)
-        content_layout.addWidget(self.provision_view, 1)
+        content_layout.addWidget(self.page_manager, 1)
 
         main_layout.addWidget(content, 1)
 

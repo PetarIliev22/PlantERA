@@ -1,3 +1,4 @@
+
 import qtawesome as qta
 from ui.PySide6_Qt import *
 from config.config_loader import load_config
@@ -6,9 +7,11 @@ sidebar = load_config("sidebar.json")["sidebar"]
 
 
 class Sidebar(QFrame):
+    page_changed = Signal(str)
+
     def __init__(self, parent):
         super().__init__(parent)
-        self.active_name = "provision"
+        self.active_name = sidebar[0]["name"] if sidebar else None
 
         self.setObjectName("sidebar")
         self.setFixedWidth(215)
@@ -24,9 +27,12 @@ class Sidebar(QFrame):
         self.indicator.setGeometry(0, 5, 4, 54)
 
         self.buttons = {}
+        self.items = {}
 
         for item in sidebar:
-            active = item["name"] == self.active_name
+            name = item["name"]
+            active = name == self.active_name
+
             button = QPushButton("  " + item["text"], self)
 
             button.setObjectName("sidebarButton")
@@ -36,16 +42,20 @@ class Sidebar(QFrame):
             button.setIcon(
                 qta.icon(
                     item["icon"],
-                    color="#FFFFFF" if active else "#D5E1F0",
-                    color_active="#FFFFFF",
-                    color_disabled="#8491A5"
+                    color="#FFFFFF" if active else "#D5E1F0"
                 )
             )
 
             button.setIconSize(QSize(20, 20))
             button.setCursor(Qt.CursorShape.PointingHandCursor)
 
-            self.buttons[item["name"]] = button
+            button.clicked.connect(
+                lambda checked=False, page=name: self.set_active(page)
+            )
+
+            self.buttons[name] = button
+            self.items[name] = item
+
             layout.addWidget(button)
 
         layout.addStretch()
@@ -55,3 +65,36 @@ class Sidebar(QFrame):
         footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         layout.addWidget(footer)
+
+        self.indicator.raise_()
+
+    def set_active(self, name):
+        if name not in self.buttons:
+            return
+
+        if name == self.active_name:
+            return
+
+        self.active_name = name
+
+        for page_name, button in self.buttons.items():
+            active = page_name == name
+
+            button.setProperty("active", active)
+            button.style().unpolish(button)
+            button.style().polish(button)
+            button.update()
+
+            button.setIcon(
+                qta.icon(
+                    self.items[page_name]["icon"],
+                    color="#FFFFFF" if active else "#D5E1F0"
+                )
+            )
+
+        self.indicator.move(
+            0,
+            self.buttons[name].mapTo(self, QPoint(0, 0)).y()
+        )
+
+        self.page_changed.emit(name)
