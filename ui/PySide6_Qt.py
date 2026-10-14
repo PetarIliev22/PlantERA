@@ -14,5 +14,8 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QMessageBox,
     QBoxLayout,
-    QGraphicsOpacityEffect
+    QGraphicsOpacityEffect,
+    QPlainTextEdit,
+    QScrollArea,
+    QLayout
 )

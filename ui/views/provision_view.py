@@ -5,6 +5,7 @@ from ui.components.provision.device_connection import DeviceConnection
 from ui.components.provision.device_info import DeviceInfo
 from ui.components.provision.device_profile import DeviceProfile
 from ui.components.provision.device_actions import DeviceActions
+from ui.components.provision.device_console import DeviceConsole
 
 
 class ProvisionView(QFrame):
@@ -19,34 +20,49 @@ class ProvisionView(QFrame):
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(25, 25, 25, 25)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 
         self.device_connection = DeviceConnection(self)
         self.device_info = DeviceInfo(self)
         self.device_profile = DeviceProfile(self)
         self.device_actions = DeviceActions(self)
+        self.device_console = DeviceConsole(self)
 
-        top = QWidget()
-        top_layout = QVBoxLayout(top)
-        top_layout.setContentsMargins(0, 0, 0, 0)
-        top_layout.setSpacing(20)
+        self.scroll = QScrollArea(self)
+        self.scroll.setObjectName("provisionScroll")
 
-        top_layout.addLayout(self.create_content())
-        top_layout.addWidget(self.device_actions)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setFrameShape(QFrame.Shape.NoFrame)
 
-        top.setSizePolicy(
-            QSizePolicy.Policy.Expanding,
-            QSizePolicy.Policy.Maximum
+        self.scroll.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
         )
 
-        layout.addWidget(
-            top,
-            0,
-            Qt.AlignmentFlag.AlignTop
+        self.scroll.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
         )
 
-        layout.addStretch(1)
+        self.scroll.setMinimumSize(0, 0)
+
+        container = QWidget()
+        container.setObjectName("provisionContainer")
+
+        content_layout = QVBoxLayout(container)
+        content_layout.setContentsMargins(25, 25, 25, 25)
+        content_layout.setSpacing(10)
+
+        content_layout.setSizeConstraint(
+            QLayout.SizeConstraint.SetMinimumSize
+        )
+
+        content_layout.addLayout(self.create_content())
+        content_layout.addWidget(self.device_actions)
+        content_layout.addWidget(self.device_console)
+        content_layout.addStretch(1)
+
+        self.scroll.setWidget(container)
+        layout.addWidget(self.scroll)
 
     def create_content(self):
         content = QHBoxLayout()
@@ -57,7 +73,6 @@ class ProvisionView(QFrame):
 
         left.addWidget(self.device_connection)
         left.addWidget(self.device_info)
-        left.addStretch()
 
         content.addLayout(left, 55)
 

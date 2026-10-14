@@ -1,0 +1,51 @@
+QScrollArea#provisionScroll {
+    background: transparent;
+    border: none;
+}
+
+QScrollArea#provisionScroll QWidget#qt_scrollarea_viewport {
+    background: transparent;
+}
+
+QWidget#provisionContainer {
+    background: transparent;
+}
+
+QScrollArea#provisionScroll QScrollBar:vertical {
+    background: transparent;
+    width: 12px;
+    margin: 6px 2px 6px 2px;
+    border: none;
+}
+
+QScrollArea#provisionScroll QScrollBar::handle:vertical {
+    background-color: #CBD5E1;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    min-height: 40px;
+}
+
+QScrollArea#provisionScroll QScrollBar::handle:vertical:hover {
+    background-color: #1687F8;
+}
+
+QScrollArea#provisionScroll QScrollBar::handle:vertical:pressed {
+    background-color: #0D6ED0;
+}
+
+QScrollArea#provisionScroll QScrollBar::add-line:vertical,
+QScrollArea#provisionScroll QScrollBar::sub-line:vertical {
+    height: 0px;
+    border: none;
+    background: transparent;
+}
+
+QScrollArea#provisionScroll QScrollBar::up-arrow:vertical,
+QScrollArea#provisionScroll QScrollBar::down-arrow:vertical {
+    background: none;
+}
+
+QScrollArea#provisionScroll QScrollBar::add-page:vertical,
+QScrollArea#provisionScroll QScrollBar::sub-page:vertical {
+    background: transparent;
+}

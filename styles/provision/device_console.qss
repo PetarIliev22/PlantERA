@@ -1,0 +1,120 @@
+QFrame#deviceConsoleCard {
+    background-color: #FFFFFF;
+    border: 1px solid #E6EDF5;
+    border-radius: 12px;
+}
+
+QLabel#deviceConsoleTitle {
+    color: #1687F8;
+    font-size: 16px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+}
+
+QPushButton#consoleClearButton {
+    background-color: #F4F7FB;
+    color: #64748B;
+
+    border: 1px solid #DCE4EF;
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    padding: 4px 10px;
+}
+
+QPushButton#consoleClearButton:hover {
+    background-color: #E9F1FA;
+    color: #1687F8;
+    border-color: #A9CFF8;
+}
+
+QPushButton#consoleClearButton:pressed {
+    background-color: #DCEBFA;
+}
+
+QPushButton#consoleClearButton:disabled {
+    background-color: #F5F6F8;
+    color: #AAB4C3;
+    border-color: #E5E9EF;
+}
+
+QPlainTextEdit#consoleOutput {
+    background-color: #111827;
+    color: #E2E8F0;
+
+    border: 1px solid #263449;
+    border-radius: 9px;
+
+    font-family: "Consolas", "Cascadia Mono", monospace;
+    font-size: 13px;
+    font-weight: 400;
+
+    padding: 12px;
+
+    selection-background-color: #2563EB;
+    selection-color: #FFFFFF;
+}
+
+QPlainTextEdit#consoleOutput:focus {
+    border-color: #344966;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar:vertical {
+    background: #111827;
+    width: 10px;
+    margin: 5px 2px 5px 0px;
+    border: none;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::handle:vertical {
+    background: #475569;
+    min-height: 25px;
+    border-radius: 4px;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::handle:vertical:hover {
+    background: #64748B;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::add-line:vertical,
+QPlainTextEdit#consoleOutput QScrollBar::sub-line:vertical {
+    height: 0px;
+    background: transparent;
+    border: none;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::add-page:vertical,
+QPlainTextEdit#consoleOutput QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar:horizontal {
+    background: #111827;
+    height: 10px;
+    border: none;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::handle:horizontal {
+    background: #475569;
+    min-width: 25px;
+    border-radius: 4px;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::handle:horizontal:hover {
+    background: #64748B;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::add-line:horizontal,
+QPlainTextEdit#consoleOutput QScrollBar::sub-line:horizontal {
+    width: 0px;
+    background: transparent;
+    border: none;
+}
+
+QPlainTextEdit#consoleOutput QScrollBar::add-page:horizontal,
+QPlainTextEdit#consoleOutput QScrollBar::sub-page:horizontal {
+    background: transparent;
+}

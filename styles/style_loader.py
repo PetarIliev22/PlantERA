@@ -11,6 +11,8 @@ def load_styles():
         "provision/device_info.qss",
         "provision/device_profile.qss",
         "provision/device_actions.qss",
+        "provision/device_console.qss",
+        "provision/provision_scroll.qss",
         "boot_dialog.qss",
     ]
 
