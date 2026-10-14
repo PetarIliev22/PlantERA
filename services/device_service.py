@@ -1,8 +1,7 @@
 import time
 import threading
 
-from ui.PySide6_Qt import *
-
+from PySide6.QtCore import QObject, Signal
 class DeviceService(QObject):
     detected = Signal(dict)
     failed = Signal()

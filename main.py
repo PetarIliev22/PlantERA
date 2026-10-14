@@ -1,8 +1,9 @@
 import sys
 import time
-
 START_TIME = time.perf_counter()
-from ui.PySide6_Qt import *
+
+from PySide6.QtWidgets import QApplication
+from PySide6.QtGui import QFont, QFontDatabase
 from ui.main_window import MainWindow
 from utils.paths import resource_path
 from styles.style_loader import load_styles
