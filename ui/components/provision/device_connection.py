@@ -27,9 +27,8 @@ class DeviceConnection(QFrame):
 
         self.create_ui()
         self.refresh_ports()
-        self.port_timer = QTimer(self)
-        self.port_timer.timeout.connect(self.refresh_ports)
-        self.port_timer.start(500)
+        
+        self.set_state(ConnectionState.DISCONNECTED)
         self.set_state(ConnectionState.DISCONNECTED)
 
     def create_ui(self):
@@ -154,6 +153,9 @@ class DeviceConnection(QFrame):
 
         if index >= 0:
             self.com_box.setCurrentIndex(index)
+
+    def on_windows_device_change(self):
+        self.refresh_ports()
 
     def toggle_connection(self):
         if self.state is ConnectionState.CONNECTED:

@@ -82,6 +82,4 @@ QPushButton#bootButton:pressed {
 
 QLabel#bootImage {
     background-color: transparent;
-    border: 2px solid #f8f8f8;
-    border-radius: 12px;
 }

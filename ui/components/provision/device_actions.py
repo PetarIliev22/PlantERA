@@ -61,12 +61,12 @@ class DeviceActions(QFrame):
 
             icon_label = QLabel()
             icon_label.setPixmap(
-                svg_icon(
-                    action["icon"],
-                    color,
-                    35
-                ).pixmap(35, 35)
-            )
+            svg_icon(
+                action["icon"],
+                color,
+                35
+            ).pixmap(35, 35)
+        )
             icon_label.setAttribute(
                 Qt.WidgetAttribute.WA_TransparentForMouseEvents
             )

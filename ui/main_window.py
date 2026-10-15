@@ -1,3 +1,6 @@
+import sys
+from ctypes import wintypes
+
 from ui.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
@@ -89,3 +92,24 @@ class MainWindow(QMainWindow):
         else:
             self.showMaximized()
             
+    def nativeEvent(self, eventType, message):
+        if sys.platform == "win32":
+            msg = wintypes.MSG.from_address(int(message))
+
+            if (
+                msg.message == 0x0219
+                and msg.wParam in (0x0007, 0x8000, 0x8004)
+            ):
+                QTimer.singleShot(
+                    300,
+                    self.on_usb_changed
+                )
+
+        return super().nativeEvent(eventType, message)
+
+
+    def on_usb_changed(self):
+        provision = self.page_manager.pages.get("provision")
+
+        if provision is not None:
+            provision.device_connection.on_windows_device_change()

@@ -9,14 +9,22 @@ class DeviceService(QObject):
     def __init__(self):
         super().__init__()
         self.stop_event = None
+        self.worker_thread = None
 
     def start(self, port):
+        if self.worker_thread is not None:
+            if self.worker_thread.is_alive():
+                return
+            
         self.stop_event = threading.Event()
-        threading.Thread(
+        
+        self.worker_thread = threading.Thread(
             target=self.detect,
             args=(port, self.stop_event),
             daemon=True
-        ).start()
+        )
+        
+        self.worker_thread.start()
 
     def stop(self):
         if self.stop_event:
