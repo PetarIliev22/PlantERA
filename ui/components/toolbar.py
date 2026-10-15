@@ -1,4 +1,3 @@
-import qtawesome as qta
 from ui.PySide6_Qt import *
 from utils.paths import resource_path
 
@@ -66,18 +65,21 @@ class Toolbar(QFrame):
         )
 
         layout.addStretch()
-
+        
         buttons = [
-            ("minimize", "fa6s.window-minimize", self.parent.showMinimized),
-            ("maximize", "fa6s.window-maximize", self.parent.toggle_maximize),
-            ("close", "fa6s.xmark", self.parent.close),
+            ("minimize", "minimize.svg", self.parent.showMinimized),
+            ("maximize", "maximize.svg", self.parent.toggle_maximize),
+            ("close", "close.svg", self.parent.close),
         ]
 
         for name, icon, command in buttons:
             button = QPushButton()
             button.setObjectName(f"{name}Button")
             button.setFixedSize(50, 35)
-            button.setIcon(qta.icon(icon, color="#8491A5"))
+            button.setIcon(
+                QIcon(str(resource_path("assets","img", "icons", icon)))
+            )
+            button.setIconSize(QSize(18, 18))
             button.clicked.connect(command)
 
             layout.addWidget(

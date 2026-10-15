@@ -4,28 +4,28 @@
       "id": "flash",
       "title": "Flash Firmware",
       "subtitle": "Upload compiled firmware",
-      "icon": "fa6s.upload",
+      "icon": "upload.svg",
       "color": "#009966"
     },
     {
       "id": "provision",
       "title": "Provision Device",
       "subtitle": "Sign UID and write to device",
-      "icon": "fa6s.key",
+      "icon": "key.svg",
       "color": "#1687F8"
     },
     {
       "id": "verify",
       "title": "Verify Device",
       "subtitle": "Read and verify signature",
-      "icon": "fa6s.circle-check",
+      "icon": "circle-check.svg",
       "color": "#174879"
     },
     {
       "id": "erase",
       "title": "Erase / Reset",
       "subtitle": "Clear stored data",
-      "icon": "fa6s.trash-can",
+      "icon": "trash.svg",
       "color": "#F52235"
     }
   ]

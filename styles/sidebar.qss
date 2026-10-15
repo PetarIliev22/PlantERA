@@ -11,7 +11,7 @@ QFrame#activeIndicator {
 
 QPushButton#sidebarButton {
     background-color: transparent;
-    color: #D5E1F0;
+    color: #ffffff;
     border: none;
     border-radius: 10px;
     text-align: left;

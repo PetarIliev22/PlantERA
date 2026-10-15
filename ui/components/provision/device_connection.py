@@ -1,7 +1,7 @@
-import qtawesome as qta
 from enum import Enum
 from ui.PySide6_Qt import *
 from serial.tools import list_ports
+from utils.svg_icons import svg_icon
 from config.config_loader import load_config
 
 texts = load_config("device_connection.json")
@@ -50,10 +50,7 @@ class DeviceConnection(QFrame):
 
         icon = QLabel()
         icon.setPixmap(
-            qta.icon(
-                "fa6s.link",
-                color="#1687F8"
-            ).pixmap(23, 23)
+            svg_icon("link.svg", "#1687F8", 23).pixmap(23, 23)
         )
 
         title = QLabel("Device Connection")
@@ -82,11 +79,9 @@ class DeviceConnection(QFrame):
         self.refresh_button.setObjectName("refreshButton")
         self.refresh_button.setFixedSize(40, 35)
         self.refresh_button.setIcon(
-            qta.icon(
-                "fa6s.arrows-rotate",
-                color="#1687F8"
-            )
+            svg_icon("refresh.svg", "#1687F8", 20)
         )
+        self.refresh_button.setIconSize(QSize(20, 20))
         self.refresh_button.clicked.connect(self.refresh_ports)
 
         self.connect_button = QPushButton()

@@ -1,7 +1,5 @@
-import qtawesome as qta
-
 from ui.PySide6_Qt import *
-
+from utils.svg_icons import svg_icon
 DEFAULT_VALUE = "Not available"
 
 rows = [
@@ -36,10 +34,7 @@ class DeviceInfo(QFrame):
 
         icon = QLabel()
         icon.setPixmap(
-            qta.icon(
-                "fa6s.microchip",
-                color="#1687F8"
-            ).pixmap(26, 26)
+            svg_icon("microchip.svg", "#1687F8", 26).pixmap(26, 26)
         )
 
         title = QLabel("Device Information")
@@ -71,11 +66,9 @@ class DeviceInfo(QFrame):
             button.setObjectName("copyButton")
             button.setFixedSize(38, 38)
             button.setIcon(
-                qta.icon(
-                    "fa6s.copy",
-                    color="#8491A5"
-                )
+                svg_icon("copy.svg", "#8491A5", 18)
             )
+            button.setIconSize(QSize(18, 18))
             
             button.clicked.connect(
                 lambda: QApplication.clipboard().setText(value.text())

@@ -1,10 +1,8 @@
-
-import qtawesome as qta
 from ui.PySide6_Qt import *
+from utils.paths import resource_path
 from config.config_loader import load_config
 
 sidebar = load_config("sidebar.json")["sidebar"]
-
 
 class Sidebar(QFrame):
     page_changed = Signal(str)
@@ -40,10 +38,7 @@ class Sidebar(QFrame):
             button.setFixedHeight(54)
 
             button.setIcon(
-                qta.icon(
-                    item["icon"],
-                    color="#FFFFFF" if active else "#D5E1F0"
-                )
+                self.get_icon(item["icon"])
             )
 
             button.setIconSize(QSize(20, 20))
@@ -68,6 +63,11 @@ class Sidebar(QFrame):
 
         self.indicator.raise_()
 
+    def get_icon(self, icon_name):
+        return QIcon(
+            str(resource_path("assets", "img", "icons", icon_name))
+        )
+
     def set_active(self, name):
         if name not in self.buttons:
             return
@@ -86,10 +86,7 @@ class Sidebar(QFrame):
             button.update()
 
             button.setIcon(
-                qta.icon(
-                    self.items[page_name]["icon"],
-                    color="#FFFFFF" if active else "#D5E1F0"
-                )
+                self.get_icon(self.items[page_name]["icon"])
             )
 
         self.indicator.move(
@@ -98,3 +95,4 @@ class Sidebar(QFrame):
         )
 
         self.page_changed.emit(name)
+        

@@ -3,31 +3,31 @@
     {
       "name": "provision",
       "text": "Provision Device",
-      "icon": "fa6s.microchip",
+      "icon": "microchip.svg",
       "view": "provision_view.ProvisionView"
     },
     {
       "name": "firmware",
       "text": "Firmware",
-      "icon": "fa6s.download",
+      "icon": "download.svg",
       "view": "firmware_view.FirmwareView"
     },
     {
       "name": "security",
       "text": "Keys & Security",
-      "icon": "fa6s.lock",
+      "icon": "lock.svg",
       "view": "keys_view.KeysView"
     },
     {
       "name": "settings",
       "text": "Settings",
-      "icon": "fa6s.gear",
+      "icon": "gear.svg",
       "view": "settings_view.SettingsView"
     },
     {
       "name": "about",
       "text": "About",
-      "icon": "fa6s.circle-info",
+      "icon": "circle-info.svg",
       "view": "about_view.AboutView"
     }
   ]

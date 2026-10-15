@@ -1,6 +1,5 @@
-import qtawesome as qta
-
 from ui.PySide6_Qt import *
+from utils.svg_icons import svg_icon
 from config.config_loader import load_config
 
 actions = load_config("device_actions.json")["actions"]
@@ -28,10 +27,7 @@ class DeviceActions(QFrame):
 
         icon = QLabel()
         icon.setPixmap(
-            qta.icon(
-                "fa6s.bolt",
-                color="#1687F8"
-            ).pixmap(20, 20)
+            svg_icon("bolt.svg", "#1687F8", 20).pixmap(20, 20)
         )
 
         title = QLabel("Actions")
@@ -65,12 +61,12 @@ class DeviceActions(QFrame):
 
             icon_label = QLabel()
             icon_label.setPixmap(
-                qta.icon(
+                svg_icon(
                     action["icon"],
-                    color=color
+                    color,
+                    35
                 ).pixmap(35, 35)
             )
-
             icon_label.setAttribute(
                 Qt.WidgetAttribute.WA_TransparentForMouseEvents
             )

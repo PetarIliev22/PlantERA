@@ -1,5 +1,3 @@
-import qtawesome as qta
-
 from ui.PySide6_Qt import *
 from config.config_loader import load_config
 from utils.paths import resource_path

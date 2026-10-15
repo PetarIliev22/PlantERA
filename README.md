@@ -112,7 +112,6 @@ The project uses a modular architecture designed to support future firmware prov
 |---|---|
 | Python 3.13 | Main programming language |
 | PySide6 | Desktop application framework |
-| QtAwesome | Interface icons |
 | esptool | ESP32 communication and detection |
 | PySerial | Serial port discovery and management |
 | JSON | Application and hardware configuration |

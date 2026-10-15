@@ -1,7 +1,6 @@
-import qtawesome as qta
-
 from ui.PySide6_Qt import *
 from datetime import datetime
+from utils.svg_icons import svg_icon
 from config.config_loader import load_config
 
 console_config = load_config("device_console.json")
@@ -29,10 +28,7 @@ class DeviceConsole(QFrame):
 
         icon = QLabel()
         icon.setPixmap(
-            qta.icon(
-                "fa6s.terminal",
-                color="#1687F8"
-            ).pixmap(20, 20)
+            svg_icon("terminal.svg", "#1687F8", 20).pixmap(20, 20)
         )
 
         title = QLabel("Device Console")
@@ -41,11 +37,9 @@ class DeviceConsole(QFrame):
         self.clear_button = QPushButton()
         self.clear_button.setObjectName("consoleClearButton")
         self.clear_button.setIcon(
-            qta.icon(
-                "fa6s.trash-can",
-                color="#8491A5"
-            )
+            svg_icon("trash.svg", "#8491A5", 18)
         )
+        self.clear_button.setIconSize(QSize(18, 18))
         self.clear_button.setText("Clear")
         self.clear_button.setFixedSize(85, 32)
 
