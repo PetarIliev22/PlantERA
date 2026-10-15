@@ -10,7 +10,7 @@ class DeviceConsole(QFrame):
         super().__init__(parent)
 
         self.setObjectName("deviceConsoleCard")
-        self.setFixedHeight(280)
+        self.setFixedHeight(270)
 
         self.create_ui()
 
