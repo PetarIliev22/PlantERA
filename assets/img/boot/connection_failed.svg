@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Connection failed</title>
+  <desc id="desc">Red connection status icon, microchip and disconnected cable with a cross.</desc>
+  <circle cx="80" cy="80" r="72" fill="#FFF1F2"/>
+  <circle cx="80" cy="80" r="59" fill="#FFE4E6"/>
+  <rect x="41" y="48" width="56" height="64" rx="12" fill="white" stroke="#E5484D" stroke-width="5"/>
+  <path d="M51 40V48M65 40V48M79 40V48M51 112V120M65 112V120M79 112V120M33 63H41M33 79H41M33 95H41" stroke="#E5484D" stroke-width="5" stroke-linecap="round"/>
+  <rect x="54" y="65" width="30" height="30" rx="7" fill="#FFF1F2" stroke="#FDA4AF" stroke-width="2"/>
+  <path d="M62 73L76 87M76 73L62 87" stroke="#E5484D" stroke-width="4" stroke-linecap="round"/>
+  <path d="M99 80H107C113 80 118 85 118 91V95" stroke="#E5484D" stroke-width="5" stroke-linecap="round" stroke-dasharray="5 9"/>
+  <circle cx="116" cy="108" r="23" fill="#E5484D" stroke="white" stroke-width="4"/>
+  <path d="M108 100L124 116M124 100L108 116" stroke="white" stroke-width="5" stroke-linecap="round"/>
+</svg>

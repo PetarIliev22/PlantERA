@@ -3,18 +3,21 @@
     "title": "Hold the BOOT button",
     "description": "Press and hold BOOT on the ESP32.\nKeep holding until the device is detected.",
     "status": "●  Waiting for ESP32...",
-    "button": "Cancel"
+    "button": "Cancel",
+    "image": "assets/img/boot/boot_hold.png"
   },
   "success": {
     "title": "ESP32 detected",
     "description": "You can release the BOOT button.",
     "status": "●  Device connected",
-    "button": "Continue"
+    "button": "Continue",
+    "image": "assets/img/boot/detected.svg"
   },
   "failed": {
     "title": "Connection failed",
     "description": "ESP32 was not detected.\nCheck the connection and try again.",
     "status": "●  Device not detected",
-    "button": "Try Again"
+    "button": "Try Again",
+    "image": "assets/img/boot/connection_failed.svg"
   }
 }

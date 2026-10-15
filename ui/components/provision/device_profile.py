@@ -33,25 +33,22 @@ class DeviceProfile(QFrame):
         page = QWidget()
 
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(18, 18, 18, 18)
+        layout.setContentsMargins(18, 1, 18, 18)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setSpacing(12)
 
         icon = QLabel()
         icon.setPixmap(
-            qta.icon(
-                "fa6s.microchip",
-                color="#AAB4C3"
-            ).pixmap(48, 48)
+            QPixmap(
+                str(resource_path("assets", "img", "boot", "plantera_no_device_detected.png"))
+            ).scaled(
+                350, 350,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
         )
         icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        text = QLabel("No device detected")
-        text.setObjectName("deviceProfileEmptyText")
-        text.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
         layout.addWidget(icon)
-        layout.addWidget(text)
 
         return page
 

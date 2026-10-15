@@ -19,12 +19,12 @@ class Sidebar(QFrame):
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 5, 15, 20)
+        layout.setContentsMargins(16, 10, 15, 20)
         layout.setSpacing(10)
 
         self.indicator = QFrame(self)
         self.indicator.setObjectName("activeIndicator")
-        self.indicator.setGeometry(0, 5, 4, 54)
+        self.indicator.setGeometry(0, 10, 4, 54)
 
         self.buttons = {}
         self.items = {}

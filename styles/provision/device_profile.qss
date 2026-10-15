@@ -4,12 +4,6 @@ QFrame#deviceProfileCard {
     border-radius: 15px;
 }
 
-QLabel#deviceProfileEmptyText {
-    color: #8491A5;
-    font-size: 15px;
-    font-weight: 600;
-}
-
 QLabel#deviceProfileImage {
     background-color: transparent;
 }

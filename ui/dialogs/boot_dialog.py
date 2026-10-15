@@ -1,5 +1,6 @@
 from enum import Enum
 from ui.PySide6_Qt import *
+from utils.paths import resource_path
 from config.config_loader import load_config
 
 texts = load_config("boot_dialog.json")
@@ -37,18 +38,18 @@ class BootDialog(QFrame):
     def create_ui(self):
         self.card = QFrame(self)
         self.card.setObjectName("bootCard")
-        self.card.setFixedSize(460, 360)
+        self.card.setFixedSize(460, 450)
 
         layout = QVBoxLayout(self.card)
-        layout.setContentsMargins(0, 35, 0, 35)
+        layout.setContentsMargins(30, 28, 30, 28)
         layout.setSpacing(0)
         layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
-        self.boot_icon = QLabel()
-        self.boot_icon.setObjectName("bootIcon")
-        self.boot_icon.setFixedSize(70, 70)
-        self.boot_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
+        self.boot_image = QLabel()
+        self.boot_image.setObjectName("bootImage")
+        self.boot_image.setFixedSize(320, 150)
+        self.boot_image.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
         self.title_label = QLabel()
         self.title_label.setObjectName("bootTitle")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -65,14 +66,14 @@ class BootDialog(QFrame):
         self.button.setObjectName("bootButton")
         self.button.setFixedSize(110, 36)
 
-        layout.addWidget(
-            self.boot_icon,
-            alignment=Qt.AlignmentFlag.AlignHCenter
-        )
         layout.addSpacing(18)
+        
+        layout.addWidget(self.boot_image, alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addSpacing(16)
 
         layout.addWidget(self.title_label)
         layout.addSpacing(10)
+        
 
         layout.addWidget(self.description)
         layout.addSpacing(20)
@@ -87,19 +88,14 @@ class BootDialog(QFrame):
 
     def set_state(self, state):
         data = texts[state.value]
+        image_path = resource_path(*data["image"].split("/"))
+        pixmap = QPixmap(str(image_path))
 
-        icons = {
-            BootState.WAITING: "BOOT",
-            BootState.SUCCESS: "✓",
-            BootState.FAILED: "!"
-        }
-
-        self.boot_icon.setText(icons[state])
+        self.boot_image.setPixmap(pixmap.scaled(280, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
         self.title_label.setText(data["title"])
         self.description.setText(data["description"])
         self.status_label.setText(data["status"])
-
-        self.boot_icon.setProperty("state", state.value)
+        
         self.status_label.setProperty("state", state.value)
 
         self.button.setText(data.get("button", "Cancel"))
@@ -147,9 +143,9 @@ class BootDialog(QFrame):
         self.button_action = action
 
     def refresh_style(self):
-        for widget in (self.boot_icon, self.status_label):
-            widget.style().unpolish(widget)
-            widget.style().polish(widget)
+        widget = self.status_label
+        widget.style().unpolish(widget)
+        widget.style().polish(widget)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

@@ -1,5 +1,5 @@
 QFrame#bootOverlay {
-    background-color: rgba(233, 238, 243, 235);
+    background-color: rgba(15, 23, 42, 165);
 }
 
 QFrame#bootCard {
@@ -78,4 +78,10 @@ QPushButton#bootButton:hover {
 
 QPushButton#bootButton:pressed {
     background-color: #0F172A;
+}
+
+QLabel#bootImage {
+    background-color: #f4f7ff;
+    border: none;
+    border-radius: 12px;
 }

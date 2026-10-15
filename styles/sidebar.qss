@@ -1,5 +1,5 @@
 QFrame#sidebar {
-    background-color: #2F425A;
+    background-color: #111827;
     border: none;
     border-right: 1px solid #26384E;
 }
