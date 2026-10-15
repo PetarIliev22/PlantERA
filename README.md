@@ -121,6 +121,44 @@ The project uses a modular architecture designed to support future firmware prov
 
 ---
 
+## PlantERA Hardware
+
+PlantERA combines an ESP32-based soil moisture monitoring device with a dedicated desktop provisioning and device management application.
+
+<div align="center">
+
+<img src="assets/img/device_pc_1.png" alt="PlantERA Soil Moisture Monitoring Device" width="780">
+
+*PlantERA hardware prototype — ESP32 controller, OLED display and capacitive soil moisture sensor.*
+
+</div>
+
+### Hardware Components
+
+| Component | Description |
+|---|---|
+| **Microcontroller** | ESP32-based development board |
+| **Soil Moisture Sensor** | Capacitive Soil Moisture Sensor V2.0.0 |
+| **Display** | Integrated OLED moisture display |
+| **Enclosure** | Custom compact housing |
+| **Programming** | USB interface |
+
+### Hardware & Software Integration
+
+**PlantERA Monitoring Device**
+
+An ESP32-based hardware prototype designed to measure soil moisture and display readings directly on its integrated OLED screen.
+
+**PlantERA Provisioning Tool**
+
+A Windows desktop application built with Python and PySide6 for identifying connected ESP32 devices, retrieving hardware information and preparing devices for future secure provisioning.
+
+Together, these components form the foundation of the PlantERA hardware and software ecosystem.
+
+> **Development Status:** Firmware flashing, secure provisioning and signature verification are planned features currently under development.
+
+---
+
 ## Installation
 
 ### Requirements
