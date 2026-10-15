@@ -9,44 +9,20 @@ class Toolbar(QFrame):
         self.drag_position = QPoint()
 
         self.setObjectName("toolbar")
-        self.setFixedHeight(80)
+        self.setFixedHeight(86)
 
         self.create_ui()
 
     def create_ui(self):
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(18, 0, 0, 0)
+        layout.setContentsMargins(32, 0, 12, 0)
         layout.setSpacing(0)
-
-        logo = QLabel()
-        logo.setObjectName("toolbarLogo")
-        logo.setFixedSize(180, 80)
-        logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        pixmap = QPixmap(str(resource_path("assets", "img", "logo", "plantera_full_logo.png")))
-        
-        logo.setPixmap(
-            pixmap.scaled(
-                230,
-                80,
-                Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.SmoothTransformation
-            )
-        )
-
-        layout.addWidget(
-            logo,
-            0,
-            Qt.AlignmentFlag.AlignVCenter
-        )
-
-        layout.addSpacing(16)
 
         title_frame = QFrame()
         title_frame.setObjectName("toolbarTitleFrame")
 
         title_layout = QVBoxLayout(title_frame)
-        title_layout.setContentsMargins(25, 0, 0, 0)
+        title_layout.setContentsMargins(0, 0, 0, 0)
         title_layout.setSpacing(0)
 
         title = QLabel("Device Provisioning")
@@ -75,7 +51,8 @@ class Toolbar(QFrame):
         for name, icon, command in buttons:
             button = QPushButton()
             button.setObjectName(f"{name}Button")
-            button.setFixedSize(50, 35)
+            button.setFixedSize(44, 36)
+            button.setCursor(Qt.CursorShape.PointingHandCursor)
             button.setIcon(
                 QIcon(str(resource_path("assets","img", "icons", icon)))
             )

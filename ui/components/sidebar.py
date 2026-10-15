@@ -12,17 +12,40 @@ class Sidebar(QFrame):
         self.active_name = sidebar[0]["name"] if sidebar else None
 
         self.setObjectName("sidebar")
-        self.setFixedWidth(215)
+        self.setFixedWidth(260)
         self.create_ui()
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 10, 15, 20)
+        layout.setContentsMargins(15, 0, 15, 20)
         layout.setSpacing(10)
 
+        logo = QLabel()
+        logo.setObjectName("sidebarLogo")
+        logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        logo.setFixedHeight(90)
+
+        pixmap = QPixmap(
+            str(resource_path(
+                "assets", "img", "logo", "plantera_white_logo.png"
+            ))
+        )
+
+        logo.setPixmap(
+            pixmap.scaled(
+                210,
+                90,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
+        )
+
+        layout.addWidget(logo)
+        layout.addSpacing(20)
+            
         self.indicator = QFrame(self)
         self.indicator.setObjectName("activeIndicator")
-        self.indicator.setGeometry(0, 10, 4, 54)
+        self.indicator.setGeometry(0, 118, 4, 54)
 
         self.buttons = {}
         self.items = {}

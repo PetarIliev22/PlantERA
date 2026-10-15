@@ -1,5 +1,6 @@
 QFrame#toolbar {
-    background-color: #FFFFFF;
+    background-color: #F8FAFD;
+    border-image: url("assets/img/toolbar_bg.png") 0 0 0 0 stretch stretch;
     border: none;
 }
 
@@ -10,37 +11,47 @@ QFrame#toolbarTitleFrame {
 
 QLabel#toolbarTitle {
     background-color: transparent;
-    color: #4d4d4d;
-    font-size: 20px;
+    color: #172B4D;
+    font-size: 21px;
     font-weight: 700;
 }
 
 QLabel#toolbarSubtitle {
     background-color: transparent;
-    color: #777777;
+    color: #7186A3;
     font-size: 13px;
+    font-weight: 400;
 }
 
 QFrame#toolbarBottomLine {
-    background-color: #F1F1F1;
+    background-color: #DCE6F2;
     border: none;
 }
 
 QPushButton#minimizeButton,
 QPushButton#maximizeButton,
 QPushButton#closeButton {
+    margin-top: 4px;
     background-color: transparent;
     border: none;
-    border-radius: 0px;
+    border-radius: 9px;
     padding: 0px;
-    margin: 0px;
 }
 
 QPushButton#minimizeButton:hover,
 QPushButton#maximizeButton:hover {
-    background-color: #F4F7FA;
+    background-color: #E8F1FC;
+}
+
+QPushButton#minimizeButton:pressed,
+QPushButton#maximizeButton:pressed {
+    background-color: #D6E7FA;
 }
 
 QPushButton#closeButton:hover {
-    background-color: #E5484D;
+    background-color: #FDE8EC;
+}
+
+QPushButton#closeButton:pressed {
+    background-color: #FBCDD6;
 }

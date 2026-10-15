@@ -14,7 +14,7 @@ class MainWindow(QMainWindow):
 
         self.setMinimumSize(800, 550)
 
-        width = min(1550, int(screen.width() * 0.9))
+        width = min(1650, int(screen.width() * 0.95))
         height = min(900, int(screen.height() * 0.9))
 
         self.resize(width, height)
@@ -26,37 +26,38 @@ class MainWindow(QMainWindow):
 
         self.create_ui()
         
+    
     def create_ui(self):
         central = QWidget()
         central.setObjectName("mainContainer")
         self.setCentralWidget(central)
 
-        main_layout = QVBoxLayout(central)
+        main_layout = QHBoxLayout(central)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        self.toolbar = Toolbar(self)
-        main_layout.addWidget(self.toolbar)
-
-        content = QWidget()
-        content.setObjectName("mainContent")
-
-        content_layout = QHBoxLayout(content)
-        content_layout.setContentsMargins(0, 0, 0, 0)
-        content_layout.setSpacing(0)
-
         self.sidebar = Sidebar(self)
-        self.page_manager = PageManager(content)
+        main_layout.addWidget(self.sidebar)
+
+        right_container = QWidget()
+        right_container.setObjectName("mainContent")
+
+        right_layout = QVBoxLayout(right_container)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(0)
+
+        self.toolbar = Toolbar(self)
+        right_layout.addWidget(self.toolbar)
+
+        self.page_manager = PageManager(right_container)
+        right_layout.addWidget(self.page_manager, 1)
 
         self.sidebar.page_changed.connect(
             self.page_manager.change_page
         )
 
-        content_layout.addWidget(self.sidebar)
-        content_layout.addWidget(self.page_manager, 1)
-
-        main_layout.addWidget(content, 1)
-
+        main_layout.addWidget(right_container, 1)
+        
     def round_corners(self):
         path = QPainterPath()
         path.addRoundedRect(
