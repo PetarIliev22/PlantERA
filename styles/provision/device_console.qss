@@ -42,7 +42,7 @@ QPushButton#consoleClearButton:disabled {
 }
 
 QPlainTextEdit#consoleOutput {
-    background-color: #111827;
+    background-color: #0C162D;
     color: #E2E8F0;
 
     border: 1px solid #263449;
