@@ -1,0 +1,55 @@
+QDialog#updateDialog {
+    background-color: #101827;
+    border: 1px solid #26354A;
+    border-radius: 16px;
+}
+
+QLabel#updateTitle {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 700;
+    background: transparent;
+}
+
+QLabel#updateDescription {
+    color: #9CAEC3;
+    font-size: 13px;
+    background: transparent;
+}
+
+QPushButton#updateButton {
+    background-color: #1687F8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 9px;
+    padding: 11px 22px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QPushButton#updateButton:hover {
+    background-color: #329AFF;
+}
+
+QPushButton#updateButton:pressed {
+    background-color: #086ACB;
+}
+
+QPushButton#updateButton:disabled {
+    background-color: #34445A;
+    color: #A9B7CA;
+}
+
+QProgressBar#updateProgress {
+    background-color: #253349;
+    border: none;
+    border-radius: 5px;
+    height: 10px;
+    color: transparent;
+    text-align: center;
+}
+
+QProgressBar#updateProgress::chunk {
+    background-color: #1687F8;
+    border-radius: 5px;
+}
