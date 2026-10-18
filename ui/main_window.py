@@ -5,6 +5,7 @@ from ui.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
+from ui.views.provision_view import ProvisionView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -109,7 +110,7 @@ class MainWindow(QMainWindow):
 
 
     def on_usb_changed(self):
-        provision = self.page_manager.pages.get("provision")
-
-        if provision is not None:
-            provision.device_connection.on_windows_device_change()
+        for page in self.page_manager.pages.values():
+            if isinstance(page, ProvisionView):
+                page.device_connection.refresh_ports()
+                break

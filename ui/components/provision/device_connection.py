@@ -151,10 +151,7 @@ class DeviceConnection(QFrame):
 
         if index >= 0:
             self.com_box.setCurrentIndex(index)
-
-    def on_windows_device_change(self):
-        self.refresh_ports()
-
+            
     def toggle_connection(self):
         if self.state is ConnectionState.CONNECTED:
             self.disconnect_device()
