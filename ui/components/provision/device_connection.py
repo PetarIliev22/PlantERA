@@ -131,7 +131,6 @@ class DeviceConnection(QFrame):
             and self.connected_port not in port_names
         ):
             self.disconnect_device()
-            return
 
         if self.state is ConnectionState.CONNECTED:
             return
