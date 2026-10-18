@@ -1,10 +1,12 @@
 
 import os
+import asyncio
 import logging
 
 from dotenv import load_dotenv
-from supabase import acreate_client
+from supabase import create_client
 from utils.paths import resource_path
+from services import supabase_queries
 
 logger = logging.getLogger(__name__)
 
@@ -16,29 +18,25 @@ class SupabaseService:
         self.key = os.environ["SUPABASE_KEY"]
         self.client = None
 
-    async def connect(self):
+    def connect(self):
         if self.client is None:
-            self.client = await acreate_client(self.url, self.key)
+            self.client = create_client(self.url, self.key)
 
         return self.client
 
-    # Get single model
     async def get_device_models(self):
         try:
-            client = await self.connect()
-
-            response = await (
-                client.table("device_models")
-                .select("*")
-                .order("id")
-                .execute()
+            return await asyncio.to_thread(
+                self._execute,
+                supabase_queries.get_device_models
             )
-
-            return response.data
 
         except Exception:
             logger.exception("Failed to fetch device models.")
             raise
-
+    
+    def _execute(self, query):
+        client = self.connect()
+        return query(client)
 
 supabase_service = SupabaseService()
