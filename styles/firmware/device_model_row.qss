@@ -44,3 +44,11 @@ QLabel#modelRowImage {
     border-radius: 10px;
 }
 
+QLabel#modelHardwareVersion {
+    background-color: transparent;
+    border: none;
+    color: #94A3B8;
+    font-size: 11px;
+    font-weight: 500;
+}
+

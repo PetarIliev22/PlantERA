@@ -27,7 +27,7 @@ QPushButton#addModelButton:hover {
 }
 
 QPushButton#addModelButton:pressed {
-    background-color: #0665C4;
+    background-color: #4277ac;
 }
 
 QListWidget#deviceModelsList {

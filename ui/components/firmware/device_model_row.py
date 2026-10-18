@@ -1,9 +1,9 @@
 
 from ui.PySide6_Qt import *
-from utils.paths import resource_path
 from config.config_loader import load_config
+from utils.paths import resource_path
 
-images = load_config("device_images.json")
+IMAGES = load_config("device_images.json")
 
 class DeviceModelRow(QWidget):
     def __init__(self, model, parent=None):
@@ -12,26 +12,26 @@ class DeviceModelRow(QWidget):
         self.setObjectName("deviceModelRow")
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(14, 6, 14, 6)
+        layout.setContentsMargins(12, 6, 12, 6)
         layout.setSpacing(12)
-        
+
         image = QLabel()
         image.setObjectName("modelRowImage")
         image.setFixedSize(52, 52)
         image.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        image_path = images.get(model["model"])
+
+        image_path = IMAGES.get(model["model"])
+
         if image_path:
             pixmap = QPixmap(str(resource_path(image_path)))
-
             image.setPixmap(
                 pixmap.scaled(
-                    44, 44,
+                    60, 60,
                     Qt.AspectRatioMode.KeepAspectRatio,
                     Qt.TransformationMode.SmoothTransformation
                 )
             )
-        
+
         texts = QVBoxLayout()
         texts.setSpacing(3)
 
@@ -41,10 +41,14 @@ class DeviceModelRow(QWidget):
         name = QLabel(model["name"])
         name.setObjectName("modelName")
 
+        version = QLabel(f"HW v{model['hardware_version']}")
+        version.setObjectName("modelHardwareVersion")
+
         texts.addWidget(code)
         texts.addWidget(name)
+        texts.addWidget(version)
 
-        ports = QLabel(f"{model['port_count']} Ports")
+        ports = QLabel(f"{model['port_count']} Port(s)")
         ports.setObjectName("modelPorts")
 
         arrow = QLabel("›")
