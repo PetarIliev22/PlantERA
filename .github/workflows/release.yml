@@ -43,7 +43,7 @@ jobs:
           "SUPABASE_URL=$env:SUPABASE_URL" | Set-Content ".env"
           "SUPABASE_KEY=$env:SUPABASE_KEY" | Add-Content ".env"
 
-          python -m PyInstaller --noconfirm --clean --onefile --console `
+          python -m PyInstaller --noconfirm --clean --onefile --windowed `
             --name PlantERA `
             --icon "assets/img/logo/plantera_logo.ico" `
             --add-data "assets;assets" `
@@ -58,7 +58,7 @@ jobs:
             main.py
 
           Remove-Item ".env" -ErrorAction SilentlyContinue
-          
+
       - name: Generate SHA256
         shell: pwsh
         run: |
