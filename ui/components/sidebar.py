@@ -1,5 +1,6 @@
 from ui.PySide6_Qt import *
 from utils.paths import resource_path
+from utils.animations import fade_in_page
 from config.config_loader import load_config
 from ui.components.sidebar_profile import SidebarProfile
 
@@ -52,7 +53,7 @@ class Sidebar(QFrame):
 
         self.buttons = {}
 
-        for item in sidebar:
+        for index, item in enumerate(sidebar):
             name = item["name"]
             active = name == self.active_name
 
@@ -62,10 +63,7 @@ class Sidebar(QFrame):
             button.setProperty("active", active)
             button.setFixedHeight(54)
 
-            button.setIcon(
-                self.get_icon(item["icon"])
-            )
-
+            button.setIcon(self.get_icon(item["icon"]))
             button.setIconSize(QSize(20, 20))
             button.setCursor(Qt.CursorShape.PointingHandCursor)
 
@@ -74,8 +72,24 @@ class Sidebar(QFrame):
             )
 
             self.buttons[name] = button
-
             layout.addWidget(button)
+
+            opacity = QGraphicsOpacityEffect(button)
+            button.setGraphicsEffect(opacity)
+            opacity.setOpacity(0.0)
+
+            animation = QPropertyAnimation(opacity, b"opacity", button)
+            animation.setDuration(900)
+            animation.setStartValue(0.0)
+            animation.setEndValue(1.0)
+            animation.setEasingCurve(QEasingCurve.Type.OutCubic)
+
+            button.fade_animation = animation
+
+            QTimer.singleShot(
+                index * 70,
+                animation.start
+            )
 
         layout.addStretch()
         self.profile = SidebarProfile(self)
