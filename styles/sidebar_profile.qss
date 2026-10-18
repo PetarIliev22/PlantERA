@@ -1,0 +1,29 @@
+QFrame#sidebarProfile {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+QLabel#profileAvatar {
+    background-color: #173763;
+    color: #FFFFFF;
+    border: 1px solid #31547F;
+    border-radius: 22px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#profileName {
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QLabel#profileRole {
+    background: transparent;
+    border: none;
+    color: #9FB3C8;
+    font-size: 11px;
+}

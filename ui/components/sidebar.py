@@ -1,6 +1,7 @@
 from ui.PySide6_Qt import *
 from utils.paths import resource_path
 from config.config_loader import load_config
+from ui.components.sidebar_profile import SidebarProfile
 
 sidebar = load_config("sidebar.json")["sidebar"]
 
@@ -77,7 +78,10 @@ class Sidebar(QFrame):
             layout.addWidget(button)
 
         layout.addStretch()
-
+        self.profile = SidebarProfile(self)
+        layout.addWidget(self.profile)
+        layout.addSpacing(10)
+        
         footer = QLabel("© 2026 Plantera Software")
         footer.setObjectName("sidebarFooter")
         footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
