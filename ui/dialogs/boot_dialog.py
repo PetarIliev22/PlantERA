@@ -19,6 +19,7 @@ class BootDialog(QFrame):
         self.port = port
         self.button_action = None
         self.on_connected = on_connected
+        self.cancelled = False
 
         self.service = DeviceService()
         self.service.detected.connect(self.device_detected)
@@ -109,6 +110,9 @@ class BootDialog(QFrame):
         self.refresh_style()
 
     def device_detected(self, info):
+        if self.cancelled:
+            return
+        
         self.set_state(BootState.SUCCESS)
         self.on_connected(info)
 
@@ -122,16 +126,20 @@ class BootDialog(QFrame):
             )
 
     def try_again(self):
+        if not self.service.start(self.port):
+            return
+        
         self.set_state(BootState.WAITING)
+        
         if self.on_log:
             self.on_log(
                 "retry_connection",
                 "INFO",
                 {"port": self.port}
             )
-        self.service.start(self.port)
 
     def cancel(self):
+        self.cancelled = True
         self.service.stop()
         self.deleteLater()
 

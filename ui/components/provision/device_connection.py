@@ -27,8 +27,6 @@ class DeviceConnection(QFrame):
 
         self.create_ui()
         self.refresh_ports()
-        
-        self.set_state(ConnectionState.DISCONNECTED)
         self.set_state(ConnectionState.DISCONNECTED)
 
     def create_ui(self):
