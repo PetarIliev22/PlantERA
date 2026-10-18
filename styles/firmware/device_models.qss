@@ -34,25 +34,21 @@ QListWidget#deviceModelsList {
     background-color: transparent;
     border: none;
     outline: none;
-    font-size: 14px;
-    color: #334155;
+    spacing: 6px;
 }
 
 QListWidget#deviceModelsList::item {
-    background-color: #F4F7FC;
+    background-color: #F8FAFD;
     border: 1px solid #E7EDF5;
-    border-radius: 9px;
-    padding: 13px 12px;
-    margin-bottom: 5px;
+    border-radius: 10px;
 }
 
 QListWidget#deviceModelsList::item:hover {
-    background-color: #EAF3FF;
+    background-color: #EAF4FF;
     border: 1px solid #C7DEFA;
 }
 
 QListWidget#deviceModelsList::item:selected {
     background-color: #E3F0FF;
-    color: #1266C3;
     border: 1px solid #1687F8;
 }

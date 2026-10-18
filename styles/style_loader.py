@@ -17,6 +17,7 @@ def load_styles():
         "provision/provision_scroll.qss",
         "firmware/device_models.qss",
         "firmware/model_details.qss",
+        "firmware/device_model_row.qss",
     ]
 
     styles = "\n".join(

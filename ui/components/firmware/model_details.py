@@ -1,6 +1,7 @@
 
 from ui.PySide6_Qt import *
 from utils.svg_icons import svg_icon
+from utils.paths import resource_path
 
 class ModelDetails(QFrame):
     def __init__(self, parent=None):
@@ -55,10 +56,6 @@ class ModelDetails(QFrame):
         layout.addWidget(self.port_count)
 
     def set_model(self, model):
-        self.name.setText(
-            model.get("name") or model.get("model", "")
-        )
-
         self.description.setText(
             model.get("description") or ""
         )

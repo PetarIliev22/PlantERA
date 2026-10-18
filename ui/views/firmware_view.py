@@ -2,6 +2,7 @@
 from ui.PySide6_Qt import *
 from ui.components.firmware.device_models import DeviceModels
 from ui.components.firmware.model_details import ModelDetails
+from services.supabase_service import SupabaseService
 from utils.shadow import apply_shadow
 
 class FirmwareView(QFrame):
@@ -11,6 +12,8 @@ class FirmwareView(QFrame):
         self.setObjectName("firmwareView")
         self.create_ui()
 
+        self.load_models()
+        
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(25, 25, 25, 25)
@@ -44,3 +47,8 @@ class FirmwareView(QFrame):
         self.device_models.model_selected.connect(
             self.model_details.set_model
         )
+        
+    def load_models(self):
+            models = SupabaseService().get_device_models()
+            self.device_models.set_models(models)
+    

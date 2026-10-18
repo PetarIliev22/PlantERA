@@ -1,0 +1,46 @@
+
+QWidget#deviceModelRow {
+    background-color: transparent;
+    border: none;
+}
+
+QLabel#modelCode {
+    background-color: transparent;
+    color: #172B4D;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+}
+
+QLabel#modelName {
+    background-color: transparent;
+    color: #738199;
+    font-size: 12px;
+    font-weight: 400;
+    border: none;
+}
+
+QLabel#modelPorts {
+    background-color: #E3F0FF;
+    color: #1687F8;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QLabel#modelArrow {
+    background-color: transparent;
+    color: #1687F8;
+    border: none;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+QLabel#modelRowImage {
+    background-color: #EDF5FF;
+    border: none;
+    border-radius: 10px;
+}
+

@@ -53,3 +53,4 @@ class SupabaseService:
                 "Unexpected error while fetching device models."
             )
             raise
+    
