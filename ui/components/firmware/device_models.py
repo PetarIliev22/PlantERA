@@ -6,7 +6,8 @@ from ui.components.loading_spinner import LoadingSpinner
 
 class DeviceModels(QFrame):
     model_selected = Signal(dict)
-
+    retry_requested = Signal()
+    
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -87,13 +88,39 @@ class DeviceModels(QFrame):
         loading_layout.addWidget(loading_title)
         loading_layout.addWidget(loading_subtitle)
 
+        # Error state
+        self.error_state = QWidget()
+        error_layout = QVBoxLayout(self.error_state)
+        error_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        error_layout.setSpacing(12)
+
+        error_title = QLabel("Failed to load models")
+        error_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        error_description = QLabel("Check your connection and try again.")
+        error_description.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.retry_button = QPushButton("Try Again")
+        self.retry_button.setObjectName("retryModelsButton")
+        self.retry_button.setFixedSize(130, 36)
+        self.retry_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.retry_button.clicked.connect(self.retry_requested.emit)
+
+        error_layout.addWidget(error_title)
+        error_layout.addWidget(error_description)
+        error_layout.addWidget(
+            self.retry_button,
+            alignment=Qt.AlignmentFlag.AlignCenter
+        )
+
         # Content stack
         self.content_stack = QStackedWidget()
 
         for widget in (
             self.loading_state,
             self.empty_state,
-            self.models_list
+            self.models_list,
+            self.error_state
         ):
             self.content_stack.addWidget(widget)
 
@@ -135,3 +162,7 @@ class DeviceModels(QFrame):
         )
 
         self.model_selected.emit(model)
+    
+    def set_error(self):
+        self.spinner.stop()
+        self.content_stack.setCurrentWidget(self.error_state)

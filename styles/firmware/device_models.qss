@@ -66,3 +66,16 @@ QLabel#modelsLoadingSubtitle {
     font-size: 12px;
     font-weight: 400;
 }
+
+QPushButton#retryModelsButton {
+    background-color: #1687F8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+QPushButton#retryModelsButton:hover {
+    background-color: #0874DE;
+}

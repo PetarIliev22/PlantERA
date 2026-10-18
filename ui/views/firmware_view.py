@@ -48,6 +48,10 @@ class FirmwareView(QFrame):
             self.model_details.set_model
         )
         
+        self.device_models.retry_requested.connect(
+            lambda: asyncio.create_task(self.load_models())
+        )
+        
     async def load_models(self):
         self.device_models.set_loading()
         try:
@@ -60,7 +64,7 @@ class FirmwareView(QFrame):
             self.device_models.set_models(models)
 
         except Exception as error:
-            self.device_models.set_models([])
+            self.device_models.set_error()
             print(f"Supabase Error: {error}")
 
 
