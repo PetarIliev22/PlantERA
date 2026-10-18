@@ -37,6 +37,7 @@ jobs:
             --add-data "assets;assets" `
             --add-data "styles;styles" `
             --add-data "config;config" `
+            --collect-submodules ui.views `
             --collect-all esptool `
             main.py
 
