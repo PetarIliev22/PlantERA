@@ -4,9 +4,7 @@ from utils.paths import resource_path
 class Toolbar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
-        self.window()
         self.drag_position = QPoint()
-
         self.setObjectName("toolbar")
         self.setFixedHeight(86)
 
@@ -43,7 +41,7 @@ class Toolbar(QFrame):
         
         buttons = [
             ("minimize", "minimize.svg", self.window().showMinimized),
-            ("maximize", "maximize.svg", self.window().showMaximized),
+            ("maximize", "maximize.svg", self.window().toggle_maximize),
             ("close", "close.svg", self.window().close),
         ]
 

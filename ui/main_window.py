@@ -28,6 +28,11 @@ class MainWindow(QMainWindow):
             screen.y() + (screen.height() - height) // 2
         )
 
+        self.usb_timer = QTimer(self)
+        self.usb_timer.setSingleShot(True)
+        self.usb_timer.setInterval(300)
+        self.usb_timer.timeout.connect(self.on_usb_changed)
+        
         self.create_ui()
         
     
@@ -101,16 +106,14 @@ class MainWindow(QMainWindow):
                 msg.message == 0x0219
                 and msg.wParam in (0x0007, 0x8000, 0x8004)
             ):
-                QTimer.singleShot(
-                    300,
-                    self.on_usb_changed
-                )
+                
+                self.usb_timer.start()
 
         return super().nativeEvent(eventType, message)
 
 
     def on_usb_changed(self):
-        for page in self.page_manager.pages.values():
-            if isinstance(page, ProvisionView):
-                page.device_connection.refresh_ports()
-                break
+        provision = self.page_manager.pages.get("provision")
+
+        if isinstance(provision, ProvisionView):
+            provision.device_connection.refresh_ports()

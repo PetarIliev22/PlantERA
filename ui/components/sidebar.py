@@ -48,7 +48,6 @@ class Sidebar(QFrame):
         self.indicator.setGeometry(0, 118, 4, 54)
 
         self.buttons = {}
-        self.items = {}
 
         for item in sidebar:
             name = item["name"]
@@ -72,7 +71,6 @@ class Sidebar(QFrame):
             )
 
             self.buttons[name] = button
-            self.items[name] = item
 
             layout.addWidget(button)
 

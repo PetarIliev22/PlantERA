@@ -12,7 +12,12 @@ class PageManager(QStackedWidget):
 
         self.setObjectName("mainPages")
         self.pages = {}
-
+        
+        self.page_configs = {
+            item["name"]: item
+            for item in sidebarItems
+        }
+        
         if sidebarItems:
             self.change_page(sidebarItems[0]["name"])
 
@@ -20,23 +25,19 @@ class PageManager(QStackedWidget):
     def get_or_create_page(self, name):
         page = self.pages.get(name)
 
-        if page is None:
-            item = next(
-                (item for item in sidebarItems if item["name"] == name),
-                None
-            )
+        item = self.page_configs.get(name)
 
-            if item is None:
-                return None
+        if item is None:
+            return None
 
-            module_name, class_name = item["view"].rsplit(".", 1)
-            module = import_module(f"ui.views.{module_name}")
+        module_name, class_name = item["view"].rsplit(".", 1)
+        module = import_module(f"ui.views.{module_name}")
 
-            view_class = getattr(module, class_name)
-            page = view_class(self)
+        view_class = getattr(module, class_name)
+        page = view_class(self)
 
-            self.pages[name] = page
-            self.addWidget(page)
+        self.pages[name] = page
+        self.addWidget(page)
 
         return page
 
