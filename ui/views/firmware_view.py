@@ -17,7 +17,7 @@ class FirmwareView(QFrame):
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(25, 25, 25, 25)
-        layout.setSpacing(20)
+        layout.setSpacing(10)
 
         # Top components
         self.device_models = DeviceModels(self)

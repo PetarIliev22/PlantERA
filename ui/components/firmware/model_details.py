@@ -6,7 +6,6 @@ from config.config_loader import load_config
 
 IMAGES = load_config("device_images.json")
 
-
 class ModelDetails(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -16,8 +15,8 @@ class ModelDetails(QFrame):
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(14, 16, 14, 14)
-        layout.setSpacing(10)
+        layout.setContentsMargins(14, 12, 14, 12)
+        layout.setSpacing(0)
 
         # Header
         header = QHBoxLayout()
@@ -40,23 +39,24 @@ class ModelDetails(QFrame):
 
         # Main content
         content = QHBoxLayout()
-        content.setSpacing(18)
+        content.setSpacing(12)
 
         # Left: device image
         self.image = QLabel()
         self.image.setObjectName("modelDetailsImage")
         self.image.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.image.setMinimumWidth(150)
+        self.image.setFixedHeight(190)
         self.image.setSizePolicy(
-            QSizePolicy.Policy.Expanding,
-            QSizePolicy.Policy.Expanding
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Fixed
         )
 
-        content.addWidget(self.image, 1)
+        content.addWidget(self.image, 0, Qt.AlignmentFlag.AlignTop)
 
         # Right: device information
         info = QVBoxLayout()
-        info.setSpacing(6)
+        info.setSpacing(4)
 
         self.name = QLabel()
         self.name.setObjectName("modelDetailsName")
@@ -90,7 +90,7 @@ class ModelDetails(QFrame):
         info.addWidget(specifications_title)
 
         self.specifications_layout = QGridLayout()
-        self.specifications_layout.setSpacing(6)
+        self.specifications_layout.setSpacing(4)
         info.addLayout(self.specifications_layout)
 
         # Description
@@ -105,17 +105,31 @@ class ModelDetails(QFrame):
         info.addWidget(self.description)
         info.addStretch()
 
-        content.addLayout(info, 2)
+        content.addLayout(info, 1)
 
         self.details_widget = QWidget()
+        self.details_widget.setObjectName("modelDetailsContent")
         self.details_widget.setLayout(content)
 
         self.content_stack = QStackedWidget()
 
         self.skeleton = self.create_skeleton()
 
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setObjectName("modelDetailsScroll")
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self.scroll_area.setHorizontalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+        )
+        self.scroll_area.setVerticalScrollBarPolicy(
+            Qt.ScrollBarPolicy.ScrollBarAsNeeded
+        )
+
+        self.scroll_area.setWidget(self.details_widget)
+
         self.content_stack.addWidget(self.skeleton)
-        self.content_stack.addWidget(self.details_widget)
+        self.content_stack.addWidget(self.scroll_area)
 
         layout.addWidget(self.content_stack, 1)
 
@@ -149,7 +163,7 @@ class ModelDetails(QFrame):
             pixmap = QPixmap(str(resource_path(image_path)))
             self.image.setPixmap(
                 pixmap.scaled(
-                    200, 260,
+                    180, 180,
                     Qt.AspectRatioMode.KeepAspectRatio,
                     Qt.TransformationMode.SmoothTransformation
                 )
@@ -181,7 +195,7 @@ class ModelDetails(QFrame):
                 index % 2
             )
             
-        self.content_stack.setCurrentWidget(self.details_widget)
+        self.content_stack.setCurrentWidget(self.scroll_area)
             
     def create_skeleton(self):
         skeleton = QWidget()
