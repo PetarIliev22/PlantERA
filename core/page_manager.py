@@ -24,6 +24,9 @@ class PageManager(QStackedWidget):
    
     def get_or_create_page(self, name):
         page = self.pages.get(name)
+        
+        if page is not None:
+            return page
 
         item = self.page_configs.get(name)
 
