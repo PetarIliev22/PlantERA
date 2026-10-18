@@ -108,21 +108,6 @@ class ProvisionView(QFrame):
             self.console_log
         )
 
-
-    def fade_in(self):
-        window = self.window()
-
-        self.fade_animation = QPropertyAnimation(
-            window,
-            b"windowOpacity"
-        )
-
-        self.fade_animation.setDuration(200)
-        self.fade_animation.setStartValue(0.0)
-        self.fade_animation.setEndValue(1.0)
-        self.fade_animation.start()
-
-    
     def device_connected(self, port, info):
         self.device_info.set_device_info(
             chip=info["chip"],

@@ -14,7 +14,6 @@ class ConnectionState(Enum):
 class DeviceConnection(QFrame):
     connected = Signal(str, dict)
     disconnected = Signal()
-    connection_failed = Signal(str)
     log_requested = Signal(str, str, dict)
 
     def __init__(self, parent):

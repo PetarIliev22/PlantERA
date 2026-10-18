@@ -84,7 +84,10 @@ class DeviceModels(QFrame):
         for label in (loading_title, loading_subtitle):
             label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        loading_layout.addWidget(self.spinner,alignment=Qt.AlignmentFlag.AlignCenter)
+        loading_layout.addWidget(
+            self.spinner,
+            alignment=Qt.AlignmentFlag.AlignCenter
+        )
         loading_layout.addWidget(loading_title)
         loading_layout.addWidget(loading_subtitle)
 
