@@ -49,6 +49,7 @@ class FirmwareView(QFrame):
         )
         
     async def load_models(self):
+        self.device_models.set_loading()
         try:
             module = await asyncio.to_thread(
                 import_module,

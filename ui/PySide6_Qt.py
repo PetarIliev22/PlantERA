@@ -21,5 +21,6 @@ from PySide6.QtWidgets import (
     QGraphicsDropShadowEffect,
     QStackedWidget,
     QListWidget,
-    QListWidgetItem
+    QListWidgetItem,
+    QGridLayout
 )

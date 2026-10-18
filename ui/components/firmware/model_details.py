@@ -2,6 +2,10 @@
 from ui.PySide6_Qt import *
 from utils.svg_icons import svg_icon
 from utils.paths import resource_path
+from config.config_loader import load_config
+
+IMAGES = load_config("device_images.json")
+
 
 class ModelDetails(QFrame):
     def __init__(self, parent=None):
@@ -12,9 +16,10 @@ class ModelDetails(QFrame):
 
     def create_ui(self):
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(18, 15, 18, 18)
-        layout.setSpacing(12)
+        layout.setContentsMargins(14, 16, 14, 14)
+        layout.setSpacing(10)
 
+        # Header
         header = QHBoxLayout()
         header.setContentsMargins(10, 0, 0, 0)
         header.setSpacing(10)
@@ -33,32 +38,79 @@ class ModelDetails(QFrame):
 
         layout.addLayout(header)
 
+        # Main content
+        content = QHBoxLayout()
+        content.setSpacing(18)
+
+        # Left: device image
         self.image = QLabel()
         self.image.setObjectName("modelDetailsImage")
         self.image.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.image.setMinimumHeight(120)
+        self.image.setMinimumWidth(150)
+        self.image.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding
+        )
 
-        layout.addWidget(self.image, 1)
+        content.addWidget(self.image, 1)
+
+        # Right: device information
+        info = QVBoxLayout()
+        info.setSpacing(6)
+
+        self.name = QLabel()
+        self.name.setObjectName("modelDetailsName")
+        self.name.setWordWrap(True)
+
+        self.code = QLabel()
+        self.code.setObjectName("modelDetailsCode")
+
+        self.hardware_version = QLabel()
+        self.hardware_version.setObjectName("modelDetailsMeta")
+
+        self.port_count = QLabel()
+        self.port_count.setObjectName("modelDetailsMeta")
+
+        self.ports = QLabel()
+        self.ports.setObjectName("modelDetailsMeta")
+        self.ports.setWordWrap(True)
+
+        for widget in (
+            self.name,
+            self.code,
+            self.hardware_version,
+            self.port_count,
+            self.ports
+        ):
+            info.addWidget(widget)
+
+        # Technical specifications
+        specifications_title = QLabel("Technical Specifications")
+        specifications_title.setObjectName("modelDetailsSectionTitle")
+        info.addWidget(specifications_title)
+
+        self.specifications_layout = QGridLayout()
+        self.specifications_layout.setSpacing(6)
+        info.addLayout(self.specifications_layout)
+
+        # Description
+        description_title = QLabel("Description")
+        description_title.setObjectName("modelDetailsSectionTitle")
 
         self.description = QLabel()
         self.description.setObjectName("modelDetailsDescription")
         self.description.setWordWrap(True)
-        self.description.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.hardware_version = QLabel()
-        self.hardware_version.setObjectName("modelDetailsInfo")
+        info.addWidget(description_title)
+        info.addWidget(self.description)
+        info.addStretch()
 
-        self.port_count = QLabel()
-        self.port_count.setObjectName("modelDetailsInfo")
-
-        layout.addWidget(self.description)
-        layout.addWidget(self.hardware_version)
-        layout.addWidget(self.port_count)
+        content.addLayout(info, 2)
+        layout.addLayout(content, 1)
 
     def set_model(self, model):
-        self.description.setText(
-            model.get("description") or ""
-        )
+        self.name.setText(model.get("name") or "")
+        self.code.setText(model["model"])
 
         self.hardware_version.setText(
             f"Hardware Version: {model.get('hardware_version') or 'N/A'}"
@@ -67,3 +119,53 @@ class ModelDetails(QFrame):
         self.port_count.setText(
             f"Sensor Ports: {model.get('port_count', 0)}"
         )
+
+        ports = model.get("ports") or {}
+        self.ports.setText(
+            "Port Mapping: " + ", ".join(
+                f"{port} → GPIO{data['gpio']}"
+                for port, data in ports.items()
+            )
+        )
+
+        self.description.setText(model.get("description") or "")
+
+        # Device image
+        self.image.clear()
+        image_path = IMAGES.get(model["model"])
+
+        if image_path:
+            pixmap = QPixmap(str(resource_path(image_path)))
+            self.image.setPixmap(
+                pixmap.scaled(
+                    200, 260,
+                    Qt.AspectRatioMode.KeepAspectRatio,
+                    Qt.TransformationMode.SmoothTransformation
+                )
+            )
+
+        # Clear previous specifications
+        while self.specifications_layout.count():
+            item = self.specifications_layout.takeAt(0)
+
+            if item.widget():
+                item.widget().deleteLater()
+
+        # Specifications from Supabase
+        specifications = model.get("specifications") or {}
+
+        for index, (key, value) in enumerate(specifications.items()):
+            label = key.replace("_", " ").title()
+
+            if isinstance(value, list):
+                value = ", ".join(map(str, value))
+
+            field = QLabel(f"{label}\n{value}")
+            field.setObjectName("modelSpecification")
+            field.setWordWrap(True)
+
+            self.specifications_layout.addWidget(
+                field,
+                index // 2,
+                index % 2
+            )

@@ -1,3 +1,6 @@
+
+/* MODEL DETAILS */
+
 QFrame#modelDetailsCard {
     background-color: #FFFFFF;
     border: 1px solid #F3F3F3;
@@ -5,30 +8,74 @@ QFrame#modelDetailsCard {
 }
 
 QLabel#modelDetailsTitle {
-    background-color: transparent;
-    border: none;
     color: #1687F8;
     font-size: 17px;
     font-weight: 700;
+    background: transparent;
+    border: none;
+}
+
+QScrollArea#modelDetailsScroll {
+    background: transparent;
+    border: none;
+}
+
+QScrollArea#modelDetailsScroll > QWidget > QWidget {
+    background: transparent;
 }
 
 QLabel#modelDetailsImage {
-    background-color: transparent;
+    background-color: #F5F8FC;
     border: none;
+    border-radius: 12px;
+}
+
+QLabel#modelDetailsName {
+    color: #172B4D;
+    font-size: 17px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+}
+
+QLabel#modelDetailsCode {
+    color: #1687F8;
+    font-size: 14px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+}
+
+QLabel#modelDetailsMeta {
+    color: #64748B;
+    font-size: 13px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+}
+
+QLabel#modelDetailsSectionTitle {
+    color: #172B4D;
+    font-size: 14px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+}
+
+QLabel#modelSpecification {
+    background-color: #F4F8FD;
+    color: #334155;
+    border: 1px solid #E7EDF5;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 QLabel#modelDetailsDescription {
-    background-color: transparent;
-    border: none;
     color: #738199;
     font-size: 13px;
     font-weight: 400;
-}
-
-QLabel#modelDetailsInfo {
-    background-color: transparent;
+    background: transparent;
     border: none;
-    color: #444444;
-    font-size: 14px;
-    font-weight: 500;
 }
