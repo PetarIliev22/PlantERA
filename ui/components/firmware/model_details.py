@@ -148,7 +148,7 @@ class ModelDetails(QFrame):
         ports = model.get("ports") or {}
         self.ports.setText(
             "Port Mapping: " + ", ".join(
-                f"{port} → GPIO{data['gpio']}"
+                f"{port} → GPIO{data.get('gpio', 'N/A')}"
                 for port, data in ports.items()
             )
         )

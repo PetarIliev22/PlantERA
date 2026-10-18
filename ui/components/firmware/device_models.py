@@ -1,7 +1,6 @@
 
 from ui.PySide6_Qt import *
 from utils.svg_icons import svg_icon
-from utils.animations import fade_in_page
 from ui.components.firmware.device_model_row import DeviceModelRow
 from ui.components.loading_spinner import LoadingSpinner
 
@@ -126,7 +125,6 @@ class DeviceModels(QFrame):
         
         if models:
             self.models_list.setCurrentRow(0)
-            fade_in_page(self.models_list, 350)
 
     def on_model_selected(self, current, previous):
         if current is None:
