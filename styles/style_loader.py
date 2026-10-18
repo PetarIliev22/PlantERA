@@ -2,7 +2,7 @@ from pathlib import Path
 from utils.paths import resource_path
 
 def load_styles():
-    styles_dir = Path(__file__).parent
+    styles_dir = resource_path("styles")
 
     files = [
         "main_window.qss",
@@ -21,7 +21,6 @@ def load_styles():
         (styles_dir / file).read_text(encoding="utf-8")
         for file in files
     )
-
     assets_path = resource_path("assets", "img").as_posix()
 
     styles = styles.replace(

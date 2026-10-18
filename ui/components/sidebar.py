@@ -91,6 +91,14 @@ class Sidebar(QFrame):
             str(resource_path("assets", "img", "icons", icon_name))
         )
 
+    def update_button(self, name, active):
+        button = self.buttons[name]
+
+        button.setProperty("active", active)
+        button.style().unpolish(button)
+        button.style().polish(button)
+        button.update()
+
     def set_active(self, name):
         if name not in self.buttons:
             return
@@ -98,19 +106,11 @@ class Sidebar(QFrame):
         if name == self.active_name:
             return
 
+        if self.active_name in self.buttons:
+            self.update_button(self.active_name, False)
+
         self.active_name = name
-
-        for page_name, button in self.buttons.items():
-            active = page_name == name
-
-            button.setProperty("active", active)
-            button.style().unpolish(button)
-            button.style().polish(button)
-            button.update()
-
-            button.setIcon(
-                self.get_icon(self.items[page_name]["icon"])
-            )
+        self.update_button(name, True)
 
         self.indicator.move(
             0,

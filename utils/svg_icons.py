@@ -1,11 +1,13 @@
 import re
+from functools import lru_cache
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap, QPainter
 from PySide6.QtSvg import QSvgRenderer
 
 from utils.paths import resource_path
 
-def svg_icon(filename, color="#8491A5", size=24):
+@lru_cache(maxsize=128)
+def svg_icon(filename, color, size=24):
     path = resource_path("assets", "img", "icons", filename)
 
     svg = path.read_text(encoding="utf-8")

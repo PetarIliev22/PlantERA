@@ -11,7 +11,6 @@ class DeviceConsole(QFrame):
 
         self.setObjectName("deviceConsoleCard")
         self.setFixedHeight(270)
-
         self.create_ui()
 
     def create_ui(self):
@@ -63,9 +62,16 @@ class DeviceConsole(QFrame):
         )
 
         layout.addWidget(self.console)
+    
+    @staticmethod
+    def create_text_format(color, bold=False):
+        fmt = QTextCharFormat()
+        fmt.setForeground(QColor(color))
 
-    def clear_logs(self):
-        self.console.clear()
+        if bold:
+            fmt.setFontWeight(QFont.Weight.Bold)
+
+        return fmt  
 
     def append_log(self, message, level=None):
         appearance = console_config["appearance"]
@@ -86,9 +92,8 @@ class DeviceConsole(QFrame):
         cursor.movePosition(QTextCursor.MoveOperation.End)
 
         # Timestamp
-        timestamp_format = QTextCharFormat()
-        timestamp_format.setForeground(
-            QColor(appearance["timestamp_color"])
+        timestamp_format = self.create_text_format(
+            appearance["timestamp_color"]
         )
 
         cursor.insertText(
@@ -97,9 +102,9 @@ class DeviceConsole(QFrame):
         )
 
         # Level
-        level_format = QTextCharFormat()
-        level_format.setForeground(QColor(color))
-        level_format.setFontWeight(QFont.Weight.Bold)
+        level_format = self.create_text_format(
+            color, bold=True
+        )
 
         cursor.insertText(
             f"[{level}] ",
@@ -107,9 +112,8 @@ class DeviceConsole(QFrame):
         )
 
         # Message
-        message_format = QTextCharFormat()
-        message_format.setForeground(
-            QColor(appearance["message_color"])
+        message_format = self.create_text_format(
+            appearance["message_color"]
         )
 
         cursor.insertText(
@@ -122,7 +126,6 @@ class DeviceConsole(QFrame):
         self.console.setTextCursor(cursor)
         self.console.ensureCursorVisible()
         
-    
     def log(self, key, level=None, **kwargs):
         message = console_config["messages"][key].format(
             **kwargs

@@ -24,9 +24,9 @@ class DeviceInfo(QFrame):
         layout.setSpacing(8)
 
         self.create_title(layout)
-        
+        self.fields = {}
         for name, text, copy in rows:
-            setattr(self, name, self.create_row(layout, text, copy))
+            self.fields[name] = self.create_row(layout, text, copy)
         
     def create_title(self, layout):
         row = QHBoxLayout()
@@ -82,10 +82,9 @@ class DeviceInfo(QFrame):
         return value
     
     def set_device_info(self, **info):
-        for name, *_ in rows:
-            getattr(self, name).setText(
-                info.get(name) or DEFAULT_VALUE
-            )
+        for name, _, _ in rows:
+            value = info.get(name) or DEFAULT_VALUE
+            self.fields[name].setText(value)
         
     def clear(self):
         self.set_device_info()

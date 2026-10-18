@@ -17,7 +17,7 @@ class PageManager(QStackedWidget):
             self.change_page(sidebarItems[0]["name"])
 
    
-    def create_pages(self, name):
+    def get_or_create_page(self, name):
         page = self.pages.get(name)
 
         if page is None:
@@ -41,7 +41,7 @@ class PageManager(QStackedWidget):
         return page
 
     def change_page(self, name):
-        page = self.create_pages(name)
+        page = self.get_or_create_page(name)
 
         if page is not None:
             self.setCurrentWidget(page)

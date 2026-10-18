@@ -148,15 +148,17 @@ class DeviceProfile(QFrame):
         self.specs_layout.addLayout(row)
     
     def clear_specs(self):
-        while self.specs_layout.count():
-            item = self.specs_layout.takeAt(0)
+        while (item := self.specs_layout.takeAt(0)) is not None:
+            row = item.layout()
 
-            if item.layout():
-                while item.layout().count():
-                    child = item.layout().takeAt(0)
+            if row is None:
+                continue
 
-                    if child.widget():
-                        child.widget().deleteLater()    
+            while (child := row.takeAt(0)) is not None:
+                widget = child.widget()
+
+                if widget is not None:
+                    widget.deleteLater()  
 
     def show_empty(self):
         self.stack.setCurrentWidget(self.empty_page)

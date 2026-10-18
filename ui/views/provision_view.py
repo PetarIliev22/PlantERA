@@ -31,11 +31,14 @@ class ProvisionView(QFrame):
         self.device_actions = DeviceActions(self)
         self.device_console = DeviceConsole(self)
 
-        apply_shadow(self.device_connection)
-        apply_shadow(self.device_info)
-        apply_shadow(self.device_profile)
-        apply_shadow(self.device_actions)
-        apply_shadow(self.device_console)
+        for widget in (
+            self.device_connection,
+            self.device_info,
+            self.device_profile,
+            self.device_actions,
+            self.device_console
+        ):
+            apply_shadow(widget)
         
         self.scroll = QScrollArea(self)
         self.scroll.setObjectName("provisionScroll")
@@ -152,12 +155,11 @@ class ProvisionView(QFrame):
     def device_disconnected(self):
         self.device_info.clear()
         self.device_profile.show_empty()
-
+        
         self.device_console.log(
             "disconnected",
             "WARNING"
         )
-
 
     def console_log(self, key, level, data):
         self.device_console.log(

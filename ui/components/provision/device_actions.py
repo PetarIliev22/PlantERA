@@ -7,6 +7,7 @@ actions = load_config("device_actions.json")["actions"]
 class DeviceActions(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.buttons = {}
         
         self.setObjectName("deviceActionsCard")
         self.setFixedHeight(110)
@@ -45,7 +46,6 @@ class DeviceActions(QFrame):
 
         for action in actions:
             name = action["id"]
-            color = action["color"]
 
             button = QPushButton()
             button.setObjectName(f"{name}Button")
@@ -63,7 +63,7 @@ class DeviceActions(QFrame):
             icon_label.setPixmap(
             svg_icon(
                 action["icon"],
-                color,
+                action["color"],
                 35
             ).pixmap(35, 35)
         )
@@ -93,6 +93,6 @@ class DeviceActions(QFrame):
 
             row.addWidget(button, 1)
 
-            setattr(self, f"{name}_button", button)
+            self.buttons[name] = button
 
         layout.addLayout(row)
