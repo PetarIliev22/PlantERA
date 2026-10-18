@@ -31,14 +31,16 @@ class Sidebar(QFrame):
             ))
         )
 
-        logo.setPixmap(
-            pixmap.scaled(
-                210,
-                90,
-                Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.SmoothTransformation
-            )
+        dpr = logo.devicePixelRatioF()
+        scaled = pixmap.scaled(
+            round(210 * dpr),
+            round(90 * dpr),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
         )
+
+        scaled.setDevicePixelRatio(dpr)
+        logo.setPixmap(scaled)
 
         layout.addWidget(logo)
         layout.addSpacing(20)

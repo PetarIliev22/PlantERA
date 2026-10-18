@@ -90,9 +90,21 @@ class BootDialog(QFrame):
     def set_state(self, state):
         data = texts[state.value]
         image_path = resource_path(*data["image"].split("/"))
+        
         pixmap = QPixmap(str(image_path))
 
-        self.boot_image.setPixmap(pixmap.scaled(280, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        dpr = self.boot_image.devicePixelRatioF()
+
+        scaled = pixmap.scaled(
+            round(280 * dpr),
+            round(150 * dpr),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
+
+        scaled.setDevicePixelRatio(dpr)
+        self.boot_image.setPixmap(scaled)
+
         self.title_label.setText(data["title"])
         self.description.setText(data["description"])
         self.status_label.setText(data["status"])

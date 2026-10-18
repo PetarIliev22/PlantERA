@@ -53,7 +53,7 @@ class Toolbar(QFrame):
             button.setIcon(
                 QIcon(str(resource_path("assets","img", "icons", icon)))
             )
-            button.setIconSize(QSize(18, 18))
+            button.setIconSize(QSize(15, 15))
             button.clicked.connect(command)
 
             layout.addWidget(

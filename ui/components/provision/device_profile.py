@@ -36,16 +36,28 @@ class DeviceProfile(QFrame):
         layout.setSpacing(12)
 
         icon = QLabel()
-        icon.setPixmap(
-            QPixmap(
-                str(resource_path("assets", "img", "boot", "plantera_no_device_detected.png"))
-            ).scaled(
-                350, 350,
-                Qt.AspectRatioMode.KeepAspectRatio,
-                Qt.TransformationMode.SmoothTransformation
-            )
-        )
         icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        icon.setFixedSize(350, 350)
+
+        pixmap = QPixmap(
+            str(resource_path(
+                "assets", "img", "boot",
+                "plantera_no_device_detected.png"
+            ))
+        )
+
+        dpr = icon.devicePixelRatioF()
+
+        scaled = pixmap.scaled(
+            round(350 * dpr),
+            round(350 * dpr),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
+
+        scaled.setDevicePixelRatio(dpr)
+
+        icon.setPixmap(scaled)
         layout.addWidget(icon)
 
         return page
