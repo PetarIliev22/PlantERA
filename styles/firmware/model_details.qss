@@ -1,0 +1,34 @@
+QFrame#modelDetailsCard {
+    background-color: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 15px;
+}
+
+QLabel#modelDetailsTitle {
+    background-color: transparent;
+    border: none;
+    color: #1687F8;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#modelDetailsImage {
+    background-color: transparent;
+    border: none;
+}
+
+QLabel#modelDetailsDescription {
+    background-color: transparent;
+    border: none;
+    color: #738199;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+QLabel#modelDetailsInfo {
+    background-color: transparent;
+    border: none;
+    color: #444444;
+    font-size: 14px;
+    font-weight: 500;
+}

@@ -1,0 +1,58 @@
+QFrame#deviceModelsCard {
+    background-color: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 15px;
+}
+
+QLabel#deviceModelsTitle {
+    background-color: transparent;
+    border: none;
+    color: #1687F8;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QPushButton#addModelButton {
+    background-color: #1687F8;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QPushButton#addModelButton:hover {
+    background-color: #0876E3;
+}
+
+QPushButton#addModelButton:pressed {
+    background-color: #0665C4;
+}
+
+QListWidget#deviceModelsList {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #334155;
+}
+
+QListWidget#deviceModelsList::item {
+    background-color: #F4F7FC;
+    border: 1px solid #E7EDF5;
+    border-radius: 9px;
+    padding: 13px 12px;
+    margin-bottom: 5px;
+}
+
+QListWidget#deviceModelsList::item:hover {
+    background-color: #EAF3FF;
+    border: 1px solid #C7DEFA;
+}
+
+QListWidget#deviceModelsList::item:selected {
+    background-color: #E3F0FF;
+    color: #1266C3;
+    border: 1px solid #1687F8;
+}

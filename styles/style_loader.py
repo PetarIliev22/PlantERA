@@ -8,13 +8,15 @@ def load_styles():
         "main_window.qss",
         "toolbar.qss",
         "sidebar.qss",
+        "boot_dialog.qss",
         "provision/device_connection.qss",
         "provision/device_info.qss",
         "provision/device_profile.qss",
         "provision/device_actions.qss",
         "provision/device_console.qss",
         "provision/provision_scroll.qss",
-        "boot_dialog.qss",
+        "firmware/device_models.qss",
+        "firmware/model_details.qss",
     ]
 
     styles = "\n".join(
