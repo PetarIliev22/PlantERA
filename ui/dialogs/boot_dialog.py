@@ -101,13 +101,15 @@ class BootDialog(QFrame):
 
         self.button.setText(data.get("button", "Cancel"))
 
-        self.set_button_action(
-            self.try_again
-            if state == BootState.FAILED
-            else self.cancel
-        )
+        actions = {
+            BootState.WAITING: self.cancel,
+            BootState.SUCCESS: self.deleteLater,
+            BootState.FAILED: self.try_again,
+        }
 
-        self.refresh_style()
+        self.set_button_action(actions[state])
+        self.status_label.style().unpolish(self.status_label)
+        self.status_label.style().polish(self.status_label)
 
     def device_detected(self, info):
         if self.cancelled:
@@ -117,7 +119,11 @@ class BootDialog(QFrame):
         self.on_connected(info)
 
     def connection_failed(self):
+        if self.cancelled:
+            return
+        
         self.set_state(BootState.FAILED)
+        
         if self.on_log:
             self.on_log(
                 "connection_failed",
@@ -149,11 +155,6 @@ class BootDialog(QFrame):
 
         self.button.clicked.connect(action)
         self.button_action = action
-
-    def refresh_style(self):
-        widget = self.status_label
-        widget.style().unpolish(widget)
-        widget.style().polish(widget)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
