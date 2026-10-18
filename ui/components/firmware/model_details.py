@@ -201,7 +201,7 @@ class ModelDetails(QFrame):
         skeleton = QWidget()
 
         layout = QHBoxLayout(skeleton)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(0, 10, 0, 0)
         layout.setSpacing(18)
 
         image = QFrame()
