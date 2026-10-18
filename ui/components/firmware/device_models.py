@@ -1,6 +1,7 @@
 
 from ui.PySide6_Qt import *
 from utils.svg_icons import svg_icon
+from utils.animations import fade_in_page
 from ui.components.firmware.device_model_row import DeviceModelRow
 from ui.components.loading_spinner import LoadingSpinner
 
@@ -15,7 +16,6 @@ class DeviceModels(QFrame):
 
         self.create_ui()
 
-    
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(18, 15, 18, 18)
@@ -75,15 +75,18 @@ class DeviceModels(QFrame):
 
         self.spinner = LoadingSpinner()
 
-        loading_text = QLabel("Loading models...")
-        loading_text.setObjectName("modelsLoadingText")
-        loading_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        loading_title = QLabel("Loading models...")
+        loading_title.setObjectName("modelsLoadingText")
 
-        loading_layout.addWidget(
-            self.spinner,
-            alignment=Qt.AlignmentFlag.AlignCenter
-        )
-        loading_layout.addWidget(loading_text)
+        loading_subtitle = QLabel("Fetching registered device models.")
+        loading_subtitle.setObjectName("modelsLoadingSubtitle")
+        
+        for label in (loading_title, loading_subtitle):
+            label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        loading_layout.addWidget(self.spinner,alignment=Qt.AlignmentFlag.AlignCenter)
+        loading_layout.addWidget(loading_title)
+        loading_layout.addWidget(loading_subtitle)
 
         # Content stack
         self.content_stack = QStackedWidget()
@@ -116,13 +119,14 @@ class DeviceModels(QFrame):
                 item,
                 DeviceModelRow(model, self.models_list)
             )
-            
-            self.content_stack.setCurrentWidget(
-                self.models_list if models else self.empty_state
-            )
-            
+
+        self.content_stack.setCurrentWidget(
+            self.models_list if models else self.empty_state
+        )
+        
         if models:
             self.models_list.setCurrentRow(0)
+            fade_in_page(self.models_list, 350)
 
     def on_model_selected(self, current, previous):
         if current is None:

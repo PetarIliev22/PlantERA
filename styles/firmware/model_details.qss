@@ -79,3 +79,12 @@ QLabel#modelDetailsDescription {
     background: transparent;
     border: none;
 }
+
+QFrame#skeletonImage,
+QFrame#skeletonLine,
+QFrame#skeletonSpec,
+QFrame#skeletonDescription {
+    background-color: #E9EFF6;
+    border: none;
+    border-radius: 8px;
+}

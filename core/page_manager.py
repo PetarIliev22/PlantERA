@@ -2,6 +2,7 @@ from importlib import import_module
 
 from ui.PySide6_Qt import *
 from config.config_loader import load_config
+from utils.animations import fade_in_page
 
 sidebarItems = load_config("sidebar.json")["sidebar"]
 
@@ -48,4 +49,10 @@ class PageManager(QStackedWidget):
 
         if page is not None:
             self.setCurrentWidget(page)
+            
+            QTimer.singleShot(
+                0,
+                lambda: fade_in_page(page, 350)
+                if self.currentWidget() is page else None
+            )
 

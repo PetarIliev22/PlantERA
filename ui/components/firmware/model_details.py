@@ -106,7 +106,18 @@ class ModelDetails(QFrame):
         info.addStretch()
 
         content.addLayout(info, 2)
-        layout.addLayout(content, 1)
+
+        self.details_widget = QWidget()
+        self.details_widget.setLayout(content)
+
+        self.content_stack = QStackedWidget()
+
+        self.skeleton = self.create_skeleton()
+
+        self.content_stack.addWidget(self.skeleton)
+        self.content_stack.addWidget(self.details_widget)
+
+        layout.addWidget(self.content_stack, 1)
 
     def set_model(self, model):
         self.name.setText(model.get("name") or "")
@@ -169,3 +180,52 @@ class ModelDetails(QFrame):
                 index // 2,
                 index % 2
             )
+            
+        self.content_stack.setCurrentWidget(self.details_widget)
+            
+    def create_skeleton(self):
+        skeleton = QWidget()
+
+        layout = QHBoxLayout(skeleton)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(18)
+
+        image = QFrame()
+        image.setObjectName("skeletonImage")
+        image.setMinimumWidth(150)
+
+        info = QVBoxLayout()
+        info.setSpacing(10)
+
+        for width in (220, 90, 160, 140):
+            line = QFrame()
+            line.setObjectName("skeletonLine")
+            line.setFixedSize(width, 13)
+            info.addWidget(line)
+
+        info.addSpacing(8)
+
+        specs = QGridLayout()
+        specs.setSpacing(8)
+
+        for index in range(4):
+            block = QFrame()
+            block.setObjectName("skeletonSpec")
+            block.setFixedHeight(45)
+
+            specs.addWidget(block, index // 2, index % 2)
+
+        info.addLayout(specs)
+        info.addSpacing(8)
+
+        description = QFrame()
+        description.setObjectName("skeletonDescription")
+        description.setFixedHeight(42)
+
+        info.addWidget(description)
+        info.addStretch()
+
+        layout.addWidget(image, 1)
+        layout.addLayout(info, 2)
+
+        return skeleton

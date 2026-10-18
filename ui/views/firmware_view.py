@@ -1,6 +1,6 @@
 import asyncio
-from importlib import import_module
 from ui.PySide6_Qt import *
+from importlib import import_module
 from ui.components.firmware.device_models import DeviceModels
 from ui.components.firmware.model_details import ModelDetails
 from utils.shadow import apply_shadow
@@ -13,7 +13,7 @@ class FirmwareView(QFrame):
         self.create_ui()
         
         asyncio.get_running_loop().create_task(self.load_models())
-        
+
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(25, 25, 25, 25)

@@ -1,6 +1,5 @@
 
 from ui.PySide6_Qt import *
-
 from utils.shadow import apply_shadow
 from ui.components.provision.device_connection import DeviceConnection
 from ui.components.provision.device_info import DeviceInfo
@@ -18,7 +17,7 @@ class ProvisionView(QFrame):
         self.connect_signals()
         
         self.device_console.log("app_ready")
-
+        
     def create_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
