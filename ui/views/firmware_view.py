@@ -1,8 +1,8 @@
-
+import asyncio
+from importlib import import_module
 from ui.PySide6_Qt import *
 from ui.components.firmware.device_models import DeviceModels
 from ui.components.firmware.model_details import ModelDetails
-from services.supabase_service import SupabaseService
 from utils.shadow import apply_shadow
 
 class FirmwareView(QFrame):
@@ -11,8 +11,8 @@ class FirmwareView(QFrame):
 
         self.setObjectName("firmwareView")
         self.create_ui()
-
-        self.load_models()
+        
+        asyncio.get_running_loop().create_task(self.load_models())
         
     def create_ui(self):
         layout = QVBoxLayout(self)
@@ -48,7 +48,17 @@ class FirmwareView(QFrame):
             self.model_details.set_model
         )
         
-    def load_models(self):
-            models = SupabaseService().get_device_models()
+    async def load_models(self):
+        try:
+            module = await asyncio.to_thread(
+                import_module,
+                "services.supabase_service"
+            )
+
+            models = await module.supabase_service.get_device_models()
             self.device_models.set_models(models)
-    
+
+        except Exception as error:
+            print(f"Supabase Error: {error}")
+
+

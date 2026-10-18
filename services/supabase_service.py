@@ -1,10 +1,9 @@
+
 import os
 import logging
 
 from dotenv import load_dotenv
-from supabase import create_client, Client
-from postgrest.exceptions import APIError
-
+from supabase import acreate_client
 from utils.paths import resource_path
 
 logger = logging.getLogger(__name__)
@@ -13,28 +12,23 @@ class SupabaseService:
     def __init__(self):
         load_dotenv(resource_path(".env"))
 
-        URL = os.getenv("SUPABASE_URL")
-        KEY = os.getenv("SUPABASE_KEY")
+        self.url = os.environ["SUPABASE_URL"]
+        self.key = os.environ["SUPABASE_KEY"]
+        self.client = None
 
-        if not URL or not KEY:
-            raise ValueError(
-                "Supabase URL or API key is missing."
-            )
+    async def connect(self):
+        if self.client is None:
+            self.client = await acreate_client(self.url, self.key)
 
+        return self.client
+
+    # Get single model
+    async def get_device_models(self):
         try:
-            self.client: Client = create_client(URL, KEY)
+            client = await self.connect()
 
-        except Exception:
-            logger.exception(
-                "Failed to initialize Supabase client."
-            )
-            raise
-
-    # Fetches device models from Supabase
-    def get_device_models(self):
-        try:
-            response = (
-                self.client.table("device_models")
+            response = await (
+                client.table("device_models")
                 .select("*")
                 .order("id")
                 .execute()
@@ -42,15 +36,9 @@ class SupabaseService:
 
             return response.data
 
-        except APIError:
-            logger.exception(
-                "Failed to fetch device models from Supabase."
-            )
+        except Exception:
+            logger.exception("Failed to fetch device models.")
             raise
 
-        except Exception:
-            logger.exception(
-                "Unexpected error while fetching device models."
-            )
-            raise
-    
+
+supabase_service = SupabaseService()
