@@ -4,8 +4,7 @@ from utils.paths import resource_path
 class Toolbar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
-        
-        self.parent = parent
+        self.window()
         self.drag_position = QPoint()
 
         self.setObjectName("toolbar")
@@ -43,9 +42,9 @@ class Toolbar(QFrame):
         layout.addStretch()
         
         buttons = [
-            ("minimize", "minimize.svg", self.parent.showMinimized),
-            ("maximize", "maximize.svg", self.parent.toggle_maximize),
-            ("close", "close.svg", self.parent.close),
+            ("minimize", "minimize.svg", self.window().showMinimized),
+            ("maximize", "maximize.svg", self.window().showMaximized),
+            ("close", "close.svg", self.window().close),
         ]
 
         for name, icon, command in buttons:
@@ -73,37 +72,37 @@ class Toolbar(QFrame):
         if event.button() == Qt.MouseButton.LeftButton:
             self.drag_position = (
                 event.globalPosition().toPoint()
-                - self.parent.frameGeometry().topLeft()
+                - self.window().frameGeometry().topLeft()
             )
 
     def mouseMoveEvent(self, event):
         if (
             event.buttons() & Qt.MouseButton.LeftButton
-            and not self.parent.isMaximized()
+            and not self.window().isMaximized()
         ):
             new_pos = (
                 event.globalPosition().toPoint()
                 - self.drag_position
             )
 
-            screen = self.parent.screen().availableGeometry()
+            screen = self.window().screen().availableGeometry()
 
             x = max(
                 screen.left(),
-                min(new_pos.x(), screen.right() - self.parent.width() + 1)
+                min(new_pos.x(), screen.right() - self.window().width() + 1)
             )
 
             y = max(
                 screen.top(),
-                min(new_pos.y(), screen.bottom() - self.parent.height() + 1)
+                min(new_pos.y(), screen.bottom() - self.window().height() + 1)
             )
 
-            self.parent.move(x, y)
+            self.window().move(x, y)
             
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-            self.parent.toggle_maximize()
+            self.window().toggle_maximize()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

@@ -1,11 +1,11 @@
 import json
 # from functools import lru_cache
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent
+from utils.paths import resource_path
 
 # @lru_cache(maxsize=32)
 def load_config(filename):
+    path = resource_path("config", filename)
+
     return json.loads(
-        (BASE_DIR / filename).read_text(encoding="utf-8")
+        path.read_text(encoding="utf-8")
     )
