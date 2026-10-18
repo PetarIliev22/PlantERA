@@ -60,6 +60,7 @@ class FirmwareView(QFrame):
             self.device_models.set_models(models)
 
         except Exception as error:
+            self.device_models.set_models([])
             print(f"Supabase Error: {error}")
 
 
