@@ -6,6 +6,17 @@ from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
 from ui.views.provision_view import ProvisionView
+from services.update_service import check_for_updates
+from ui.dialogs.update_dialog import show_update_dialog
+
+class UpdateWorker(QThread):
+    update_available = Signal(dict)
+
+    def run(self):
+        update = check_for_updates()
+
+        if update:
+            self.update_available.emit(update)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -35,7 +46,14 @@ class MainWindow(QMainWindow):
         
         self.create_ui()
         
-    
+        self.update_worker = UpdateWorker(self)
+
+        self.update_worker.update_available.connect(
+            lambda update: show_update_dialog(self, update)
+        )
+
+        self.update_worker.start()
+        
     def create_ui(self):
         central = QWidget()
         central.setObjectName("mainContainer")
