@@ -23,22 +23,26 @@ jobs:
           python-version: "3.13"
 
       - name: Install dependencies
+        shell: pwsh
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pyinstaller
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller qtawesome packaging
 
       - name: Build PlantERA.exe
         shell: pwsh
         run: |
-          pyinstaller --noconfirm --clean --onefile --console `
+          python -m PyInstaller --noconfirm --clean --onefile --console `
             --name PlantERA `
             --icon "assets/img/logo/plantera_logo.ico" `
             --add-data "assets;assets" `
-            --add-data "styles;styles" `
             --add-data "config;config" `
+            --add-data "styles;styles" `
+            --hidden-import services.supabase_service `
+            --collect-all qtawesome `
+            --collect-submodules esptool `
             --collect-submodules ui.views `
-            --collect-all esptool `
+            --exclude-module PIL `
             main.py
 
       - name: Generate SHA256
