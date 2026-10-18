@@ -20,8 +20,11 @@ class FirmwareView(QFrame):
         self.device_models = DeviceModels(self)
         self.model_details = ModelDetails(self)
 
-        apply_shadow(self.device_models)
-        apply_shadow(self.model_details)
+        for widget in(
+            self.device_models,
+            self.model_details
+        ):
+            apply_shadow(widget)
 
         self.top_layout = QHBoxLayout()
         self.top_layout.setSpacing(20)

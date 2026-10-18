@@ -18,8 +18,8 @@ QPushButton#addModelButton {
     border: none;
     border-radius: 8px;
     padding: 9px 16px;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 QPushButton#addModelButton:hover {

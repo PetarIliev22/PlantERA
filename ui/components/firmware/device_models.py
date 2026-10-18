@@ -1,6 +1,7 @@
 
 from ui.PySide6_Qt import *
 from utils.svg_icons import svg_icon
+from ui.components.firmware.device_model_row import DeviceModelRow
 
 class DeviceModels(QFrame):
     model_selected = Signal(dict)
@@ -51,24 +52,48 @@ class DeviceModels(QFrame):
             self.on_model_selected
         )
 
-        layout.addWidget(self.models_list)
+        self.models_list.currentItemChanged.connect(
+            self.on_model_selected
+        )
+        
+        self.empty_state = QWidget()
+        empty_layout = QVBoxLayout(self.empty_state)
+        empty_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        empty_layout.setSpacing(10)
+
+        icon = QLabel()
+        icon.setPixmap(
+            svg_icon("no_models.svg", "#A0AEC0", 72).pixmap(72, 72)
+        )
+        icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        empty_layout.addWidget(icon)
+
+        self.content_stack = QStackedWidget()
+        self.content_stack.addWidget(self.empty_state)
+        self.content_stack.addWidget(self.models_list)
+
+        layout.addWidget(self.content_stack)
 
     def set_models(self, models):
         self.models = models
         self.models_list.clear()
 
         for model in models:
-            item = QListWidgetItem(
-                model.get("name") or model["model"]
-            )
-
-            item.setData(
-                Qt.ItemDataRole.UserRole,
-                model
-            )
+            item = QListWidgetItem()
+            item.setData(Qt.ItemDataRole.UserRole, model)
+            item.setSizeHint(QSize(0, 65))
 
             self.models_list.addItem(item)
-
+            self.models_list.setItemWidget(
+                item,
+                DeviceModelRow(model, self.models_list)
+            )
+            
+            self.content_stack.setCurrentWidget(
+                self.models_list if models else self.empty_state
+            )
+            
         if models:
             self.models_list.setCurrentRow(0)
 
