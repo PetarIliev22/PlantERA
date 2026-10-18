@@ -126,7 +126,7 @@ class DeviceModels(QFrame):
         if models:
             self.models_list.setCurrentRow(0)
 
-    def on_model_selected(self, current, previous):
+    def on_model_selected(self, current):
         if current is None:
             return
 
