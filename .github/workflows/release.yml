@@ -29,15 +29,27 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install pyinstaller qtawesome packaging
 
+      
       - name: Build PlantERA.exe
         shell: pwsh
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
+          if (-not $env:SUPABASE_URL -or -not $env:SUPABASE_KEY) {
+            throw "Missing Supabase configuration"
+          }
+
+          "SUPABASE_URL=$env:SUPABASE_URL" | Set-Content ".env"
+          "SUPABASE_KEY=$env:SUPABASE_KEY" | Add-Content ".env"
+
           python -m PyInstaller --noconfirm --clean --onefile --console `
             --name PlantERA `
             --icon "assets/img/logo/plantera_logo.ico" `
             --add-data "assets;assets" `
             --add-data "config;config" `
             --add-data "styles;styles" `
+            --add-data ".env;." `
             --hidden-import services.supabase_service `
             --collect-all qtawesome `
             --collect-submodules esptool `
@@ -45,6 +57,8 @@ jobs:
             --exclude-module PIL `
             main.py
 
+          Remove-Item ".env" -ErrorAction SilentlyContinue
+          
       - name: Generate SHA256
         shell: pwsh
         run: |
