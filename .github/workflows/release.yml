@@ -68,7 +68,7 @@ jobs:
       - name: Build PlantERAUpdater.exe
         shell: pwsh
         run: |
-          python -m PyInstaller --noconfirm --clean --onefile --windowed `
+          python -m PyInstaller --noconfirm --clean --onefile --windowed --noconsole `
             --name PlantERAUpdater `
             --distpath dist `
             --workpath build_updater `
