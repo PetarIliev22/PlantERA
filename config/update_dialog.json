@@ -2,9 +2,6 @@
 {
   "title": "PlantERA v{version} is available",
   "description": "Current version: {current_version}",
-  "badge": "NEW UPDATE AVAILABLE",
-  "release_notes_fallback": "A new version of PlantERA is ready to install.",
-  "footer": "Your devices and settings will remain unchanged.",
   "buttons": {
     "update": "Update now",
     "downloading": "Downloading...",
@@ -14,8 +11,6 @@
   },
   "messages": {
     "title": "PlantERA Update",
-    "download_success": "Update downloaded and verified successfully. Installation will be added in the next step.",
-    "download_failed": "Update Failed",
-    "download_in_progress": "Please wait until the download finishes."
+    "download_failed": "Update Failed"
   }
 }
