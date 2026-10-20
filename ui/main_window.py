@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
         self.create_ui()
         
         self.update_worker = UpdateWorker(
-            download=True,
+            download=False,
             update=self.update,
             parent=self
         )
@@ -141,7 +141,7 @@ class MainWindow(QMainWindow):
         if self._closing:
             return
 
-        show_update_dialog(self, update)
+        self.update_dialog = show_update_dialog(self, update)
 
 
     def on_update_check_finished(self):

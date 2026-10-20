@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 
-
 def resource_path(*parts):
     try:
         base_dir = Path(sys._MEIPASS)
