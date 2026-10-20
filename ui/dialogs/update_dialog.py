@@ -2,9 +2,9 @@
 from ui.PySide6_Qt import *
 from config.version import APP_VERSION
 from config.config_loader import load_config
+from ui.updater_window import launch_updater
 
 texts = load_config("update_dialog.json")
-
 
 class UpdateDialog(QFrame):
     def __init__(self, parent, update):
@@ -56,7 +56,7 @@ class UpdateDialog(QFrame):
         layout.addLayout(buttons_layout)
 
     def start_update(self):
-        pass
+        launch_updater(self.update)
 
 def show_update_dialog(parent, update):
     dialog = UpdateDialog(parent, update)

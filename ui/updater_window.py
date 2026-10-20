@@ -1,5 +1,7 @@
 
 import sys
+import subprocess
+from pathlib import Path
 
 from PySide6.QtWidgets import (
     QApplication,
@@ -10,7 +12,7 @@ from PySide6.QtWidgets import (
 )
 
 class UpdaterWindow(QWidget):
-    def __init__(self):
+    def __init__(self, version=None):
         super().__init__()
 
         self.setWindowTitle("PlantERA Launcher")
@@ -19,7 +21,10 @@ class UpdaterWindow(QWidget):
         layout = QVBoxLayout(self)
 
         self.title = QLabel("PlantERA Updater")
-        self.status = QLabel("Ready to update")
+        self.status = QLabel(
+            f"Preparing PlantERA v{version}..."
+            if version else "Ready to update"
+        )
 
         self.progress = QProgressBar()
         self.progress.setRange(0, 100)
@@ -36,10 +41,36 @@ class UpdaterWindow(QWidget):
         self.progress.setValue(value)
 
 
+
+def launch_updater(update):
+    if getattr(sys, "frozen", False):
+        updater_exe = Path(sys.executable).with_name("PlantERAUpdater.exe")
+
+        if not updater_exe.is_file():
+            raise FileNotFoundError("PlantERAUpdater.exe not found")
+
+        command = [str(updater_exe), update["version"]]
+
+    else:
+        command = [
+            sys.executable,
+            "-m",
+            "ui.updater_window",
+            update["version"]
+        ]
+
+    subprocess.Popen(
+        command,
+        cwd=str(Path(sys.executable).parent) if getattr(sys, "frozen", False)
+        else str(Path(__file__).resolve().parents[1])
+    )
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    window = UpdaterWindow()
+    version = sys.argv[1] if len(sys.argv) > 1 else None
+
+    window = UpdaterWindow(version)
     window.show()
 
     sys.exit(app.exec())
