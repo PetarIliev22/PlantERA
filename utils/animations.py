@@ -1,9 +1,9 @@
 
 from PySide6.QtCore import (
-    Qt, Property, QPropertyAnimation, QEasingCurve
+    Qt, Property, QPropertyAnimation, QEasingCurve,
 )
 from PySide6.QtGui import QColor, QPainter
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QGraphicsOpacityEffect
 
 class FadeOverlay(QWidget):
     def __init__(self, parent, color="#FFFFFF"):
@@ -30,7 +30,6 @@ class FadeOverlay(QWidget):
         color.setAlpha(self._opacity)
         painter.fillRect(self.rect(), color)
 
-
 def fade_in_page(widget, duration=350):
     overlay = FadeOverlay(widget)
     overlay.show()
@@ -43,4 +42,17 @@ def fade_in_page(widget, duration=350):
 
     animation.finished.connect(overlay.deleteLater)
     overlay.animation = animation
+    animation.start()
+
+def fade_in_widget(widget, duration=300):
+    effect = QGraphicsOpacityEffect(widget)
+    widget.setGraphicsEffect(effect)
+
+    animation = QPropertyAnimation(effect, b"opacity", widget)
+    animation.setDuration(duration)
+    animation.setStartValue(0.0)
+    animation.setEndValue(1.0)
+    animation.setEasingCurve(QEasingCurve.Type.OutCubic)
+
+    widget.fade_animation = animation
     animation.start()

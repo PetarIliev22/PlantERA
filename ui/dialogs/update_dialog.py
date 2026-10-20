@@ -2,6 +2,7 @@
 from ui.PySide6_Qt import *
 from config.version import APP_VERSION
 from config.config_loader import load_config
+from utils.animations import fade_in_widget
 from ui.updater_window import launch_updater
 
 texts = load_config("update_dialog.json")
@@ -57,10 +58,19 @@ class UpdateDialog(QFrame):
 
     def start_update(self):
         launch_updater(self.update)
+        self.window().close()
 
 def show_update_dialog(parent, update):
     dialog = UpdateDialog(parent, update)
-    dialog.raise_()
-    dialog.show()
+
+    def show_dialog():
+        if not parent.isVisible():
+            return
+
+        dialog.raise_()
+        dialog.show()
+        fade_in_widget(dialog)
+
+    QTimer.singleShot(500, show_dialog)
 
     return dialog
