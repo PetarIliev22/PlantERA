@@ -6,22 +6,14 @@ from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
 from ui.views.provision_view import ProvisionView
-from services.update_service import check_for_updates
+from services.update_worker import UpdateWorker
 from ui.dialogs.update_dialog import show_update_dialog
-
-class UpdateWorker(QThread):
-    update_available = Signal(dict)
-
-    def run(self):
-        update = check_for_updates()
-
-        if update:
-            self.update_available.emit(update)
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
+        self._closing = False
+        
         self.setObjectName("mainWindow")
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
@@ -46,10 +38,18 @@ class MainWindow(QMainWindow):
         
         self.create_ui()
         
-        self.update_worker = UpdateWorker(self)
+        self.update_worker = UpdateWorker(
+            download=True,
+            update=self.update,
+            parent=self
+        )
 
         self.update_worker.update_available.connect(
-            lambda update: show_update_dialog(self, update)
+            self.on_update_available
+        )
+
+        self.update_worker.finished.connect(
+            self.on_update_check_finished
         )
 
         self.update_worker.start()
@@ -135,3 +135,26 @@ class MainWindow(QMainWindow):
 
         if isinstance(provision, ProvisionView):
             provision.device_connection.refresh_ports()
+            
+    
+    def on_update_available(self, update):
+        if self._closing:
+            return
+
+        show_update_dialog(self, update)
+
+
+    def on_update_check_finished(self):
+        if self._closing:
+            QTimer.singleShot(0, self.close)
+
+
+    def closeEvent(self, event):
+        self._closing = True
+
+        if self.update_worker.isRunning():
+            event.ignore()
+            return
+
+        super().closeEvent(event)
+
