@@ -87,17 +87,9 @@ class MainWindow(QMainWindow):
         
     def round_corners(self):
         path = QPainterPath()
-        path.addRoundedRect(
-            QRectF(self.rect()),
-            20,
-            20
-        )
+        path.addRoundedRect(QRectF(self.rect()),20,20)
 
-        self.setMask(
-            QRegion(
-                path.toFillPolygon().toPolygon()
-            )
-        )
+        self.setMask(QRegion(path.toFillPolygon().toPolygon()))
 
     def remove_round_corners(self):
         self.clearMask()

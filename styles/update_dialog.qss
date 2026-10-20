@@ -1,35 +1,29 @@
-
-/* Dark overlay */
 QFrame#updateOverlay {
     background-color: rgba(4, 10, 20, 185);
     border: none;
 }
 
-/* Update card */
 QFrame#updateDialog {
-    background-color: #101827;
+    background-color: #ffffff;
     border: 1px solid #2B3D55;
     border-radius: 18px;
 }
 
-/* Title */
 QLabel#updateTitle {
-    color: #FFFFFF;
+    color: #3a3a3a;
     font-size: 21px;
     font-weight: 700;
     background: transparent;
     border: none;
 }
 
-/* Description */
 QLabel#updateDescription {
-    color: #9CAEC3;
+    color: #4c5258;
     font-size: 13px;
     background: transparent;
     border: none;
 }
 
-/* Update button */
 QPushButton#updateButton {
     background-color: #1687F8;
     color: #FFFFFF;
@@ -54,45 +48,23 @@ QPushButton#updateButton:disabled {
     color: #A9B7CA;
 }
 
-/* Progress bar */
-QProgressBar#updateProgress {
-    background-color: #253349;
-    border: none;
-    border-radius: 5px;
-    min-height: 10px;
-    max-height: 10px;
-    color: transparent;
-    text-align: center;
+QPushButton#laterButton {
+    background-color: #1B293D;
+    color: #ffffff;
+    border: 1px solid #2B3D55;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 20px;
 }
 
-QProgressBar#updateProgress::chunk {
-    background-color: #1687F8;
-    border-radius: 5px;
+QPushButton#laterButton:hover {
+    background-color: #263A54;
+    color: #FFFFFF;
+    border-color: #3B5473;
 }
 
-
-QLabel#updateStatus {
-    background-color: #18283D;
-    border: 1px solid #30435C;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 12px;
-}
-
-QLabel#updateStatus[status="success"] {
-    color: #4ADE80;
-    background-color: #102A23;
-    border-color: #245C45;
-}
-
-QLabel#updateStatus[status="error"] {
-    color: #F87171;
-    background-color: #351C28;
-    border-color: #703447;
-}
-
-QLabel#updateStatus[status="info"] {
-    color: #93C5FD;
-    background-color: #172A43;
-    border-color: #31557B;
+QPushButton#laterButton:pressed {
+    background-color: #142235;
 }
