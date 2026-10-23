@@ -1,4 +1,4 @@
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from utils.svg_icons import svg_icon
 DEFAULT_VALUE = "Not available"
 

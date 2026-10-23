@@ -1,6 +1,6 @@
 from importlib import import_module
 
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from config.config_loader import load_config
 from utils.animations import fade_in_page
 

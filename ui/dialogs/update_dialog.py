@@ -1,9 +1,9 @@
 
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from config.version import APP_VERSION
 from config.config_loader import load_config
 from utils.animations import fade_in_widget
-from ui.updater_window import launch_updater
+from ui.windows.updater_window import launch_updater
 
 texts = load_config("update_dialog.json")
 

@@ -1,4 +1,4 @@
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from datetime import datetime
 from utils.svg_icons import svg_icon
 from config.config_loader import load_config

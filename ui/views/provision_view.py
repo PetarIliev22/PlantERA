@@ -1,5 +1,5 @@
 
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from utils.shadow import apply_shadow
 from ui.components.provision.device_connection import DeviceConnection
 from ui.components.provision.device_info import DeviceInfo

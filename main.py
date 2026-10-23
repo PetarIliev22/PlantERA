@@ -9,7 +9,7 @@ START_TIME = time.perf_counter()
 from qasync import QEventLoop
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
-from ui.main_window import MainWindow
+from ui.windows.main_window import MainWindow
 from utils.paths import resource_path
 from styles.style_loader import load_styles
 

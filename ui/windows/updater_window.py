@@ -72,7 +72,7 @@ def launch_updater(update):
     command = [
         sys.executable,
         "-m",
-        "ui.updater_window",
+        "ui.windows.updater_window",
         json.dumps(update)
     ]
 

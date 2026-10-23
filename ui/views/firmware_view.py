@@ -1,5 +1,5 @@
 import asyncio
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from importlib import import_module
 from ui.components.firmware.device_models import DeviceModels
 from ui.components.firmware.model_details import ModelDetails

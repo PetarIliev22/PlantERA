@@ -1,4 +1,4 @@
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 
 def apply_shadow(widget):
     shadow = QGraphicsDropShadowEffect(widget)

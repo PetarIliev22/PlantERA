@@ -1,5 +1,5 @@
 
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from utils.svg_icons import svg_icon
 from ui.components.firmware.device_model_row import DeviceModelRow
 from ui.components.loading_spinner import LoadingSpinner

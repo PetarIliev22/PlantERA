@@ -1,7 +1,7 @@
 import sys
 from ctypes import wintypes
 
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager

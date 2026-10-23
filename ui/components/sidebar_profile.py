@@ -1,5 +1,5 @@
 
-from ui.PySide6_Qt import *
+from ui.common.PySide6_Qt import *
 from utils.paths import resource_path
 
 class SidebarProfile(QFrame):
