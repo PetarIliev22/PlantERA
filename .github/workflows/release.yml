@@ -33,14 +33,14 @@ jobs:
         shell: pwsh
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
         run: |
-          if (-not $env:SUPABASE_URL -or -not $env:SUPABASE_KEY) {
+          if (-not $env:SUPABASE_URL -or -not $env:SUPABASE_PUBLISHABLE_KEY) {
             throw "Missing Supabase configuration"
           }
 
           "SUPABASE_URL=$env:SUPABASE_URL" | Set-Content ".env" -Encoding utf8
-          "SUPABASE_KEY=$env:SUPABASE_KEY" | Add-Content ".env" -Encoding utf8
+          "SUPABASE_PUBLISHABLE_KEY=$env:SUPABASE_PUBLISHABLE_KEY" | Add-Content ".env" -Encoding utf8
 
           try {
             python -m PyInstaller --noconfirm --clean --onefile --windowed `
@@ -73,7 +73,7 @@ jobs:
             --distpath dist `
             --workpath build_updater `
             --specpath . `
-            services/updater.py
+            services/updates/updater.py
 
           if ($LASTEXITCODE -ne 0) {
             throw "PlantERAUpdater build failed"

@@ -22,7 +22,7 @@ class SupabaseService:
         )
 
         self.url = os.getenv("SUPABASE_URL")
-        self.key = os.getenv("SUPABASE_KEY")
+        self.key = os.getenv("SUPABASE_PUBLISHABLE_KEY")
 
         if not self.url or not self.key:
             raise RuntimeError(

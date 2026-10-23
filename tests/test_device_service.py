@@ -25,7 +25,7 @@ def test_stop():
 def test_start():
     service = DeviceService()
 
-    with patch("services.device_service.threading.Thread") as mock_thread:
+    with patch("services.device.device_service.threading.Thread") as mock_thread:
         result = service.start("COM3")
 
     assert result is True
