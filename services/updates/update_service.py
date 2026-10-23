@@ -7,7 +7,7 @@ from packaging.version import Version, InvalidVersion
 
 from config.version import APP_VERSION, GITHUB_RELEASES_API
 
-CHECK_INTERVAL = 60 * 60
+CHECK_INTERVAL = 60
 settings = QSettings("PlantERA", "PlantERA")
 
 def check_for_updates():

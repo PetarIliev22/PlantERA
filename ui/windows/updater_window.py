@@ -78,7 +78,7 @@ def launch_updater(update):
 
     subprocess.Popen(
         command,
-        cwd=str(Path(__file__).resolve().parents[1])
+        cwd=str(Path(__file__).resolve().parents[2])
     )
 
 if __name__ == "__main__":

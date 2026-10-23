@@ -1,6 +1,6 @@
 
 APP_NAME = "PlantERA"
-APP_VERSION = "1.0.2"
+APP_VERSION = "1.0.0"
 
 GITHUB_OWNER = "PetarIliev22"
 GITHUB_REPO = "PlantERA"
