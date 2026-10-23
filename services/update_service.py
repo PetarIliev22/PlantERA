@@ -21,7 +21,6 @@ def check_for_updates():
     if now - last_update_check < CHECK_INTERVAL:
         return None
 
-    settings.setValue("last_update_check", time.time())
     try:
         request = urllib.request.Request(
             GITHUB_RELEASES_API,
@@ -33,7 +32,8 @@ def check_for_updates():
 
         with urllib.request.urlopen(request, timeout=5) as response:
             release = json.load(response)
-        settings.setValue("updates/last_check", now)
+            
+        settings.setValue("last_update_check", now)
 
         latest_version = release["tag_name"].lstrip("v")
 

@@ -8,7 +8,8 @@ from utils.shadow import apply_shadow
 class FirmwareView(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
-
+        self._loading_models = False
+        
         self.setObjectName("firmwareView")
         self.create_ui()
         
@@ -53,7 +54,12 @@ class FirmwareView(QFrame):
         )
         
     async def load_models(self):
+        if self._loading_models:
+            return
+
+        self._loading_models = True
         self.device_models.set_loading()
+        
         try:
             module = await asyncio.to_thread(
                 import_module,
@@ -66,5 +72,8 @@ class FirmwareView(QFrame):
         except Exception as error:
             self.device_models.set_error()
             print(f"Supabase Error: {error}")
+            
+        finally:
+            self._loading_models = False
 
 

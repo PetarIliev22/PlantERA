@@ -142,6 +142,7 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event):
         self._closing = True
+        self.usb_timer.stop()
 
         if self.update_worker.isRunning():
             event.ignore()
