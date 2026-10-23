@@ -1,6 +1,6 @@
 import threading
 from unittest.mock import Mock, patch
-from services.device_service import DeviceService
+from services.device.device_service import DeviceService
 
 def test_create_uid():
     mac = [0x20, 0x9B, 0xA9, 0x66, 0xE4, 0x9C]

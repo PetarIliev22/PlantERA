@@ -50,7 +50,7 @@ jobs:
               --add-data "config;config" `
               --add-data "styles;styles" `
               --add-data ".env;." `
-              --hidden-import services.supabase_service `
+              --hidden-import services.supabase.supabase_service `
               --collect-all qtawesome `
               --collect-submodules esptool `
               --collect-submodules ui.views `

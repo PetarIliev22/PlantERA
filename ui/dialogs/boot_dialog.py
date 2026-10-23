@@ -14,7 +14,7 @@ class BootDialog(QFrame):
     def __init__(self, parent, port, on_connected, on_log=None):
         super().__init__(parent)
         
-        from services.device_service import DeviceService
+        from services.device.device_service import DeviceService
         self.on_log = on_log
         self.port = port
         self.button_action = None

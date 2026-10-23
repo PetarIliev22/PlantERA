@@ -4,7 +4,7 @@ import json
 import subprocess
 
 from pathlib import Path
-from services.update_worker import UpdateWorker
+from services.updates.update_worker import UpdateWorker
 
 from PySide6.QtWidgets import (
     QApplication,

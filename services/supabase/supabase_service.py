@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from supabase import create_client
 
 from utils.paths import resource_path
-from services import supabase_queries
+from services.supabase import supabase_queries
 
 logger = logging.getLogger(__name__)
 

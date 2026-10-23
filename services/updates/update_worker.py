@@ -1,7 +1,7 @@
 
 from PySide6.QtCore import QThread, Signal
 
-from services.update_service import (
+from services.updates.update_service import (
     check_for_updates,
     download_update,
     get_update_checksum

@@ -6,7 +6,7 @@ from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
 from ui.views.provision_view import ProvisionView
-from services.update_worker import UpdateWorker
+from services.updates.update_worker import UpdateWorker
 from ui.dialogs.update_dialog import show_update_dialog
 
 class MainWindow(QMainWindow):

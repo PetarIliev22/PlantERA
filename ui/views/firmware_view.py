@@ -63,7 +63,7 @@ class FirmwareView(QFrame):
         try:
             module = await asyncio.to_thread(
                 import_module,
-                "services.supabase_service"
+                "services.supabase.supabase_service"
             )
 
             models = await module.supabase_service.get_device_models()
