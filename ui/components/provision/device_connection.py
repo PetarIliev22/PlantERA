@@ -1,6 +1,5 @@
 from enum import Enum
 from ui.PySide6_Qt import *
-from serial.tools import list_ports
 from utils.svg_icons import svg_icon
 from config.config_loader import load_config
 
@@ -120,6 +119,8 @@ class DeviceConnection(QFrame):
         layout.addLayout(row)
 
     def refresh_ports(self):
+        from serial.tools import list_ports
+        
         current_port = self.com_box.currentData()
         
         ports = list_ports.comports()

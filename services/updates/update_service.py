@@ -1,8 +1,5 @@
 import time
 import json
-import hashlib
-import tempfile
-import urllib.request
 
 from pathlib import Path
 from PySide6.QtCore import QSettings
@@ -14,11 +11,14 @@ CHECK_INTERVAL = 60 * 60
 settings = QSettings("PlantERA", "PlantERA")
 
 def check_for_updates():
+    import urllib.request
+    
     last_update_check = settings.value("last_update_check", 0, type=float)
     
     now = time.time()
     
     if now - last_update_check < CHECK_INTERVAL:
+        print("Update check skipped")
         return None
 
     try:
@@ -34,7 +34,8 @@ def check_for_updates():
             release = json.load(response)
             
         settings.setValue("last_update_check", now)
-
+        print(f"Latest version: {release['tag_name']}")
+        
         latest_version = release["tag_name"].lstrip("v")
 
         if Version(latest_version) > Version(APP_VERSION):
@@ -66,6 +67,10 @@ def check_for_updates():
 
 
 def download_update(download_url, expected_sha256, progress_callback=None):
+    import hashlib
+    import tempfile
+    import urllib.request
+
     update_dir = Path(tempfile.mkdtemp(prefix="plantera_update_"))
     new_exe = update_dir / "PlantERA.exe"
 
@@ -104,6 +109,7 @@ def download_update(download_url, expected_sha256, progress_callback=None):
         raise
 
 def get_update_checksum(release):
+    import urllib.request
     checksum_asset = next(
         (
             asset for asset in release.get("assets", [])

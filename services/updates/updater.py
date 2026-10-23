@@ -5,7 +5,6 @@ import time
 import subprocess
 from pathlib import Path
 
-
 def replace_executable(old_exe, new_exe, parent_pid):
     old_exe = Path(old_exe).resolve()
     new_exe = Path(new_exe).resolve()
