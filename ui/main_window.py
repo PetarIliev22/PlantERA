@@ -40,7 +40,6 @@ class MainWindow(QMainWindow):
         
         self.update_worker = UpdateWorker(
             download=False,
-            update=self.update,
             parent=self
         )
 

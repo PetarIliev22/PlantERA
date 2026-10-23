@@ -1,15 +1,27 @@
-
+import time
 import json
 import hashlib
 import tempfile
 import urllib.request
 
 from pathlib import Path
+from PySide6.QtCore import QSettings
 from packaging.version import Version, InvalidVersion
 
 from config.version import APP_VERSION, GITHUB_RELEASES_API
 
+CHECK_INTERVAL = 60 * 60
+settings = QSettings("PlantERA", "PlantERA")
+
 def check_for_updates():
+    last_update_check = settings.value("last_update_check", 0, type=float)
+    
+    now = time.time()
+    
+    if now - last_update_check < CHECK_INTERVAL:
+        return None
+
+    settings.setValue("last_update_check", time.time())
     try:
         request = urllib.request.Request(
             GITHUB_RELEASES_API,
@@ -21,6 +33,7 @@ def check_for_updates():
 
         with urllib.request.urlopen(request, timeout=5) as response:
             release = json.load(response)
+        settings.setValue("updates/last_check", now)
 
         latest_version = release["tag_name"].lstrip("v")
 
