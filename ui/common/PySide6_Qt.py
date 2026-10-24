@@ -24,5 +24,6 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QGridLayout,
     QDialog,
-    QProgressBar
+    QProgressBar,
+    QTextBrowser
 )

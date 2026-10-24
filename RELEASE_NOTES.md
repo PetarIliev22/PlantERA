@@ -1,0 +1,10 @@
+- Redesigned update dialog with a cleaner and more intuitive interface
+- Added a What's New section to highlight improvements in each release
+- Improved automatic update reliability and installation stability
+- Fixed update installation issues across different disk drives
+- Enhanced handling of locked files and interrupted downloads
+- Added automatic cleanup of outdated temporary update files
+- Improved update verification with SHA256 integrity checks
+- Optimized application packaging and reduced executable size
+- Improved application startup performance and responsiveness
+- Refined update notifications with clearer version information

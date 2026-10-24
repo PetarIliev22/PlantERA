@@ -1,25 +1,54 @@
+
 QFrame#updateOverlay {
     background-color: rgba(4, 10, 20, 185);
     border: none;
 }
 
 QFrame#updateDialog {
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     border: 1px solid #2B3D55;
     border-radius: 18px;
 }
 
-QLabel#updateTitle {
-    color: #3a3a3a;
-    font-size: 21px;
+QFrame#updateDialog QLabel#updateTitle {
+    color: #081B45;
+    font-size: 32px;
+    font-weight: 800;
+    background: transparent;
+    border: none;
+}
+
+QLabel#updateDetails {
+    color: #667A9C;
+    font-size: 16px;
+    font-weight: 500;
+    background: transparent;
+    border: none;
+}
+
+QFrame#updateVersionBox {
+    background-color: #EAF3FF;
+    border: 1px solid #DCEBFF;
+    border-radius: 14px;
+}
+
+QLabel#updateVersionIcon {
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+}
+
+QLabel#updateNewVersion {
+    color: #0755D8;
+    font-size: 18px;
     font-weight: 700;
     background: transparent;
     border: none;
 }
 
-QLabel#updateDescription {
-    color: #4c5258;
-    font-size: 13px;
+QLabel#updateCurrentVersion {
+    color: #536B97;
+    font-size: 15px;
     background: transparent;
     border: none;
 }
@@ -50,7 +79,7 @@ QPushButton#updateButton:disabled {
 
 QPushButton#laterButton {
     background-color: #1B293D;
-    color: #ffffff;
+    color: #FFFFFF;
     border: 1px solid #2B3D55;
     border-radius: 10px;
     padding: 12px 24px;
@@ -68,3 +97,29 @@ QPushButton#laterButton:hover {
 QPushButton#laterButton:pressed {
     background-color: #142235;
 }
+
+QLabel#updateWhatsNewTitle {
+    color: #081B45;
+    font-size: 19px;
+    margin-top: 15px;
+    font-weight: 700;
+    background: transparent;
+}
+
+QScrollArea#updateWhatsNew {
+    background: transparent;
+    border: none;
+}
+
+QWidget#updateWhatsNewContainer {
+    background: transparent;
+}
+
+QLabel#updateChangeText {
+    color: #354767;
+    font-size: 17px;
+    background: transparent;
+}
+
+
+
