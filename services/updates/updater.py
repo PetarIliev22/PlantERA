@@ -8,16 +8,43 @@ import subprocess
 from pathlib import Path
 
 def wait_for_process(pid):
+    from ctypes import wintypes
+
+    if pid <= 0:
+        raise ValueError(f"Invalid application PID: {pid}")
+
     kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
 
     SYNCHRONIZE = 0x00100000
     WAIT_OBJECT_0 = 0
     WAIT_TIMEOUT = 0x00000102
+    ERROR_INVALID_PARAMETER = 87
+
+    kernel32.OpenProcess.argtypes = [
+        wintypes.DWORD,
+        wintypes.BOOL,
+        wintypes.DWORD
+    ]
+    kernel32.OpenProcess.restype = wintypes.HANDLE
+
+    kernel32.WaitForSingleObject.argtypes = [
+        wintypes.HANDLE,
+        wintypes.DWORD
+    ]
+    kernel32.WaitForSingleObject.restype = wintypes.DWORD
+
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
 
     handle = kernel32.OpenProcess(SYNCHRONIZE, False, pid)
 
     if not handle:
-        raise OSError(ctypes.get_last_error(), "Cannot open application process")
+        error = ctypes.get_last_error()
+
+        if error == ERROR_INVALID_PARAMETER:
+            return
+
+        raise ctypes.WinError(error)
 
     try:
         result = kernel32.WaitForSingleObject(handle, 60000)
@@ -26,7 +53,7 @@ def wait_for_process(pid):
             raise TimeoutError("Application did not close")
 
         if result != WAIT_OBJECT_0:
-            raise RuntimeError("Failed to wait for application")
+            raise ctypes.WinError(ctypes.get_last_error())
 
     finally:
         kernel32.CloseHandle(handle)
