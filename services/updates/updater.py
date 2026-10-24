@@ -58,7 +58,6 @@ def wait_for_process(pid):
     finally:
         kernel32.CloseHandle(handle)
 
-
 def replace_executable(old_exe, new_exe, parent_pid):
     import shutil
 
@@ -74,38 +73,34 @@ def replace_executable(old_exe, new_exe, parent_pid):
     if old_exe.suffix.lower() != ".exe":
         raise ValueError("Invalid application executable")
 
-    backup_exe = old_exe.with_suffix(".exe.bak")
     staged_exe = old_exe.with_name(old_exe.stem + ".update.tmp")
 
+    # Copy new executable to the same disk
     shutil.copy2(new_exe, staged_exe)
 
     try:
+        # Wait until PlantERA closes
         wait_for_process(parent_pid)
 
+        # Replace old executable without creating a backup
         for attempt in range(20):
             try:
-                os.replace(old_exe, backup_exe)
+                os.replace(staged_exe, old_exe)
                 break
             except PermissionError:
                 if attempt == 19:
                     raise
                 time.sleep(1)
 
-        try:
-            os.replace(staged_exe, old_exe)
-
-            subprocess.Popen(
-                [str(old_exe)],
-                cwd=str(old_exe.parent)
-            )
-
-        except Exception:
-            if backup_exe.exists():
-                os.replace(backup_exe, old_exe)
-            raise
+        # Start updated PlantERA
+        subprocess.Popen(
+            [str(old_exe)],
+            cwd=str(old_exe.parent)
+        )
 
     finally:
         staged_exe.unlink(missing_ok=True)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
