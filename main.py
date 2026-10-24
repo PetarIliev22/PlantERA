@@ -1,6 +1,7 @@
 
 import sys
 import time
+import json
 import asyncio
 import ctypes
 
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     QFontDatabase.addApplicationFont(
         str(resource_path("assets", "fonts", "Inter-Regular.ttf"))
     )
-    
+
     app.setFont(QFont("Inter", 10))
 
     app.setStyleSheet(load_styles())
@@ -37,7 +38,14 @@ if __name__ == "__main__":
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
 
-    window = MainWindow()
+    if len(sys.argv) > 2 and sys.argv[1] == "--updater-window":
+        from ui.windows.updater_window import UpdaterWindow
+
+        update = json.loads(sys.argv[2])
+        window = UpdaterWindow(update)
+    else:
+        window = MainWindow()
+
     window.setWindowIcon(app.windowIcon())
     window.show()
 
