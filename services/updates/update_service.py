@@ -5,7 +5,7 @@ from packaging.version import Version
 
 from config.version import APP_NAME, APP_VERSION, GITHUB_RELEASES_API
 
-CHECK_INTERVAL = 10 * 60
+CHECK_INTERVAL = 2 * 60
 settings = QSettings("PlantERA", "PlantERA")
 
 def create_request(url):

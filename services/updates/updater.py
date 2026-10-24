@@ -93,9 +93,13 @@ def replace_executable(old_exe, new_exe, parent_pid):
                 time.sleep(1)
 
         try:
+            env = os.environ.copy()
+            env["PYINSTALLER_RESET_ENVIRONMENT"] = "1"
+
             subprocess.Popen(
                 [str(old_exe)],
-                cwd=str(old_exe.parent)
+                cwd=str(old_exe.parent),
+                env=env
             )
         except OSError as error:
             raise RuntimeError(
