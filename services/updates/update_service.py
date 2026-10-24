@@ -125,3 +125,28 @@ def get_update_checksum(release, asset):
                 return checksum
 
     raise ValueError("Invalid or missing checksum")
+
+def cleanup_old_updates():
+    import tempfile
+    import shutil
+    import time
+    from pathlib import Path
+
+    temp_dir = Path(tempfile.gettempdir())
+    max_age = 24 * 60 * 60  # 24 hours
+    now = time.time()
+
+    for folder in temp_dir.glob("plantera_update_*"):
+        try:
+            if not folder.is_dir() or folder.is_symlink():
+                continue
+
+            age = now - folder.stat().st_mtime
+
+            if age < max_age:
+                continue
+
+            shutil.rmtree(folder)
+
+        except OSError:
+            pass

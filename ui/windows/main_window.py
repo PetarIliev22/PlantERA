@@ -1,4 +1,5 @@
 import sys
+import threading
 from ctypes import wintypes
 
 from ui.common.PySide6_Qt import *
@@ -51,6 +52,7 @@ class MainWindow(QMainWindow):
         )
 
         self.update_worker.start()
+        QTimer.singleShot(1000, self.cleanup_updates)
         
     def create_ui(self):
         central = QWidget()
@@ -152,3 +154,10 @@ class MainWindow(QMainWindow):
 
         super().closeEvent(event)
 
+    def cleanup_updates(self):
+        from services.updates.update_service import cleanup_old_updates
+
+        threading.Thread(
+            target=cleanup_old_updates,
+            daemon=True
+        ).start()

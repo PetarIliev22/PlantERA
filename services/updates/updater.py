@@ -1,4 +1,3 @@
-
 import os
 import sys
 import time
@@ -75,31 +74,41 @@ def replace_executable(old_exe, new_exe, parent_pid):
 
     staged_exe = old_exe.with_name(old_exe.stem + ".update.tmp")
 
-    # Copy new executable to the same disk
-    shutil.copy2(new_exe, staged_exe)
-
     try:
-        # Wait until PlantERA closes
+        shutil.copy2(new_exe, staged_exe)
+        
         wait_for_process(parent_pid)
 
-        # Replace old executable without creating a backup
         for attempt in range(20):
             try:
                 os.replace(staged_exe, old_exe)
                 break
-            except PermissionError:
+            except OSError as error:
+                if error.winerror not in (5, 32):
+                    raise
+
                 if attempt == 19:
                     raise
+
                 time.sleep(1)
 
-        # Start updated PlantERA
-        subprocess.Popen(
-            [str(old_exe)],
-            cwd=str(old_exe.parent)
-        )
+        try:
+            subprocess.Popen(
+                [str(old_exe)],
+                cwd=str(old_exe.parent)
+            )
+        except OSError as error:
+            raise RuntimeError(
+                f"Update installed, but PlantERA could not start: {error}"
+            ) from error
 
     finally:
         staged_exe.unlink(missing_ok=True)
+        try:
+            new_exe.unlink(missing_ok=True)
+            new_exe.parent.rmdir()
+        except OSError:
+            pass
 
 
 if __name__ == "__main__":
