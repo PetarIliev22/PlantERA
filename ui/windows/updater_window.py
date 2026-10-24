@@ -175,15 +175,12 @@ def launch_updater(update):
     )
 
     env = os.environ.copy()
-    env.pop("_PYI_APPLICATION_HOME_DIR", None)
-    env.pop("_PYI_ARCHIVE_FILE", None)
 
-    subprocess.Popen(
-        command,
-        cwd=str(cwd),
-        env=env
-    )
+    if frozen:
+        env["PYINSTALLER_RESET_ENVIRONMENT"] = "1"
 
+    subprocess.Popen(command, cwd=str(cwd), env=env)
+    
 if __name__ == "__main__":
     from styles.style_loader import load_styles
 
