@@ -5,9 +5,6 @@ from ui.common.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
-from ui.views.provision_view import ProvisionView
-from services.updates.update_worker import UpdateWorker
-from ui.dialogs.update_dialog import show_update_dialog
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -38,10 +35,12 @@ class MainWindow(QMainWindow):
         
         self.create_ui()
         
+        from services.updates.update_worker import UpdateWorker
         self.update_worker = UpdateWorker(
             download=False,
             parent=self
         )
+        
 
         self.update_worker.update_available.connect(
             self.on_update_available
@@ -122,6 +121,8 @@ class MainWindow(QMainWindow):
 
 
     def on_usb_changed(self):
+        from ui.views.provision_view import ProvisionView
+        
         provision = self.page_manager.pages.get("provision")
 
         if isinstance(provision, ProvisionView):
@@ -131,7 +132,8 @@ class MainWindow(QMainWindow):
     def on_update_available(self, update):
         if self._closing:
             return
-
+        
+        from ui.dialogs.update_dialog import show_update_dialog
         self.update_dialog = show_update_dialog(self, update)
 
 
