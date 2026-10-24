@@ -5,7 +5,7 @@ from packaging.version import Version
 
 from config.version import APP_NAME, APP_VERSION, GITHUB_RELEASES_API
 
-CHECK_INTERVAL = 2 * 60
+CHECK_INTERVAL = 10 * 60
 settings = QSettings("PlantERA", "PlantERA")
 
 def create_request(url):
@@ -133,17 +133,15 @@ def cleanup_old_updates():
     from pathlib import Path
 
     temp_dir = Path(tempfile.gettempdir())
-    max_age = 24 * 60 * 60  # 24 hours
+    max_age = 5 * 60
     now = time.time()
-
+   
     for folder in temp_dir.glob("plantera_update_*"):
         try:
             if not folder.is_dir() or folder.is_symlink():
                 continue
-
-            age = now - folder.stat().st_mtime
-
-            if age < max_age:
+                
+            if now - folder.stat().st_mtime < max_age:
                 continue
 
             shutil.rmtree(folder)
