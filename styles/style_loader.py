@@ -11,6 +11,7 @@ def load_styles():
         "boot_dialog.qss",
         "sidebar_profile.qss",
         "update_dialog.qss",
+        "updater_window.qss",
         "provision/device_connection.qss",
         "provision/device_info.qss",
         "provision/device_profile.qss",

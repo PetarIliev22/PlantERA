@@ -1,0 +1,62 @@
+QWidget#updaterWindow {
+    background-color: #F0F5FB;
+    color: #142946;
+    font-family: "Inter";
+}
+
+QLabel#updateLogo {
+    background: transparent;
+}
+
+QLabel#updateTitle {
+    color: #102344;
+    background: transparent;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+QLabel#updateSubtitle {
+    color: #7B91AD;
+    background: transparent;
+    font-size: 11px;
+}
+
+QLabel#updateVersion {
+    background-color: #DCEBFF;
+    color: #187FF0;
+    border-radius: 10px;
+    padding: 1px 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+QLabel#updateStatus {
+    color: #273D59;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+QLabel#updatePercentage {
+    color: #1885FB;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+QProgressBar#updateProgress {
+    background-color: #D4E1EF;
+    border: none;
+    border-radius: 4px;
+}
+
+QProgressBar#updateProgress::chunk {
+    background-color: #1885FB;
+    border-radius: 4px;
+}
+
+QLabel#updateFooter {
+    background: transparent;
+    color: #8193AD;
+    font-size: 10px;
+}
