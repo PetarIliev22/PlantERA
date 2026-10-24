@@ -174,7 +174,15 @@ def launch_updater(update):
         if frozen else Path(__file__).resolve().parents[2]
     )
 
-    subprocess.Popen(command, cwd=str(cwd))
+    env = os.environ.copy()
+    env.pop("_PYI_APPLICATION_HOME_DIR", None)
+    env.pop("_PYI_ARCHIVE_FILE", None)
+
+    subprocess.Popen(
+        command,
+        cwd=str(cwd),
+        env=env
+    )
 
 if __name__ == "__main__":
     from styles.style_loader import load_styles
