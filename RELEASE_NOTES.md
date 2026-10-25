@@ -1,5 +1,3 @@
-- Test release to verify the automatic update process
-- Validate the redesigned update dialog and What's New section
-- Verify release notes are displayed correctly
-- Test update installation and automatic application restart
-- Verify download integrity and temporary file cleanup
+- Added automatic cleanup of temporary update files after installation
+- Removed time-based cleanup to prevent interference with active updates
+- Improved temporary file management during the update process

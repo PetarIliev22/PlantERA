@@ -10,14 +10,15 @@ START_TIME = time.perf_counter()
 from qasync import QEventLoop
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
+from services.updates.update_cleanup import cleanup_completed_update
 
 from ui.windows.main_window import MainWindow
 from utils.paths import resource_path
 from styles.style_loader import load_styles
 
-
 if __name__ == "__main__":
-
+    cleanup_completed_update()
+    
     if sys.platform == "win32":
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
             "PlantERA.Desktop.App"

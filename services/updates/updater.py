@@ -96,6 +96,9 @@ def replace_executable(old_exe, new_exe, parent_pid):
             env = os.environ.copy()
             env["PYINSTALLER_RESET_ENVIRONMENT"] = "1"
 
+            env["PLANTERA_UPDATE_DIR"] = str(new_exe.parent)
+            env["PLANTERA_UPDATER_PID"] = str(os.getpid())
+
             subprocess.Popen(
                 [str(old_exe)],
                 cwd=str(old_exe.parent),
@@ -108,12 +111,6 @@ def replace_executable(old_exe, new_exe, parent_pid):
 
     finally:
         staged_exe.unlink(missing_ok=True)
-        try:
-            new_exe.unlink(missing_ok=True)
-            new_exe.parent.rmdir()
-        except OSError:
-            pass
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
