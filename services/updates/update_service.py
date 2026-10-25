@@ -16,7 +16,7 @@ def create_request(url):
         headers={"User-Agent": "PlantERA-Updater"}
     )
 
-def check_for_updates():
+def check_for_updates(force=False):
     import json
     import urllib.request
     from packaging.version import Version
@@ -24,7 +24,7 @@ def check_for_updates():
     now = time.time()
     last_check = settings.value("last_update_check", 0, type=float)
 
-    if now - last_check < CHECK_INTERVAL:
+    if not force and now - last_check < CHECK_INTERVAL:
         return None
 
     try:

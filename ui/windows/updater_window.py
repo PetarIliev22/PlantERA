@@ -85,7 +85,8 @@ class UpdaterWindow(QWidget):
         layout.addWidget(self.progress)
 
         footer = QHBoxLayout()
-        footer.addWidget(label("✓ Verified download", "updateFooter"))
+        self.verification_label = label("Waiting for verification", "updateFooter")
+        footer.addWidget(self.verification_label)
         footer.addStretch()
 
         self.hint = label("Automatic installation", "updateFooter")
@@ -112,12 +113,20 @@ class UpdaterWindow(QWidget):
 
     def on_download_finished(self, files):
         self.downloaded_files = files
+        self.verification_label.setText("✓ Verified download")
         self.set_progress(100)
         self.set_status("Download verified.")
 
     def on_download_failed(self, error):
         self.set_status(f"Update failed: {error}")
         self.hint.setText("Installation cancelled")
+
+    def cleanup_downloads(self):
+        import shutil
+
+        if self.downloaded_files:
+            folder = Path(self.downloaded_files[0]["path"]).parent
+            shutil.rmtree(folder, ignore_errors=True)
 
     def on_worker_finished(self):
         if not self.downloaded_files:
@@ -127,6 +136,7 @@ class UpdaterWindow(QWidget):
 
         if not installed:
             self.set_status("Installation requires packaged app.")
+            self.cleanup_downloads()
             return
 
         files = {
@@ -139,6 +149,7 @@ class UpdaterWindow(QWidget):
 
         if not app or not updater:
             self.set_status("Required update files are missing.")
+            self.cleanup_downloads()
             return
 
         self.set_status("Installing update...")
@@ -150,6 +161,7 @@ class UpdaterWindow(QWidget):
             ])
         except OSError as error:
             self.set_status(f"Installation failed: {error}")
+            self.cleanup_downloads()
             return
 
         QApplication.instance().quit()

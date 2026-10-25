@@ -1,3 +1,4 @@
+import time
 import os
 import shutil
 import tempfile
@@ -32,7 +33,12 @@ def cleanup_completed_update():
             from services.updates.updater import wait_for_process
             wait_for_process(updater_pid)
 
-            shutil.rmtree(update_dir)
+            for _ in range(10):
+                try:
+                    shutil.rmtree(update_dir)
+                    return
+                except OSError:
+                    time.sleep(1)
 
         except (OSError, TimeoutError, ValueError):
             pass
