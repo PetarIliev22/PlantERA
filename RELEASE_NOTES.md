@@ -1,3 +1,4 @@
-- Added automatic cleanup of temporary update files after installation
-- Removed time-based cleanup to prevent interference with active updates
-- Improved temporary file management during the update process
+-Fixed duplicate temporary directories during updates
+-Improved cleanup of temporary update files
+-Added retry mechanism for removing locked update files
+-Improved update installation reliability

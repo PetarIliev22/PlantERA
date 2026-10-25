@@ -61,13 +61,16 @@ def check_for_updates():
         print(f"Update check failed: {error}")
         return None
 
-def download_update(asset, expected_sha256, progress_callback=None):
+def download_update(asset, expected_sha256, progress_callback=None, download_dir=None):
     import hashlib
     import tempfile
     import urllib.request
     from pathlib import Path
     
-    path = Path(tempfile.mkdtemp(prefix="plantera_update_"))
+    path = Path(download_dir) if download_dir else Path(
+        tempfile.mkdtemp(prefix="plantera_update_")
+    )
+    
     file_path = path / Path(asset["name"]).name
     sha256 = hashlib.sha256()
 
@@ -94,9 +97,7 @@ def download_update(asset, expected_sha256, progress_callback=None):
 
     except Exception:
         file_path.unlink(missing_ok=True)
-        path.rmdir()
         raise
-
 
 def get_update_checksum(release, asset):
     import urllib.request

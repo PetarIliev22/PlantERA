@@ -1,3 +1,6 @@
+import shutil
+import tempfile
+
 from pathlib import Path
 from PySide6.QtCore import QThread, Signal
 from services.updates.update_service import (
@@ -32,8 +35,10 @@ class UpdateWorker(QThread):
 
     def download_files(self):
         downloaded_files = []
+        download_dir = None
         
         try:
+            download_dir = Path(tempfile.mkdtemp(prefix="plantera_update_"))
             required = {"PlantERA.exe", "PlantERAUpdater.exe"}
             assets = [
                 asset for asset in self.update["assets"]
@@ -55,7 +60,8 @@ class UpdateWorker(QThread):
                 path = download_update(
                     asset,
                     checksum,
-                    on_progress
+                    on_progress,
+                    download_dir=download_dir
                 )
 
                 downloaded_files.append({
@@ -67,13 +73,8 @@ class UpdateWorker(QThread):
             self.download_finished.emit(downloaded_files)
 
         except Exception as error:
-            for item in downloaded_files:
-                path = Path(item["path"])
-
-                try:
-                    path.unlink(missing_ok=True)
-                    path.parent.rmdir()
-                except OSError:
-                    pass
+            if download_dir:
+                shutil.rmtree(download_dir, ignore_errors=True)
 
             self.download_failed.emit(str(error))
+
