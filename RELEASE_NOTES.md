@@ -1,6 +1,0 @@
-- Improved cleanup of temporary update files after failed installations.
-- Added retry mechanism for removing locked update files.
-- Pinned dependency versions for improved stability.
-- Added automated tests for update checks, SHA256 verification, and network errors.
-- Improved update verification status in the updater interface.
-- General stability and reliability improvements.

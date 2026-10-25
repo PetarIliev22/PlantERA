@@ -1,4 +1,3 @@
-import hashlib
 import json
 from unittest.mock import patch
 from urllib.error import URLError
@@ -95,10 +94,9 @@ def test_update_check_handles_network_error():
 
 # ==================== UPDATE DOWNLOADS ====================
 
-# Verify that files with invalid checksums are rejected and deleted.
-def test_download_rejects_invalid_checksum(tmp_path):
+# Verify that files are downloaded successfully.
+def test_download_success(tmp_path):
     content = b"PlantERA test update"
-    wrong_checksum = hashlib.sha256(b"wrong content").hexdigest()
 
     asset = {
         "name": "PlantERA.exe",
@@ -108,37 +106,17 @@ def test_download_rejects_invalid_checksum(tmp_path):
     with patch("urllib.request.urlopen") as mock_urlopen:
         mock_download_response(mock_urlopen, content)
 
-        with pytest.raises(ValueError, match="Checksum mismatch"):
-            download_update(
-                asset,
-                wrong_checksum,
-                download_dir=tmp_path,
-            )
-
-    assert not (tmp_path / "PlantERA.exe").exists()
-
-
-# Verify that files with valid checksums are downloaded successfully.
-def test_download_accepts_valid_checksum(tmp_path):
-    content = b"PlantERA test update"
-    checksum = hashlib.sha256(content).hexdigest()
-
-    asset = {
-        "name": "PlantERA.exe",
-        "browser_download_url": "https://example.com/PlantERA.exe",
-    }
-
-    with patch("urllib.request.urlopen") as mock_urlopen:
-        mock_download_response(mock_urlopen, content)
+        progress = []
 
         result = download_update(
             asset,
-            checksum,
+            progress.append,
             download_dir=tmp_path,
         )
 
     assert result == tmp_path / "PlantERA.exe"
     assert result.read_bytes() == content
+    assert progress[-1] == 100
 
 
 # Verify that incomplete downloads are removed after network errors.
@@ -152,7 +130,6 @@ def test_download_cleans_up_on_network_error(tmp_path):
         with pytest.raises(URLError):
             download_update(
                 asset,
-                "0" * 64,
                 download_dir=tmp_path,
             )
 

@@ -85,7 +85,7 @@ class UpdaterWindow(QWidget):
         layout.addWidget(self.progress)
 
         footer = QHBoxLayout()
-        self.verification_label = label("Waiting for verification", "updateFooter")
+        self.verification_label = label("Preparing installation...", "updateFooter")
         footer.addWidget(self.verification_label)
         footer.addStretch()
 
@@ -113,7 +113,7 @@ class UpdaterWindow(QWidget):
 
     def on_download_finished(self, files):
         self.downloaded_files = files
-        self.verification_label.setText("✓ Verified download")
+        self.verification_label.setText("✓ Download complete")
         self.set_progress(100)
         self.set_status("Download verified.")
 

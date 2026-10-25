@@ -5,8 +5,7 @@ from pathlib import Path
 from PySide6.QtCore import QThread, Signal
 from services.updates.update_service import (
     check_for_updates,
-    download_update,
-    get_update_checksum
+    download_update
 )
 
 class UpdateWorker(QThread):
@@ -51,23 +50,16 @@ class UpdateWorker(QThread):
                 raise RuntimeError("Required update files are missing")
 
             for index, asset in enumerate(assets):
-                checksum = get_update_checksum(self.update, asset)
-
                 def on_progress(progress, index=index):
                     total = (index + progress / 100) / len(assets) * 100
                     self.progress_changed.emit(int(total))
 
                 path = download_update(
                     asset,
-                    checksum,
                     on_progress,
                     download_dir=download_dir
                 )
-
-                downloaded_files.append({
-                    "asset": asset,
-                    "path": path
-                })
+                downloaded_files.append({"asset": asset, "path": path})
 
             self.progress_changed.emit(100)
             self.download_finished.emit(downloaded_files)

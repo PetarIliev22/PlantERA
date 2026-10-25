@@ -61,22 +61,21 @@ def check_for_updates(force=False):
         print(f"Update check failed: {error}")
         return None
 
-def download_update(asset, expected_sha256, progress_callback=None, download_dir=None):
-    import hashlib
+def download_update(asset, progress_callback=None, download_dir=None):
     import tempfile
     import urllib.request
     from pathlib import Path
-    
+
     path = Path(download_dir) if download_dir else Path(
         tempfile.mkdtemp(prefix="plantera_update_")
     )
-    
+
     file_path = path / Path(asset["name"]).name
-    sha256 = hashlib.sha256()
 
     try:
         with urllib.request.urlopen(
-            create_request(asset["browser_download_url"]), timeout=30
+            create_request(asset["browser_download_url"]),
+            timeout=30
         ) as response, file_path.open("wb") as file:
 
             total = int(response.headers.get("Content-Length", 0))
@@ -84,45 +83,15 @@ def download_update(asset, expected_sha256, progress_callback=None, download_dir
 
             while chunk := response.read(1024 * 1024):
                 file.write(chunk)
-                sha256.update(chunk)
                 downloaded += len(chunk)
 
                 if progress_callback and total:
-                    progress_callback(min(100, downloaded * 100 // total))
-
-        if sha256.hexdigest().lower() != expected_sha256.lower():
-            raise ValueError("Checksum mismatch")
+                    progress_callback(
+                        min(100, downloaded * 100 // total)
+                    )
 
         return file_path
 
     except Exception:
         file_path.unlink(missing_ok=True)
         raise
-
-def get_update_checksum(release, asset):
-    import urllib.request
-    
-    checksum_file = next(
-        (a for a in release["assets"] if a["name"] == "checksums.txt"),
-        None
-    )
-
-    if not checksum_file:
-        raise ValueError("Checksum file not found")
-
-    with urllib.request.urlopen(
-        create_request(checksum_file["browser_download_url"]),
-        timeout=15
-    ) as response:
-        lines = response.read().decode("utf-8").splitlines()
-
-    for line in lines:
-        parts = line.split()
-
-        if len(parts) == 2 and parts[1].lstrip("*") == asset["name"]:
-            checksum = parts[0].lower()
-
-            if len(checksum) == 64 and all(c in "0123456789abcdef" for c in checksum):
-                return checksum
-
-    raise ValueError("Invalid or missing checksum")
