@@ -85,8 +85,8 @@ class UpdaterWindow(QWidget):
         layout.addWidget(self.progress)
 
         footer = QHBoxLayout()
-        self.verification_label = label("Preparing installation...", "updateFooter")
-        footer.addWidget(self.verification_label)
+        self.footer_label = label("Preparing installation...", "updateFooter")
+        footer.addWidget(self.footer_label)
         footer.addStretch()
 
         self.hint = label("Automatic installation", "updateFooter")
@@ -113,9 +113,9 @@ class UpdaterWindow(QWidget):
 
     def on_download_finished(self, files):
         self.downloaded_files = files
-        self.verification_label.setText("✓ Download complete")
+        self.footer_label.setText("✓ Download complete")
         self.set_progress(100)
-        self.set_status("Download verified.")
+        self.set_status("Download complete.")
 
     def on_download_failed(self, error):
         self.set_status(f"Update failed: {error}")

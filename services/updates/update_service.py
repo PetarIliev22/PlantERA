@@ -1,8 +1,6 @@
 import time
 
 from PySide6.QtCore import QSettings
-from packaging.version import Version
-
 from config.version import APP_NAME, APP_VERSION, GITHUB_RELEASES_API
 
 CHECK_INTERVAL = 10 * 60
