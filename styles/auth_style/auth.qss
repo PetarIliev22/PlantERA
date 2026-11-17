@@ -1,0 +1,141 @@
+QWidget#authView {
+    background-color: #EDF5FF;
+}
+
+QFrame#authForm {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+}
+
+QLabel#authLogo {
+    background: transparent;
+    border: none;
+    padding-bottom: 6px;
+}
+
+QLabel#authSubtitle {
+    background: transparent;
+    color: #64748B;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+QFrame#authTabs {
+    background-color: #F2F5FA;
+    border: none;
+    border-radius: 22px;
+}
+
+QPushButton#authTab {
+    background-color: transparent;
+    color: #8492A6;
+    border: none;
+    border-radius: 18px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+QPushButton#authTab:checked {
+    background-color: #FFFFFF;
+    color: #2872DC;
+    border-radius: 18px;
+    font-weight: 700;
+}
+
+QWidget#authField {
+    background: transparent;
+    border: none;
+}
+
+QLabel#authFieldLabel {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: #425571;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+QLineEdit#authInput {
+    background-color: #FAFCFF;
+    color: #20314B;
+    border: 1px solid #DFE7F1;
+    border-radius: 9px;
+    padding: 0 12px;
+    font-size: 13px;
+    selection-background-color: #BBD7FF;
+    lineedit-password-character: 8226;
+}
+
+QLineEdit#authInput:hover {
+    border-color: #B9CDE7;
+}
+
+QLineEdit#authInput:focus {
+    background-color: #FFFFFF;
+    border: 1px solid #6CA6F4;
+}
+
+QCheckBox#authRemember {
+    background: transparent;
+    color: #687B94;
+    font-size: 14px;
+    font-weight: 500;
+    spacing: 8px;
+}
+
+QCheckBox#authRemember::indicator {
+    padding: 1px;
+    width: 13px;
+    height: 13px;
+    background-color: #FFFFFF;
+    border: 1px solid #CDD9E8;
+    border-radius: 4px;
+}
+
+QCheckBox#authRemember::indicator:hover {
+    border-color: #347EE8;
+}
+
+QCheckBox#authRemember::indicator:checked {
+    background-color: #1677F2;
+    border: 1px solid #1677F2;
+    image: url("assets/img/icons/check.svg");
+}
+
+QPushButton#authLink {
+    background: transparent;
+    color: #347EE8;
+    border: none;
+    padding: 4px 0;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+QPushButton#authLink:hover {
+    color: #155EC6;
+}
+
+QPushButton#authSubmit {
+    background-color: #1677F2;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 13px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QPushButton#authSubmit:hover {
+    background-color: #0967E5;
+}
+
+QPushButton#authSubmit:pressed {
+    background-color: #0755C4;
+}
+
+QPushButton#authSubmit:disabled {
+    background-color: #B8CBE5;
+    color: #FFFFFF;
+}

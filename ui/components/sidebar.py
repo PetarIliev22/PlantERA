@@ -1,7 +1,6 @@
 from ui.common.PySide6_Qt import *
 from utils.paths import resource_path
 from config.version import APP_VERSION
-from utils.animations import fade_in_page
 from config.config_loader import load_config
 from ui.components.sidebar_profile import SidebarProfile
 
