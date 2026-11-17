@@ -24,7 +24,7 @@ class Login(QWidget):
 
         self.remember = QCheckBox("Remember me")
         self.remember.setObjectName("authRemember")
-        self.remember.setChecked(True)
+        self.remember.setChecked(False)
 
         self.forgot_button = QPushButton("Forgot password?")
         self.forgot_button.setObjectName("authLink")

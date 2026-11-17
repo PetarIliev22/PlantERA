@@ -21,7 +21,8 @@ def load_styles():
         "firmware/device_models.qss",
         "firmware/model_details.qss",
         "firmware/device_model_row.qss",
-        "auth_style/auth.qss"
+        "auth_style/auth.qss",
+        "auth_style/alert.qss",
     ]
 
     styles = "\n".join(

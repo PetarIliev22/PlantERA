@@ -4,6 +4,7 @@ from ui.components.auth_components.login import Login
 from ui.components.auth_components.register import Register
 from utils.paths import resource_path
 from utils.animations import fade_in_widget
+from ui.components.auth_components.alert import Alert
 from handlers.auth_handler.login_handler import LoginHandler
 from handlers.auth_handler.register_handler import RegisterHandler
  
@@ -74,6 +75,7 @@ class AuthView(QWidget):
 
         form.addWidget(self.subtitle)
         form.addSpacing(2)
+        self.alert = Alert()
 
         tabs = QFrame()
         tabs.setObjectName("authTabs")
@@ -91,6 +93,7 @@ class AuthView(QWidget):
             tabs_layout.addWidget(button)
 
         form.addWidget(tabs)
+        form.addWidget(self.alert)
 
         self.pages = QStackedWidget()
 
@@ -106,7 +109,6 @@ class AuthView(QWidget):
             self.form,
             alignment=Qt.AlignmentFlag.AlignCenter
         )
-
         self.login_tab.clicked.connect(lambda: self.switch_page(0))
         self.register_tab.clicked.connect(lambda: self.switch_page(1))
 

@@ -1,0 +1,26 @@
+QWidget#appAlert[status="error"] {
+    background-color: #FFF1F2;
+    border: 1px solid #FECDD3;
+    border-radius: 12px;
+}
+
+QWidget#appAlert[status="success"] {
+    background-color: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 12px;
+}
+
+QLabel#alertMessage {
+    background-color: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+QLabel#alertMessage[status="error"] {
+    color: #BE123C;
+}
+
+QLabel#alertMessage[status="success"] {
+    color: #15803D;
+}

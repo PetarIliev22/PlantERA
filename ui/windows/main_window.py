@@ -5,6 +5,7 @@ from ui.common.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
+from ui.views.auth_views import AuthView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -43,6 +44,22 @@ class MainWindow(QMainWindow):
 
     # User interface
     def create_ui(self):
+        self.auth_view = AuthView(self)
+        self.setCentralWidget(self.auth_view)
+
+        self.auth_view.login_handler.authenticated.connect(
+            self.on_authenticated
+        )
+
+        self.auth_view.register_handler.authenticated.connect(
+            self.on_authenticated
+        )
+        
+    def on_authenticated(self, user):
+        self.current_user = user
+        self.show_main_ui()
+        
+    def show_main_ui(self):
         central = QWidget()
         central.setObjectName("mainContainer")
         self.setCentralWidget(central)
@@ -104,6 +121,9 @@ class MainWindow(QMainWindow):
 
     # USB devices
     def on_usb_changed(self):
+        if not hasattr(self, "page_manager"):
+            return
+
         provision = self.page_manager.pages.get("provision")
 
         if provision is not None:
