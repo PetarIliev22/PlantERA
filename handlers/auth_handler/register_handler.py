@@ -58,9 +58,7 @@ class RegisterHandler(QObject):
 
             elif response.user:
                 self.view.switch_page(0)
-                alert.show_message(
-                    success=True
-                )
+                alert.show_message(messages["success"], success=True)
 
             else:
                 alert.show_message(
@@ -84,6 +82,10 @@ class RegisterHandler(QObject):
 
         finally:
             button.setEnabled(True)
-            button.setText(messages["button"])
+            button.setText(
+                self.messages["login"]["button"]
+                if self.view.pages.currentIndex() == 0
+                else messages["button"]
+            )
             self.view.login_tab.setEnabled(True)
             self.view.register_tab.setEnabled(True)
