@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_submodules
 
-hiddenimports = ['services.supabase.supabase_service', 'encodings.idna',]
+hiddenimports = ['encodings.idna',]
 hiddenimports += collect_submodules('esptool')
 hiddenimports += collect_submodules('ui.views')
 

@@ -1,4 +1,3 @@
-
 import sys
 import time
 import json
@@ -12,7 +11,7 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from services.updates.update_cleanup import cleanup_completed_update
 
-from ui.windows.main_window import MainWindow
+from ui.windows.main_window.main_window import MainWindow
 from utils.paths import resource_path
 from styles.style_loader import load_styles
 

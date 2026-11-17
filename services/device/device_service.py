@@ -55,8 +55,9 @@ class DeviceService(QObject):
         last_error = None
         while not stop_event.is_set():
             if time.monotonic() > deadline:
-                self.failed.emit()
-                return
+                 if not stop_event.is_set():
+                    self.failed.emit()
+                    return
 
             try:
                 with detect_chip(port, connect_attempts=1) as esp:

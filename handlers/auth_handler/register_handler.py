@@ -1,7 +1,6 @@
 import re
 from PySide6.QtCore import QObject, Signal
 from qasync import asyncSlot
-from config.config_loader import load_config
 
 class RegisterHandler(QObject):
     authenticated = Signal(object)
@@ -10,7 +9,7 @@ class RegisterHandler(QObject):
         super().__init__(view)
 
         self.view = view
-        self.messages = load_config("auth_messages.json")
+        self.messages = view.messages
 
         register_button = view.register.register_button
         register_button.clicked.connect(self.handle_register)
@@ -71,12 +70,13 @@ class RegisterHandler(QObject):
                 )
 
         except Exception as error:
+            import httpx
             error_code = getattr(error, "code", None)
 
             if error_code in ("email_exists", "user_already_exists"):
                 message = messages["email_exists"]
 
-            elif isinstance(error, (ConnectionError, TimeoutError, OSError)):
+            elif isinstance(error, (ConnectionError, TimeoutError, OSError, httpx.ConnectError)):
                 message = self.messages["general"]["network_error"]
 
             else:

@@ -1,5 +1,4 @@
 from PySide6.QtCore import QObject, Signal
-from config.config_loader import load_config
 from qasync import asyncSlot
 
 class LoginHandler(QObject):
@@ -9,15 +8,11 @@ class LoginHandler(QObject):
         super().__init__(view)
 
         self.view = view
-        self.messages = load_config("auth_messages.json")
+        self.messages = view.messages
 
         login_button = view.login.login_button
         login_button.clicked.connect(self.handle_login)
 
-    def show_error(self, message):
-        self.view.alert.show_message(message)
-
-    
     @asyncSlot()
     async def handle_login(self):
         login = self.view.login
@@ -46,12 +41,13 @@ class LoginHandler(QObject):
                 alert.show_message(messages["invalid_credentials"])
 
         except Exception as error:
+            import httpx
             code = getattr(error, "code", None)
 
             if code == "invalid_credentials":
                 message = messages["invalid_credentials"]
                 
-            elif isinstance(error, (ConnectionError, TimeoutError, OSError)):
+            elif isinstance(error, (ConnectionError, TimeoutError, OSError, httpx.RequestError)):
                 message = self.messages["general"]["network_error"]
                 
             else:

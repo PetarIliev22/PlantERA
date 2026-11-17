@@ -7,7 +7,8 @@ from utils.animations import fade_in_widget
 from ui.components.auth_components.alert import Alert
 from handlers.auth_handler.login_handler import LoginHandler
 from handlers.auth_handler.register_handler import RegisterHandler
- 
+from config.config_loader import load_config
+
 class AuthView(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -16,29 +17,39 @@ class AuthView(QWidget):
         self.background = QPixmap(str(resource_path(
             "assets", "img", "auth", "auth_background.png"
         )))
-
+        self.scaled_background = QPixmap()
         self.create_ui()
+        
+        self.messages = load_config("auth_messages.json")
         self.login_handler = LoginHandler(self)
         self.register_handler = RegisterHandler(self)
 
     def paintEvent(self, event):
-        if self.background.isNull():
+        if self.scaled_background.isNull():
             super().paintEvent(event)
             return
 
-        image = self.background.scaled(
-            self.size(),
-            Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-            Qt.TransformationMode.SmoothTransformation
-        )
-
-        x = (image.width() - self.width()) // 2
-        y = (image.height() - self.height()) // 2
-
         painter = QPainter(self)
+
+        x = (self.scaled_background.width() - self.width()) // 2
+        y = (self.scaled_background.height() - self.height()) // 2
+
         painter.drawPixmap(
-            0, 0, image, x, y, self.width(), self.height()
+            0, 0,
+            self.scaled_background,
+            x, y,
+            self.width(), self.height()
         )
+        
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        if not self.background.isNull():
+            self.scaled_background = self.background.scaled(
+                self.size(),
+                Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                Qt.TransformationMode.SmoothTransformation
+            )
 
     def create_ui(self):
         layout = QVBoxLayout(self)
