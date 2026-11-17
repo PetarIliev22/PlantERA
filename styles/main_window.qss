@@ -9,3 +9,7 @@ QWidget#mainContainer {
 QWidget#mainContent {
     background-color: #f1f7fd;
 }
+
+QPushButton:focus {
+    outline: none;
+}

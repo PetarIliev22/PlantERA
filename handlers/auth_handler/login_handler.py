@@ -26,6 +26,8 @@ class LoginHandler(QObject):
 
         button.setEnabled(False)
         button.setText(messages["loading"])
+        self.view.login_tab.setEnabled(False)
+        self.view.register_tab.setEnabled(False)
 
         try:
             from services.supabase.supabase_auth import sign_in
@@ -55,4 +57,6 @@ class LoginHandler(QObject):
         finally:
             button.setEnabled(True)
             button.setText(messages["button"])
+            self.view.login_tab.setEnabled(True)
+            self.view.register_tab.setEnabled(True)
 

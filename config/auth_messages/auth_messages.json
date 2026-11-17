@@ -14,7 +14,6 @@
     "password_mismatch": "Passwords do not match.",
     "email_exists": "An account with this email already exists.",
     "success": "Account created successfully!",
-    "confirmation_required": "Account created! Please check your email to confirm your account.",
     "loading": "Creating account...",
     "button": "Create Account"
   },
