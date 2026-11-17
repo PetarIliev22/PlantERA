@@ -10,14 +10,11 @@ class LoginHandler(QObject):
         self.view = view
         self.messages = view.messages
 
-        login_button = view.login.login_button
-        login_button.clicked.connect(self.handle_login)
-
     @asyncSlot()
     async def handle_login(self):
         login = self.view.login
         messages = self.messages["login"]
-        button = login.login_button
+        button = self.view.submit_button
         alert = self.view.alert
 
         email = login.email.text().strip()

@@ -11,9 +11,6 @@ class RegisterHandler(QObject):
         self.view = view
         self.messages = view.messages
 
-        register_button = view.register.register_button
-        register_button.clicked.connect(self.handle_register)
-
     def validate(self, email, password, confirm):
         if not email or not password or not confirm:
             return "empty_fields"
@@ -33,7 +30,7 @@ class RegisterHandler(QObject):
     async def handle_register(self):
         register = self.view.register
         messages = self.messages["register"]
-        button = register.register_button
+        button = self.view.submit_button
         alert = self.view.alert
 
         email = register.email.text().strip()

@@ -25,10 +25,3 @@ class Register(QWidget):
             self, layout, "Confirm Password", "Repeat your password", True
         )
         layout.addSpacing(22)
-
-        self.register_button = QPushButton("Create Account")
-        self.register_button.setObjectName("authSubmit")
-        self.register_button.setFixedHeight(44)
-        self.register_button.setCursor(Qt.CursorShape.PointingHandCursor)
-
-        layout.addWidget(self.register_button)

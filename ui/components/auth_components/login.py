@@ -37,13 +37,6 @@ class Login(QWidget):
         layout.addLayout(options)
         layout.addSpacing(22)
 
-        self.login_button = QPushButton("Login")
-        self.login_button.setObjectName("authSubmit")
-        self.login_button.setFixedHeight(48)
-        self.login_button.setCursor(Qt.CursorShape.PointingHandCursor)
-
-        layout.addWidget(self.login_button)
-
     def create_field(self, layout, label_text, placeholder, password=False):
         container = QWidget()
         container.setObjectName("authField")

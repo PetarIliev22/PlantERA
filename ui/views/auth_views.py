@@ -1,12 +1,12 @@
 from ui.common.PySide6_Qt import *
 from PySide6.QtGui import QPainter, QPixmap
 from ui.components.auth_components.login import Login
-from ui.components.auth_components.register import Register
-from utils.paths import resource_path
-from utils.animations import fade_in_widget
 from ui.components.auth_components.alert import Alert
+from ui.components.auth_components.register import Register
 from handlers.auth_handler.login_handler import LoginHandler
 from handlers.auth_handler.register_handler import RegisterHandler
+from utils.paths import resource_path
+from utils.animations import fade_in_widget
 from config.config_loader import load_config
 
 class AuthView(QWidget):
@@ -23,6 +23,7 @@ class AuthView(QWidget):
         self.messages = load_config("auth_messages.json")
         self.login_handler = LoginHandler(self)
         self.register_handler = RegisterHandler(self)
+        self.submit_button.clicked.connect(self.submit)
 
     def paintEvent(self, event):
         if self.scaled_background.isNull():
@@ -115,7 +116,13 @@ class AuthView(QWidget):
         self.pages.addWidget(self.register)
 
         form.addWidget(self.pages)
+        self.submit_button = QPushButton("Login")
+        self.submit_button.setObjectName("authSubmit")
+        self.submit_button.setFixedHeight(48)
+        self.submit_button.setCursor(Qt.CursorShape.PointingHandCursor)
 
+        form.addWidget(self.submit_button)
+        
         layout.addWidget(
             self.form,
             alignment=Qt.AlignmentFlag.AlignCenter
@@ -126,7 +133,18 @@ class AuthView(QWidget):
         self.switch_page(0)
         fade_in_widget(self.form)
         
+        
+    def submit(self):
+        if self.pages.currentIndex() == 0:
+            self.login_handler.handle_login()
+        else:
+            self.register_handler.handle_register()
+            
     def switch_page(self, index):
         self.pages.setCurrentIndex(index)
         self.login_tab.setChecked(index == 0)
         self.register_tab.setChecked(index == 1)
+
+        self.submit_button.setText(
+            "Login" if index == 0 else "Create Account"
+        )

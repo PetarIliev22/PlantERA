@@ -139,3 +139,7 @@ QPushButton#authSubmit:disabled {
     background-color: #B8CBE5;
     color: #FFFFFF;
 }
+
+QPushButton#authSubmit:focus {
+    outline: none;
+}
