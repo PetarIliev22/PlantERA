@@ -1,4 +1,3 @@
-
 import json
 from utils.paths import resource_path
 
@@ -11,6 +10,7 @@ CONFIG_FOLDERS = {
     "device_console.json": "devices_config",
     "device_images.json": "devices_config",
     "device_profiles.json": "devices_config",
+    "auth_messages.json": "auth_messages"
 }
 
 def load_config(filename):

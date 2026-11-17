@@ -4,6 +4,8 @@ from ui.components.auth_components.login import Login
 from ui.components.auth_components.register import Register
 from utils.paths import resource_path
 from utils.animations import fade_in_widget
+from handlers.auth_handler.login_handler import LoginHandler
+from handlers.auth_handler.register_handler import RegisterHandler
  
 class AuthView(QWidget):
     def __init__(self, parent=None):
@@ -15,6 +17,8 @@ class AuthView(QWidget):
         )))
 
         self.create_ui()
+        self.login_handler = LoginHandler(self)
+        self.register_handler = RegisterHandler(self)
 
     def paintEvent(self, event):
         if self.background.isNull():
