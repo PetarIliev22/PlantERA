@@ -1,5 +1,10 @@
+import asyncio
+from services.supabase.supabase_client import get_supabase_client
 
-def get_device_models(client):
+# Device models
+def _fetch_device_models():
+    client = get_supabase_client()
+
     response = (
         client.table("device_models")
         .select("*")
@@ -8,3 +13,6 @@ def get_device_models(client):
     )
 
     return response.data
+
+async def get_device_models():
+    return await asyncio.to_thread(_fetch_device_models)

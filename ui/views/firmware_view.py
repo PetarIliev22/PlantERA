@@ -1,6 +1,5 @@
 import asyncio
 from ui.common.PySide6_Qt import *
-from importlib import import_module
 from ui.components.firmware.device_models import DeviceModels
 from ui.components.firmware.model_details import ModelDetails
 from utils.shadow import apply_shadow
@@ -61,12 +60,14 @@ class FirmwareView(QFrame):
         self.device_models.set_loading()
         
         try:
+            from importlib import import_module
+
             module = await asyncio.to_thread(
                 import_module,
-                "services.supabase.supabase_service"
+                "services.supabase.supabase_queries"
             )
 
-            models = await module.supabase_service.get_device_models()
+            models = await module.get_device_models()
             self.device_models.set_models(models)
 
         except Exception as error:
