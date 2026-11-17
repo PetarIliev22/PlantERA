@@ -1,6 +1,5 @@
 QFrame#toolbar {
-    background-color: #F8FAFD;
-    border-image: url("assets/img/toolbar_bg.png") 0 0 0 0 stretch stretch;
+    background-color: #ffffff;
     border: none;
 }
 
