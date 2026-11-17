@@ -3,7 +3,7 @@ from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
 from core.page_manager import PageManager
 from ui.views.auth_views import AuthView
-
+from ui.components.window_controls import WindowControls
 from .window_events import WindowEvents
 from .window_appearance import WindowAppearance
 from .window_updates import WindowUpdates
@@ -17,6 +17,9 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.setup_window()
         self.setup_timers()
         self.create_ui()
+        self.window_controls = WindowControls(self)
+        self.window_controls.show()
+        self.position_window_controls()
         self.start_update_check()
 
     def create_ui(self):
@@ -31,6 +34,19 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
             self.on_authenticated
         )
 
+    def position_window_controls(self):
+        self.window_controls.move(
+            self.width() - self.window_controls.width(),
+            0
+        )
+        self.window_controls.raise_()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        if hasattr(self, "window_controls"):
+            self.position_window_controls()
+    
     def on_authenticated(self, user):
         if hasattr(self, "page_manager"):
             return
@@ -42,6 +58,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         central = QWidget()
         central.setObjectName("mainContainer")
         self.setCentralWidget(central)
+        self.window_controls.raise_()
 
         main_layout = QHBoxLayout(central)
         main_layout.setContentsMargins(0, 0, 0, 0)

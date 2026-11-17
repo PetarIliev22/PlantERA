@@ -1,5 +1,4 @@
 from ui.common.PySide6_Qt import *
-from utils.paths import resource_path
 
 class Toolbar(QFrame):
     def __init__(self, parent):
@@ -39,29 +38,6 @@ class Toolbar(QFrame):
 
         layout.addStretch()
         
-        buttons = [
-            ("minimize", "minimize.svg", self.window().showMinimized),
-            ("maximize", "maximize.svg", self.window().toggle_maximize),
-            ("close", "close.svg", self.window().close),
-        ]
-
-        for name, icon, command in buttons:
-            button = QPushButton()
-            button.setObjectName(f"{name}Button")
-            button.setFixedSize(44, 36)
-            button.setCursor(Qt.CursorShape.PointingHandCursor)
-            button.setIcon(
-                QIcon(str(resource_path("assets","img", "icons", icon)))
-            )
-            button.setIconSize(QSize(15, 15))
-            button.clicked.connect(command)
-
-            layout.addWidget(
-                button,
-                0,
-                Qt.AlignmentFlag.AlignTop
-            )
-
         self.bottom_line = QFrame(self)
         self.bottom_line.setObjectName("toolbarBottomLine")
         self.bottom_line.setFixedHeight(2)
