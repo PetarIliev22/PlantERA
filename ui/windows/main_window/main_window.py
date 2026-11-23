@@ -1,3 +1,4 @@
+from qasync import asyncSlot
 from ui.common.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
@@ -17,8 +18,10 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.setup_window()
         self.setup_timers()
         self.create_ui()
+
         self.window_controls = WindowControls(self)
         self.window_controls.show()
+
         self.position_window_controls()
         self.start_update_check()
 
@@ -34,25 +37,22 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
             self.on_authenticated
         )
 
-    def position_window_controls(self):
-        self.window_controls.move(
-            self.width() - self.window_controls.width(),
-            0
-        )
-        self.window_controls.raise_()
-
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-
-        if hasattr(self, "window_controls"):
-            self.position_window_controls()
-    
-    def on_authenticated(self, user):
+    @asyncSlot(object)
+    async def on_authenticated(self, user):
         if hasattr(self, "page_manager"):
             return
 
         self.current_user = user
+
+        await self.load_user_profile()
         self.show_main_ui()
+
+    async def load_user_profile(self):
+        from services.supabase.supabase_queries import get_user_profile
+
+        self.current_profile = await get_user_profile(
+            self.current_user.id
+        )
 
     def show_main_ui(self):
         central = QWidget()
@@ -65,6 +65,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         main_layout.setSpacing(0)
 
         self.sidebar = Sidebar(self)
+        self.sidebar.profile.set_profile(self.current_profile)
         main_layout.addWidget(self.sidebar)
 
         right_container = QWidget()
@@ -86,14 +87,25 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
         main_layout.addWidget(right_container, 1)
 
-    def closeEvent(self, event):
-        if self.update_worker.isRunning():
-            self._closing = True
-            self.usb_timer.stop()
-            event.ignore()
-            return
+    def position_window_controls(self):
+        self.window_controls.move(
+            self.width() - self.window_controls.width(),
+            0
+        )
+        self.window_controls.raise_()
 
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+
+        if hasattr(self, "window_controls"):
+            self.position_window_controls()
+
+    def closeEvent(self, event):
         self._closing = True
         self.usb_timer.stop()
+
+        if self.update_worker.isRunning():
+            event.ignore()
+            return
 
         super().closeEvent(event)

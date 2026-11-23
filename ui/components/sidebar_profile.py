@@ -1,6 +1,4 @@
-
 from ui.common.PySide6_Qt import *
-from utils.paths import resource_path
 
 class SidebarProfile(QFrame):
     def __init__(self, parent=None):
@@ -16,15 +14,15 @@ class SidebarProfile(QFrame):
         layout.setContentsMargins(12, 10, 12, 10)
         layout.setSpacing(12)
 
-        self.avatar = QLabel("P")
+        self.avatar = QLabel("?")
         self.avatar.setObjectName("profileAvatar")
         self.avatar.setFixedSize(44, 44)
         self.avatar.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.name = QLabel("Petar Iliev")
+        self.name = QLabel()
         self.name.setObjectName("profileName")
 
-        self.role = QLabel("Administrator")
+        self.role = QLabel()
         self.role.setObjectName("profileRole")
 
         details = QVBoxLayout()
@@ -38,24 +36,29 @@ class SidebarProfile(QFrame):
 
         layout.addWidget(self.avatar)
         layout.addLayout(details, 1)
-    
-    def set_profile(self, name, role, image_path=None):
+
+    def set_profile(self, profile, image_data=None):
+        name = f"{profile['first_name']} {profile['last_name']}".strip()
+
         self.name.setText(name)
-        self.role.setText(role)
+        self.role.setText(profile["role"].capitalize())
 
-        if image_path:
-            pixmap = QPixmap(str(resource_path(*image_path.split("/"))))
+        if image_data:
+            pixmap = QPixmap()
 
-            if not pixmap.isNull():
+            if pixmap.loadFromData(image_data):
                 self.avatar.setPixmap(
                     pixmap.scaled(
-                        44,
-                        44,
+                        self.avatar.size(),
                         Qt.AspectRatioMode.KeepAspectRatioByExpanding,
                         Qt.TransformationMode.SmoothTransformation
                     )
                 )
                 return
 
-        self.avatar.setPixmap(QPixmap())
-        self.avatar.setText(name[:1].upper() if name else "?")
+        initials = "".join(
+            part[0].upper() for part in name.split()[:2]
+        )
+
+        self.avatar.clear()
+        self.avatar.setText(initials or "?")

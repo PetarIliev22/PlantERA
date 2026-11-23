@@ -1,3 +1,4 @@
+import asyncio
 from PySide6.QtCore import QObject, Signal
 from qasync import asyncSlot
 
@@ -28,13 +29,16 @@ class LoginHandler(QObject):
         button.setText(messages["loading"])
         self.view.login_tab.setEnabled(False)
         self.view.register_tab.setEnabled(False)
-
+        
+        authenticated = False
         try:
+            await asyncio.sleep(0)
             from services.supabase.supabase_auth import sign_in
 
             response = await sign_in(email, password)
 
             if response.user and response.session:
+                authenticated = True
                 self.authenticated.emit(response.user)
             else:
                 alert.show_message(messages["invalid_credentials"])
@@ -55,8 +59,9 @@ class LoginHandler(QObject):
             alert.show_message(message)
 
         finally:
-            button.setEnabled(True)
-            button.setText(messages["button"])
-            self.view.login_tab.setEnabled(True)
-            self.view.register_tab.setEnabled(True)
+            if not authenticated:
+                button.setEnabled(True)
+                button.setText(messages["button"])
+                self.view.login_tab.setEnabled(True)
+                self.view.register_tab.setEnabled(True)
 
