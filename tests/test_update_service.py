@@ -1,6 +1,8 @@
 import json
 from unittest.mock import patch
 from urllib.error import URLError
+from config.version import APP_VERSION
+from packaging.version import Version
 
 import pytest
 
@@ -28,7 +30,7 @@ def mock_download_response(mock_urlopen, content):
 # Verify that the current version does not trigger an update.
 def test_no_update_when_version_is_current():
     release = {
-        "tag_name": "v1.0.3",
+        "tag_name": f"v{APP_VERSION}",
         "assets": [
             {
                 "name": "PlantERA.exe",
@@ -52,8 +54,11 @@ def test_no_update_when_version_is_current():
 
 # Verify that a newer release is detected correctly.
 def test_update_available():
+    current = Version(APP_VERSION)
+    next_version = f"{current.major}.{current.minor}.{current.micro + 1}"
+    
     release = {
-        "tag_name": "v1.0.4",
+        "tag_name": f"v{next_version}",
         "body": "Bug fixes",
         "assets": [
             {
@@ -73,7 +78,7 @@ def test_update_available():
         result = check_for_updates()
 
         assert result is not None
-        assert result["version"] == "1.0.4"
+        assert result["version"] == next_version
         assert result["release_notes"] == "Bug fixes"
         mock_urlopen.assert_called_once()
 
