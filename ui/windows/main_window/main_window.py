@@ -48,10 +48,14 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.show_main_ui()
 
     async def load_user_profile(self):
-        from services.supabase.supabase_queries import get_user_profile
+        from services.supabase.supabase_queries import (get_user_profile, get_user_avatar)
 
         self.current_profile = await get_user_profile(
             self.current_user.id
+        )
+        
+        self.current_avatar = await get_user_avatar(
+            self.current_profile["avatar_url"]
         )
 
     def show_main_ui(self):
@@ -65,7 +69,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         main_layout.setSpacing(0)
 
         self.sidebar = Sidebar(self)
-        self.sidebar.profile.set_profile(self.current_profile)
+        self.sidebar.profile.set_profile(self.current_profile, self.current_avatar)
         main_layout.addWidget(self.sidebar)
 
         right_container = QWidget()

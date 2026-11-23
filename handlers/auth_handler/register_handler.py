@@ -40,6 +40,7 @@ class RegisterHandler(QObject):
         email = register.email.text().strip()
         password = register.password.text()
         confirm = register.confirm.text()
+        avatar_path = register.avatar_path
 
         error = self.validate(email, password, confirm, first_name, last_name)
 
@@ -56,10 +57,14 @@ class RegisterHandler(QObject):
         try:
             await asyncio.sleep(0)
             from services.supabase.supabase_auth import sign_up
+            from services.supabase.supabase_queries import upload_user_avatar
 
             response = await sign_up(email, password, first_name, last_name)
 
             if response.user and response.session:
+                if avatar_path:
+                    await upload_user_avatar(response.user.id, avatar_path)
+                    
                 authenticated = True
                 self.authenticated.emit(response.user)
 

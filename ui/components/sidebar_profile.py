@@ -47,13 +47,30 @@ class SidebarProfile(QFrame):
             pixmap = QPixmap()
 
             if pixmap.loadFromData(image_data):
-                self.avatar.setPixmap(
-                    pixmap.scaled(
-                        self.avatar.size(),
-                        Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-                        Qt.TransformationMode.SmoothTransformation
-                    )
+                size = self.avatar.size()
+
+                pixmap = pixmap.scaled(
+                    size,
+                    Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                    Qt.TransformationMode.SmoothTransformation
                 )
+
+                result = QPixmap(size)
+                result.fill(Qt.GlobalColor.transparent)
+
+                path = QPainterPath()
+                path.addEllipse(QRectF(result.rect()))
+
+                x = (result.width() - pixmap.width()) // 2
+                y = (result.height() - pixmap.height()) // 2
+
+                painter = QPainter(result)
+                painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+                painter.setClipPath(path)
+                painter.drawPixmap(x, y, pixmap)
+                painter.end()
+
+                self.avatar.setPixmap(result)
                 return
 
         initials = "".join(
