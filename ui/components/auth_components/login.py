@@ -2,7 +2,6 @@ from ui.common.PySide6_Qt import *
 from PySide6.QtWidgets import QLineEdit, QCheckBox
 from PySide6.QtGui import QAction, QIcon
 from utils.svg_icons import svg_icon
-from utils.paths import resource_path
 
 class Login(QWidget):
     def __init__(self, parent=None):

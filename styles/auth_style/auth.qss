@@ -43,6 +43,59 @@ QPushButton#authTab:checked {
     font-weight: 700;
 }
 
+QLabel#registerAvatar {
+    background-color: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 38px;
+}
+
+QLabel#photoTitle {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QLabel#photoHint {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+QPushButton#uploadPhotoButton {
+    background-color: transparent;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+QPushButton#uploadPhotoButton:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+QPushButton#uploadPhotoButton:pressed {
+    background-color: #e2e8f0;
+}
+
+QPushButton#removePhotoButton {
+    background-color: transparent;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    padding: 7px 16px;
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+QPushButton#removePhotoButton:hover {
+    background-color: #fef2f2;
+    border-color: #f87171;
+}
+
+QPushButton#removePhotoButton:pressed {
+    background-color: #fee2e2;
+}
+
 QWidget#authField {
     background: transparent;
     border: none;
