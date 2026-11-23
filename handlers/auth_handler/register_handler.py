@@ -11,8 +11,9 @@ class RegisterHandler(QObject):
         self.view = view
         self.messages = view.messages
 
-    def validate(self, email, password, confirm):
-        if not email or not password or not confirm:
+    
+    def validate(self, email, password, confirm, first_name, last_name):
+        if not all((email, password, confirm, first_name, last_name)):
             return "empty_fields"
 
         if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
@@ -33,11 +34,13 @@ class RegisterHandler(QObject):
         button = self.view.submit_button
         alert = self.view.alert
 
+        first_name = register.first_name.text().strip()
+        last_name = register.last_name.text().strip()
         email = register.email.text().strip()
         password = register.password.text()
         confirm = register.confirm.text()
 
-        error = self.validate(email, password, confirm)
+        error = self.validate(email, password, confirm, first_name, last_name)
 
         if error:
             alert.show_message(messages[error])
@@ -51,7 +54,7 @@ class RegisterHandler(QObject):
         try:
             from services.supabase.supabase_auth import sign_up
 
-            response = await sign_up(email, password)
+            response = await sign_up(email, password, first_name, last_name)
 
             if response.user and response.session:
                 self.authenticated.emit(response.user)

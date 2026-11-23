@@ -10,7 +10,21 @@ class Register(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 12, 0, 4)
         layout.setSpacing(0)
+        
+        name_layout = QHBoxLayout()
+        name_layout.setSpacing(12)
+        
+        self.first_name = Login.create_field(
+            self, name_layout, "First Name", "Enter first name"
+        )
 
+        self.last_name = Login.create_field(
+            self, name_layout, "Last Name", "Enter last name"
+        )
+        
+        layout.addLayout(name_layout)
+        layout.addSpacing(18)
+        
         self.email = Login.create_field(
             self, layout, "Email Address", "Enter your email"
         )

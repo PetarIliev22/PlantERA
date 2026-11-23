@@ -142,6 +142,11 @@ class AuthView(QWidget):
             
     def switch_page(self, index):
         self.pages.setCurrentIndex(index)
+
+        self.pages.setFixedHeight(
+            self.pages.currentWidget().sizeHint().height()
+        )
+
         self.login_tab.setChecked(index == 0)
         self.register_tab.setChecked(index == 1)
 
