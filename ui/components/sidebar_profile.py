@@ -5,7 +5,7 @@ class SidebarProfile(QFrame):
         super().__init__(parent)
 
         self.setObjectName("sidebarProfile")
-        self.setFixedHeight(65)
+        self.setFixedHeight(70)
 
         self.create_ui()
 
@@ -16,7 +16,7 @@ class SidebarProfile(QFrame):
 
         self.avatar = QLabel("?")
         self.avatar.setObjectName("profileAvatar")
-        self.avatar.setFixedSize(44, 44)
+        self.avatar.setFixedSize(50, 50)
         self.avatar.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.name = QLabel()
@@ -26,7 +26,7 @@ class SidebarProfile(QFrame):
         self.role.setObjectName("profileRole")
 
         details = QVBoxLayout()
-        details.setSpacing(0)
+        details.setSpacing(3)
         details.setContentsMargins(0, 0, 0, 0)
 
         details.addStretch()

@@ -17,7 +17,7 @@ QLabel#profileName {
     background: transparent;
     border: none;
     color: #FFFFFF;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
 }
 
@@ -25,5 +25,5 @@ QLabel#profileRole {
     background: transparent;
     border: none;
     color: #9FB3C8;
-    font-size: 11px;
+    font-size: 12px;
 }

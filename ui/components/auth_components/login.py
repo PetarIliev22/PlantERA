@@ -21,17 +21,18 @@ class Login(QWidget):
 
         options = QHBoxLayout()
 
-        self.remember = QCheckBox("Remember me")
-        self.remember.setObjectName("authRemember")
-        self.remember.setChecked(False)
+        # TODO : ---
+        # self.remember = QCheckBox("Remember me")
+        # self.remember.setObjectName("authRemember")
+        # self.remember.setChecked(False)
 
-        self.forgot_button = QPushButton("Forgot password?")
-        self.forgot_button.setObjectName("authLink")
-        self.forgot_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        # self.forgot_button = QPushButton("Forgot password?")
+        # self.forgot_button.setObjectName("authLink")
+        # self.forgot_button.setCursor(Qt.CursorShape.PointingHandCursor)
 
-        options.addWidget(self.remember)
+        # options.addWidget(self.remember)
         options.addStretch()
-        options.addWidget(self.forgot_button)
+        # options.addWidget(self.forgot_button)
 
         layout.addLayout(options)
         layout.addSpacing(22)

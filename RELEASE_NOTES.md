@@ -1,1 +1,5 @@
-- TEST RELEASE 
+- Added user profile management
+- Improved login and registration functionality
+- Optimized application startup and login performance
+- Improved authentication and sidebar UI design
+- General bug fixes and code improvements
