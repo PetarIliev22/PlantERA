@@ -1,6 +1,4 @@
 import asyncio
-from pathlib import Path
-from mimetypes import guess_type
 from services.supabase.supabase_client import get_supabase_client
 
 # Device models
@@ -30,19 +28,16 @@ def _fetch_user_profile(user_id):
 
     return response.data
 
-# User avatar
-def _upload_user_avatar(user_id, file_path):
+# Upload user avatar
+def _upload_user_avatar(user_id, image_data):
     client = get_supabase_client()
-
-    file = Path(file_path)
-    avatar_path = f"{user_id}/avatar{file.suffix.lower()}"
-    content_type = guess_type(file.name)[0]
+    avatar_path = f"{user_id}/avatar.jpg"
 
     client.storage.from_("avatars").upload(
         path=avatar_path,
-        file=file.read_bytes(),
+        file=image_data,
         file_options={
-            "content-type": content_type,
+            "content-type": "image/jpeg",
             "upsert": "true"
         }
     )
@@ -68,9 +63,9 @@ async def get_device_models():
 async def get_user_profile(user_id):
     return await asyncio.to_thread(_fetch_user_profile, user_id)
 
-async def upload_user_avatar(user_id, file_path):
+async def upload_user_avatar(user_id, image_data):
     return await asyncio.to_thread(
-        _upload_user_avatar, user_id, file_path
+        _upload_user_avatar, user_id, image_data
     )
 
 async def get_user_avatar(avatar_path):

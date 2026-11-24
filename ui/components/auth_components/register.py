@@ -1,11 +1,12 @@
 from ui.common.PySide6_Qt import *
 from ui.components.auth_components.login import Login
+from utils.compress_image import compress_image, circular_pixmap
 from utils.svg_icons import svg_icon
 
 class Register(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.avatar_path = None
+        self.avatar_data = None
         self.create_ui()
 
     def create_ui(self):
@@ -90,7 +91,7 @@ class Register(QWidget):
          
     def remove_photo(self):
         self.avatar.setPixmap(self.avatar_icon.pixmap(36, 36))
-        self.avatar_path = None
+        self.avatar_data = None
         self.remove_button.hide()
         
     def select_photo(self):
@@ -102,37 +103,18 @@ class Register(QWidget):
 
         if not file_path:
             return
-
-        pixmap = QPixmap(file_path)
-
-        if pixmap.isNull():
+        
+        try:
+            image_data = compress_image(file_path)
+        except Exception:
             return
 
-        size = self.avatar.size()
+        pixmap = QPixmap()
 
-        pixmap = pixmap.scaled(
-            size,
-            Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-            Qt.TransformationMode.SmoothTransformation
-        )
+        if not pixmap.loadFromData(image_data, "JPEG"):
+            return
 
-        result = QPixmap(size)
-        result.fill(Qt.GlobalColor.transparent)
-
-        path = QPainterPath()
-        path.addEllipse(QRectF(result.rect()))
-
-        x = (result.width() - pixmap.width()) // 2
-        y = (result.height() - pixmap.height()) // 2
-
-        painter = QPainter(result)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        painter.setClipPath(path)
-        painter.drawPixmap(x, y, pixmap)
-        painter.end()
-
-        self.avatar.setPixmap(result)
-        self.avatar_path = file_path
-        
+        self.avatar.setPixmap(circular_pixmap(pixmap, self.avatar.size()))
+        self.avatar_data = image_data
         self.remove_button.show()
         

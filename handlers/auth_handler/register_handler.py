@@ -8,7 +8,6 @@ class RegisterHandler(QObject):
 
     def __init__(self, view):
         super().__init__(view)
-
         self.view = view
         self.messages = view.messages
 
@@ -40,7 +39,7 @@ class RegisterHandler(QObject):
         email = register.email.text().strip()
         password = register.password.text()
         confirm = register.confirm.text()
-        avatar_path = register.avatar_path
+        avatar_data = register.avatar_data
 
         error = self.validate(email, password, confirm, first_name, last_name)
 
@@ -62,8 +61,8 @@ class RegisterHandler(QObject):
             response = await sign_up(email, password, first_name, last_name)
 
             if response.user and response.session:
-                if avatar_path:
-                    await upload_user_avatar(response.user.id, avatar_path)
+                if avatar_data:
+                    await upload_user_avatar(response.user.id, avatar_data)
                     
                 authenticated = True
                 self.authenticated.emit(response.user)
