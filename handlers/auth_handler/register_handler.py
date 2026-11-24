@@ -60,11 +60,11 @@ class RegisterHandler(QObject):
     
             response = await sign_up(email, password, first_name, last_name)
             if response.user and response.session:
-                 if avatar_data:
+                if avatar_data:
                     await update_user_avatar(response.user.id, avatar_data)
 
-                    authenticated = True
-                    self.authenticated.emit(response.user)
+                authenticated = True
+                self.authenticated.emit(response.user)
                 
             elif response.user:
                 self.view.switch_page(0)
