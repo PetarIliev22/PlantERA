@@ -1,5 +1,5 @@
 from ui.common.PySide6_Qt import *
-from PySide6.QtGui import QPainter, QPixmap
+from PySide6.QtGui import QPixmap
 from ui.components.auth_components.login import Login
 from ui.components.auth_components.alert import Alert
 from ui.components.auth_components.register import Register
@@ -13,44 +13,13 @@ class AuthView(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setObjectName("authView")
-
-        self.background = QPixmap(str(resource_path(
-            "assets", "img", "auth", "auth_background.png"
-        )))
-        self.scaled_background = QPixmap()
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self.create_ui()
-        
+
         self.messages = load_config("auth_messages.json")
         self.login_handler = LoginHandler(self)
         self.register_handler = RegisterHandler(self)
         self.submit_button.clicked.connect(self.submit)
-
-    def paintEvent(self, event):
-        if self.scaled_background.isNull():
-            super().paintEvent(event)
-            return
-
-        painter = QPainter(self)
-
-        x = (self.scaled_background.width() - self.width()) // 2
-        y = (self.scaled_background.height() - self.height()) // 2
-
-        painter.drawPixmap(
-            0, 0,
-            self.scaled_background,
-            x, y,
-            self.width(), self.height()
-        )
-        
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-
-        if not self.background.isNull():
-            self.scaled_background = self.background.scaled(
-                self.size(),
-                Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-                Qt.TransformationMode.SmoothTransformation
-            )
 
     def create_ui(self):
         layout = QVBoxLayout(self)
@@ -116,30 +85,31 @@ class AuthView(QWidget):
         self.pages.addWidget(self.register)
 
         form.addWidget(self.pages)
+
         self.submit_button = QPushButton("Login")
         self.submit_button.setObjectName("authSubmit")
         self.submit_button.setFixedHeight(48)
         self.submit_button.setCursor(Qt.CursorShape.PointingHandCursor)
 
         form.addWidget(self.submit_button)
-        
+
         layout.addWidget(
             self.form,
             alignment=Qt.AlignmentFlag.AlignCenter
         )
+
         self.login_tab.clicked.connect(lambda: self.switch_page(0))
         self.register_tab.clicked.connect(lambda: self.switch_page(1))
 
         self.switch_page(0)
         fade_in_widget(self.form)
-        
-        
+
     def submit(self):
         if self.pages.currentIndex() == 0:
             self.login_handler.handle_login()
         else:
             self.register_handler.handle_register()
-            
+
     def switch_page(self, index):
         self.pages.setCurrentIndex(index)
 

@@ -1,5 +1,5 @@
-QWidget#authView {
-    background-color: #EDF5FF;
+#authView {
+    background-color: #f1f7fd;
 }
 
 QFrame#authForm {
@@ -148,18 +148,18 @@ QCheckBox#authRemember::indicator {
 }
 
 QCheckBox#authRemember::indicator:hover {
-    border-color: #347EE8;
+    border-color: #131a2b;
 }
 
 QCheckBox#authRemember::indicator:checked {
-    background-color: #1677F2;
-    border: 1px solid #1677F2;
+    background-color: #131a2b;
+    border: 1px solid #131a2b;
     image: url("assets/img/icons/check.svg");
 }
 
 QPushButton#authLink {
     background: transparent;
-    color: #347EE8;
+    color: #131a2b;
     border: none;
     padding: 4px 0;
     font-size: 12px;
@@ -171,7 +171,7 @@ QPushButton#authLink:hover {
 }
 
 QPushButton#authSubmit {
-    background-color: #1677F2;
+    background-color: #131a2b;
     color: #FFFFFF;
     border: none;
     border-radius: 13px;
@@ -181,11 +181,11 @@ QPushButton#authSubmit {
 }
 
 QPushButton#authSubmit:hover {
-    background-color: #0967E5;
+    background-color: #111727;
 }
 
 QPushButton#authSubmit:pressed {
-    background-color: #0755C4;
+    background-color: #131a2b;
 }
 
 QPushButton#authSubmit:disabled {

@@ -7,7 +7,6 @@ def _sign_in(email, password):
         "password": password
     })
 
-
 def _sign_up(email, password, first_name, last_name):
     return get_supabase_client().auth.sign_up({
         "email": email,
@@ -22,7 +21,6 @@ def _sign_up(email, password, first_name, last_name):
 
 def _sign_out():
     return get_supabase_client().auth.sign_out()
-
 
 async def sign_in(email, password):
     return await asyncio.to_thread(_sign_in, email, password)

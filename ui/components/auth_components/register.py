@@ -33,7 +33,7 @@ class Register(QWidget):
         self.photo_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.photo_button.clicked.connect(self.select_photo)
 
-        self.remove_button = QPushButton("Remove")
+        self.remove_button = QPushButton("X")
         self.remove_button.setObjectName("removePhotoButton")
         self.remove_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.remove_button.clicked.connect(self.remove_photo)

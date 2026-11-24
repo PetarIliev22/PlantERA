@@ -1,6 +1,5 @@
 QFrame#sidebar {
-    background-color: #111827;
-    border-image: url("assets/img/sidebar_effect.png") 0 0 0 0 stretch stretch;
+    background-color: #131a2b;
 }
 
 QFrame#activeIndicator {
