@@ -3,21 +3,31 @@ import time
 import json
 import asyncio
 import ctypes
+import threading
 
 START_TIME = time.perf_counter()
 
 from qasync import QEventLoop
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
-from services.updates.update_cleanup import cleanup_completed_update
 
+from services.updates.update_cleanup import cleanup_completed_update
 from ui.windows.main_window.main_window import MainWindow
 from utils.paths import resource_path
 from styles.style_loader import load_styles
 
+def preload_supabase():
+    try:
+        from services.supabase.supabase_client import get_supabase_client
+
+        get_supabase_client()
+
+    except Exception as error:
+        print(f"[Supabase] Preload failed: {error}")
+
 if __name__ == "__main__":
     cleanup_completed_update()
-    
+
     if sys.platform == "win32":
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
             "PlantERA.Desktop.App"
@@ -56,6 +66,14 @@ if __name__ == "__main__":
 
     startup_time = time.perf_counter() - START_TIME
     print(f"Startup time: {startup_time:.3f} seconds")
+
+    if isinstance(window, MainWindow):
+        loop.call_soon(
+            threading.Thread(
+                target=preload_supabase,
+                daemon=True
+            ).start
+        )
 
     app.aboutToQuit.connect(loop.stop)
 
