@@ -5,7 +5,7 @@ class SidebarProfile(QFrame):
         super().__init__(parent)
 
         self.setObjectName("sidebarProfile")
-        self.setFixedHeight(70)
+        self.setFixedHeight(65)
 
         self.create_ui()
 
@@ -16,7 +16,7 @@ class SidebarProfile(QFrame):
 
         self.avatar = QLabel("?")
         self.avatar.setObjectName("profileAvatar")
-        self.avatar.setFixedSize(50, 50)
+        self.avatar.setFixedSize(47, 47)
         self.avatar.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.name = QLabel()
