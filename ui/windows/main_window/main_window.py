@@ -65,7 +65,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         main_layout.setSpacing(0)
 
         self.sidebar = Sidebar(self)
-        self.sidebar.profile.set_profile(self.current_profile)
+        self.sidebar.profile.set_profile(self.current_profile, self.current_profile.get("avatar"))
         main_layout.addWidget(self.sidebar)
 
         right_container = QWidget()
