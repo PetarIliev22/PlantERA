@@ -14,7 +14,8 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         super().__init__()
 
         self._closing = False
-
+        self.update_worker = None
+        
         self.setup_window()
         self.setup_timers()
         self.create_ui()
@@ -23,7 +24,6 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.window_controls.show()
 
         self.position_window_controls()
-        self.start_update_check()
 
     def create_ui(self):
         self.auth_view = AuthView(self)
@@ -46,6 +46,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
         await self.load_user_profile()
         self.show_main_ui()
+        self.start_update_check()
 
     async def load_user_profile(self):
         from services.supabase.supabase_queries import get_user_profile
@@ -104,7 +105,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self._closing = True
         self.usb_timer.stop()
 
-        if self.update_worker.isRunning():
+        if self.update_worker and self.update_worker.isRunning():
             event.ignore()
             return
 
