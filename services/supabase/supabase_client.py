@@ -1,5 +1,6 @@
+import httpx
 import threading
-from supabase import Client, create_client
+from supabase import Client, ClientOptions, create_client
 from services.supabase.supabase_config import get_supabase_config
 
 _client: Client | None = None
@@ -12,6 +13,15 @@ def get_supabase_client() -> Client:
         with _lock:
             if _client is None:
                 url, key = get_supabase_config()
-                _client = create_client(url, key)
+                http_client = httpx.Client()
 
+                _client = create_client(
+                    url,
+                    key,
+                    options=ClientOptions(
+                        httpx_client=http_client
+                    )
+                )
+                
     return _client
+    

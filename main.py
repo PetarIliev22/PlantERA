@@ -19,7 +19,6 @@ from styles.style_loader import load_styles
 def preload_supabase():
     try:
         from services.supabase.supabase_client import get_supabase_client
-
         get_supabase_client()
 
     except Exception as error:
