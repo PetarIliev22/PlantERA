@@ -87,6 +87,9 @@ def download_update(asset, progress_callback=None, download_dir=None):
                     progress_callback(
                         min(100, downloaded * 100 // total)
                     )
+                    
+        if total and downloaded != total:
+            raise IOError("Incomplete update download")
 
         return file_path
 

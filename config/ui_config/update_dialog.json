@@ -11,6 +11,7 @@
   },
   "messages": {
     "title": "PlantERA Update",
-    "download_failed": "Update Failed"
+    "download_failed": "Update Failed",
+    "launch_failed": "Unable to start the updater."
   }
 }

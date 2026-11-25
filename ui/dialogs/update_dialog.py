@@ -203,7 +203,16 @@ class UpdateDialog(QFrame):
         layout.addWidget(self.image, 1)
 
     def start_update(self):
-        launch_updater(self.update)
+        try:
+            launch_updater(self.update)
+        except OSError:
+            QMessageBox.warning(
+                self,
+                texts["messages"]["title"],
+                texts["messages"]["launch_failed"]
+            )
+            return
+        
         self.window().close()
 
 def show_update_dialog(parent, update):
