@@ -50,6 +50,7 @@ QLabel#registerAvatar {
 }
 
 QLabel#photoTitle {
+    color: #131a2b;
     font-size: 13px;
     font-weight: 600;
 }
@@ -61,6 +62,7 @@ QLabel#photoHint {
 
 QPushButton#uploadPhotoButton {
     background-color: transparent;
+    color: #131a2b;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     padding: 7px 16px;
@@ -78,22 +80,21 @@ QPushButton#uploadPhotoButton:pressed {
 }
 
 QPushButton#removePhotoButton {
-    background-color: transparent;
-    border: 1px solid #fecaca;
-    border-radius: 6px;
-    padding: 7px 16px;
-    color: #dc2626;
-    font-size: 12px;
-    font-weight: 500;
+    background-color: #dc2626;
+    color: #ffffff;
+    border-radius: 11px;
+    border: 1px solid #ffffff;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 QPushButton#removePhotoButton:hover {
-    background-color: #fef2f2;
-    border-color: #f87171;
+    background-color: #801515;
 }
 
 QPushButton#removePhotoButton:pressed {
-    background-color: #fee2e2;
+    background-color: #991b1b;
 }
 
 QWidget#authField {

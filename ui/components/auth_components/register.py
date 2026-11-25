@@ -33,8 +33,13 @@ class Register(QWidget):
         self.photo_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.photo_button.clicked.connect(self.select_photo)
 
-        self.remove_button = QPushButton("X")
+        self.remove_button = QPushButton(self.avatar)
         self.remove_button.setObjectName("removePhotoButton")
+        self.remove_button.setFixedSize(22, 22)
+        
+        self.remove_button.setIcon(svg_icon("x.svg", "#ffffff", 12))
+        self.remove_button.setIconSize(QSize(12, 12))
+        self.remove_button.move(2, 2)
         self.remove_button.setCursor(Qt.CursorShape.PointingHandCursor)
         self.remove_button.clicked.connect(self.remove_photo)
         self.remove_button.hide()
@@ -45,7 +50,6 @@ class Register(QWidget):
         buttons_layout = QHBoxLayout()
         buttons_layout.setSpacing(8)
         buttons_layout.addWidget(self.photo_button)
-        buttons_layout.addWidget(self.remove_button)
         buttons_layout.addStretch()
 
         photo_details = QVBoxLayout()
