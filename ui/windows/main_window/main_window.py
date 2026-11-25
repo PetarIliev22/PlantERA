@@ -2,9 +2,9 @@ from qasync import asyncSlot
 from ui.common.PySide6_Qt import *
 from ui.components.toolbar import Toolbar
 from ui.components.sidebar import Sidebar
-from core.page_manager import PageManager
-from ui.views.auth_views import AuthView
 from ui.components.window_controls import WindowControls
+from ui.views.auth_views import AuthView
+from core.page_manager import PageManager
 from .window_events import WindowEvents
 from .window_appearance import WindowAppearance
 from .window_updates import WindowUpdates
@@ -15,17 +15,27 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
         self._closing = False
         self.update_worker = None
-        
+
+        self.reset_user_state()
+
         self.setup_window()
         self.setup_timers()
-        self.create_ui()
+        self.show_auth_ui()
 
         self.window_controls = WindowControls(self)
         self.window_controls.show()
 
         self.position_window_controls()
 
-    def create_ui(self):
+    def reset_user_state(self):
+        self.current_user = None
+        self.current_profile = None
+
+        self.page_manager = None
+        self.sidebar = None
+        self.toolbar = None
+
+    def show_auth_ui(self):
         self.auth_view = AuthView(self)
         self.setCentralWidget(self.auth_view)
 
@@ -37,35 +47,6 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
             self.on_authenticated
         )
 
-    @asyncSlot(object)
-    async def on_authenticated(self, user):
-        if hasattr(self, "page_manager"):
-            return
-
-        self.current_user = user
-
-        try:
-            await self.load_user_profile()
-        except Exception:
-            self.auth_view.switch_page(0)
-            self.auth_view.submit_button.setEnabled(True)
-            self.auth_view.login_tab.setEnabled(True)
-            self.auth_view.register_tab.setEnabled(True)
-            self.auth_view.alert.show_message(
-                self.auth_view.messages["general"]["unexpected_error"]
-            )
-            return
-
-        self.show_main_ui()
-        self.start_update_check()
-
-    async def load_user_profile(self):
-        from services.supabase.supabase_queries import get_user_profile
-
-        self.current_profile = await get_user_profile(
-            self.current_user.id
-        )
-        
     def show_main_ui(self):
         central = QWidget()
         central.setObjectName("mainContainer")
@@ -77,7 +58,16 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         main_layout.setSpacing(0)
 
         self.sidebar = Sidebar(self)
-        self.sidebar.profile.set_profile(self.current_profile, self.current_profile.get("avatar"))
+
+        self.sidebar.profile.logout_requested.connect(
+            self.handle_logout
+        )
+
+        self.sidebar.profile.set_profile(
+            self.current_profile,
+            self.current_profile.get("avatar")
+        )
+
         main_layout.addWidget(self.sidebar)
 
         right_container = QWidget()
@@ -98,6 +88,62 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         )
 
         main_layout.addWidget(right_container, 1)
+
+    @asyncSlot(object)
+    async def on_authenticated(self, user):
+        if self.page_manager is not None:
+            return
+
+        self.current_user = user
+
+        try:
+            await self.load_user_profile()
+        except Exception:
+            self.reset_user_state()
+
+            self.auth_view.switch_page(0)
+            self.auth_view.submit_button.setEnabled(True)
+            self.auth_view.login_tab.setEnabled(True)
+            self.auth_view.register_tab.setEnabled(True)
+
+            self.auth_view.alert.show_message(
+                self.auth_view.messages["general"]["unexpected_error"]
+            )
+            return
+
+        self.show_main_ui()
+
+        if self.update_worker is None or not self.update_worker.isRunning():
+            self.start_update_check()
+
+    async def load_user_profile(self):
+        from services.supabase.supabase_queries import get_user_profile
+
+        self.current_profile = await get_user_profile(
+            self.current_user.id
+        )
+
+    @asyncSlot()
+    async def handle_logout(self):
+        from services.supabase.supabase_auth import sign_out
+
+        self.sidebar.profile.logout_button.setEnabled(False)
+
+        try:
+            await sign_out()
+        except Exception:
+            self.sidebar.profile.logout_button.setEnabled(True)
+
+            QMessageBox.warning(
+                self,
+                "Sign Out",
+                "Unable to sign out. Please try again."
+            )
+            return
+
+        self.reset_user_state()
+        self.show_auth_ui()
+        self.window_controls.raise_()
 
     def position_window_controls(self):
         self.window_controls.move(

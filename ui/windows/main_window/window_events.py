@@ -10,7 +10,7 @@ class WindowEvents:
         self.usb_timer.timeout.connect(self.on_usb_changed)
 
     def on_usb_changed(self):
-        if not hasattr(self, "page_manager"):
+        if self.page_manager is None:
             return
 
         provision = self.page_manager.pages.get("provision")
