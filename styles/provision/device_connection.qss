@@ -1,4 +1,3 @@
-/* START DEVICE CONNECTION */
 QFrame#provisionView {
     background-color: transparent;
 }
@@ -55,8 +54,9 @@ QComboBox#comBox::drop-down:hover {
 }
 
 QComboBox#comBox::down-arrow {
-    width: 10px;
-    height: 10px;
+    image: url(assets/img/icons/chevron-down.svg);
+    width: 16px;
+    height: 16px;
 }
 
 QComboBox#comBox QAbstractItemView {
@@ -81,10 +81,8 @@ QPushButton#refreshButton:hover {
 QPushButton#connectButton {
     background-color: #1687F8;
     color: #FFFFFF;
-
     border: none;
     border-radius: 9px;
-
     font-size: 15px;
     font-weight: 700;
 }
@@ -93,21 +91,17 @@ QPushButton#connectButton:hover {
     background-color: #0878E8;
 }
 
-QLabel#statusDot {
-    color: #8A97AA;
+QLabel#statusDot,
+QLabel#statusText {
+    color: #738199;
+}
 
+QLabel#statusDot {
     font-size: 17px;
 }
 
 QLabel#statusText {
-    color: #738199;
-
     font-size: 14px;
-}
-
-QLabel#statusDot[status="disconnected"],
-QLabel#statusText[status="disconnected"] {
-    color: #738199;
 }
 
 QLabel#statusDot[status="connected"],
@@ -119,4 +113,3 @@ QLabel#statusDot[status="failed"],
 QLabel#statusText[status="failed"] {
     color: #E5484D;
 }
-/* END DEVICE CONNECTION */
