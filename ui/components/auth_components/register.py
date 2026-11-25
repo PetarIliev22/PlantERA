@@ -1,3 +1,5 @@
+import asyncio
+from qasync import asyncSlot
 from ui.common.PySide6_Qt import *
 from ui.components.auth_components.login import Login
 from utils.compress_image import compress_image, circular_pixmap
@@ -98,7 +100,8 @@ class Register(QWidget):
         self.avatar_data = None
         self.remove_button.hide()
         
-    def select_photo(self):
+    @asyncSlot()
+    async def select_photo(self):
         file_path, _ = QFileDialog.getOpenFileName(
             self,
             caption="Select Profile Photo",
@@ -107,18 +110,28 @@ class Register(QWidget):
 
         if not file_path:
             return
+
+        self.photo_button.setEnabled(False)
+        self.photo_button.setText("Processing...")
+        self.remove_button.setEnabled(False)
         
         try:
-            image_data = compress_image(file_path)
+            image_data = await asyncio.to_thread(compress_image, file_path)
+    
+            pixmap = QPixmap()
+
+            if not pixmap.loadFromData(image_data, "JPEG"):
+                return
+
+            self.avatar.setPixmap(circular_pixmap(pixmap, self.avatar.size()))
+            self.avatar_data = image_data
+            self.remove_button.show()
+            
         except Exception:
             return
-
-        pixmap = QPixmap()
-
-        if not pixmap.loadFromData(image_data, "JPEG"):
-            return
-
-        self.avatar.setPixmap(circular_pixmap(pixmap, self.avatar.size()))
-        self.avatar_data = image_data
-        self.remove_button.show()
         
+        finally:
+            self.photo_button.setEnabled(True)
+            self.photo_button.setText("Upload Photo")
+            self.remove_button.setEnabled(True)
+            
