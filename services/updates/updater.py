@@ -73,11 +73,13 @@ def replace_executable(old_exe, new_exe, parent_pid):
         raise ValueError("Invalid application executable")
 
     staged_exe = old_exe.with_name(old_exe.stem + ".update.tmp")
+    backup_exe = old_exe.with_suffix(".exe.bak")
 
     try:
         shutil.copy2(new_exe, staged_exe)
         
         wait_for_process(parent_pid)
+        shutil.copy2(old_exe, backup_exe)
 
         for attempt in range(20):
             try:
@@ -104,10 +106,10 @@ def replace_executable(old_exe, new_exe, parent_pid):
                 cwd=str(old_exe.parent),
                 env=env
             )
-        except OSError as error:
-            raise RuntimeError(
-                f"Update installed, but PlantERA could not start: {error}"
-            ) from error
+            
+        except OSError:
+            os.replace(backup_exe, old_exe)
+            raise
 
     finally:
         staged_exe.unlink(missing_ok=True)
