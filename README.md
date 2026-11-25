@@ -28,6 +28,7 @@ The project uses a modular Python and PySide6 architecture, with separate servic
 ### Key Highlights
 
 - Modern desktop interface built with PySide6
+- Supabase authentication and user profiles
 - ESP32 hardware detection using esptool
 - Automatic USB and COM port monitoring
 - Stable hardware-derived device UID generation
@@ -64,6 +65,15 @@ The project uses a modular Python and PySide6 architecture, with separate servic
 ---
 
 ## Current Features
+
+### Authentication & User Profiles
+
+- User registration and authentication via Supabase
+- Login and registration form validation
+- User profile display
+- Optional profile photo with automatic image compression
+- Profile avatars stored in the database
+- Authentication and profile loading error handling
 
 ### Device Detection & Identification
 
@@ -104,8 +114,12 @@ The project uses a modular Python and PySide6 architecture, with separate servic
 - Replace the installed executable using a separate updater process
 - Restart the application after installation
 - Clean up temporary update files
+- Incomplete download detection when Content-Length is available
+- Updater launch error handling
+- Previous executable backup
+- Basic rollback when the updated executable cannot be launched
 
-> **Development note:** The update flow does not currently implement cryptographic authenticity verification or automatic rollback. These are planned reliability and security improvements.
+> **Development note:** Basic rollback restores the previous executable if launching the updated executable raises an OS error. It does not automatically restart the previous version or detect post-launch crashes. Windows packaged-update testing is still required. Cryptographic authenticity verification remains planned.
 
 ---
 
@@ -117,7 +131,7 @@ The project uses a modular Python and PySide6 architecture, with separate servic
 | PySide6 | Desktop UI framework |
 | esptool | ESP32 communication and detection |
 | PySerial | Serial port discovery |
-| Supabase | Backend data source for device models |
+| Supabase | Authentication, user profiles, and backend device data |
 | qasync | Integration of asyncio with the Qt event loop |
 | JSON | Application and hardware configuration |
 | QSS | Interface styling |
@@ -197,7 +211,13 @@ python -m pip install -r requirements.txt
 
 **Configure the environment:**
 
-Create a `.env` file using `.env_example` as a reference and supply the required Supabase project configuration.
+Copy the example configuration:
+
+```powershell
+Copy-Item .env_example .env
+```
+
+Set `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` in `.env` using your Supabase project values. Use only a publishable client key, never a service-role or secret key. Do not commit `.env`.
 
 **Run the application:**
 
@@ -224,12 +244,18 @@ PlantERA/
 │   └── version.py
 ├── core/
 │   └── page_manager.py
+├── handlers/
+│   └── auth_handler/
+│       ├── login_handler.py
+│       └── register_handler.py
 ├── services/
 │   ├── device/
 │   │   └── device_service.py
 │   ├── supabase/
-│   │   ├── supabase_queries.py
-│   │   └── supabase_service.py
+│   │   ├── supabase_auth.py
+│   │   ├── supabase_client.py
+│   │   ├── supabase_config.py
+│   │   └── supabase_queries.py
 │   └── updates/
 │       ├── update_cleanup.py
 │       ├── update_service.py
@@ -249,6 +275,7 @@ PlantERA/
 │   └── windows/
 ├── utils/
 ├── tests/
+├── .env_example
 ├── main.py
 ├── PlantERA.spec
 ├── requirements.txt
@@ -280,13 +307,17 @@ PlantERA is currently under active development.
 | Hardware profiles | Implemented |
 | Diagnostic console | Implemented |
 | Device model data from Supabase | Implemented |
+| User authentication and registration | Implemented |
+| User profiles and avatars | Implemented |
 | Application update workflow | Implemented |
+| Basic update rollback | Implemented; Windows verification pending |
 | Firmware flashing workflow | Planned |
 | Secure device provisioning | Planned |
 | Device signature verification | Planned |
 | Device reset workflow | Planned |
 | Backend device registration | Planned |
-| Update authenticity verification and rollback | Planned |
+| Update authenticity verification | Planned |
+| Post-launch health checks | Planned |
 
 Some provisioning buttons currently represent planned functionality rather than completed device operations.
 
@@ -306,7 +337,7 @@ Run the test suite:
 python -m pytest tests/
 ```
 
-Tests cover selected configuration, device-profile, device-service, path, and update-service behaviors. A successful automated test run does not replace hardware and packaged-update testing on Windows.
+Tests cover configuration, device profiles, device services, paths, update services, registration validation, and login handler behavior. A successful automated test run does not replace hardware and packaged-update testing on Windows.
 
 ---
 
@@ -319,7 +350,7 @@ Tests cover selected configuration, device-profile, device-service, path, and up
 - Provisioning workflow improvements
 - Device configuration and reset operations
 - Backend device registration
-- Update authenticity verification and rollback
+- Advanced rollback and post-launch health checks
 - Expanded hardware profile support
 - Performance and executable-size optimization
 

@@ -1,11 +1,8 @@
 import sys
-import time
 import json
 import asyncio
 import ctypes
 import threading
-
-START_TIME = time.perf_counter()
 
 from qasync import QEventLoop
 from PySide6.QtWidgets import QApplication
@@ -63,9 +60,6 @@ if __name__ == "__main__":
 
     window.setWindowIcon(app.windowIcon())
     window.show()
-
-    startup_time = time.perf_counter() - START_TIME
-    print(f"Startup time: {startup_time:.3f} seconds")
 
     if isinstance(window, MainWindow):
         loop.call_soon(
