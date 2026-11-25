@@ -44,7 +44,18 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
         self.current_user = user
 
-        await self.load_user_profile()
+        try:
+            await self.load_user_profile()
+        except Exception:
+            self.auth_view.switch_page(0)
+            self.auth_view.submit_button.setEnabled(True)
+            self.auth_view.login_tab.setEnabled(True)
+            self.auth_view.register_tab.setEnabled(True)
+            self.auth_view.alert.show_message(
+                self.auth_view.messages["general"]["unexpected_error"]
+            )
+            return
+
         self.show_main_ui()
         self.start_update_check()
 
