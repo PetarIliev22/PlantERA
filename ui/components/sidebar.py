@@ -1,8 +1,9 @@
 from ui.common.PySide6_Qt import *
 from utils.paths import resource_path
-from config.version import APP_VERSION
 from config.config_loader import load_config
+from utils.svg_icons import svg_icon
 from ui.components.sidebar_profile import SidebarProfile
+from config.version import APP_VERSION
 
 sidebar = load_config("sidebar.json")["sidebar"]
 
@@ -29,7 +30,7 @@ class Sidebar(QFrame):
 
         pixmap = QPixmap(
             str(resource_path(
-                "assets", "img", "logo", "plantera_white_logo.png"
+                "assets", "img", "logo", "plantera_full_logo.png"
             ))
         )
 
@@ -61,10 +62,12 @@ class Sidebar(QFrame):
 
             button.setObjectName("sidebarButton")
             button.setProperty("active", active)
+            button.setProperty("icon_name", item["icon"])
             button.setFixedHeight(54)
 
-            button.setIcon(self.get_icon(item["icon"]))
-            button.setIconSize(QSize(20, 20))
+            color = "#FFFFFF" if active else "#64748B"
+            button.setIcon(svg_icon(item["icon"], color, 18))
+            button.setIconSize(QSize(18, 18))
             button.setCursor(Qt.CursorShape.PointingHandCursor)
 
             button.clicked.connect(
@@ -112,6 +115,12 @@ class Sidebar(QFrame):
         button = self.buttons[name]
 
         button.setProperty("active", active)
+
+        color = "#FFFFFF" if active else "#64748B"
+        button.setIcon(
+            svg_icon(button.property("icon_name"), color, 20)
+        )
+
         button.style().unpolish(button)
         button.style().polish(button)
         button.update()

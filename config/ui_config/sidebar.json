@@ -14,7 +14,7 @@
     },
     {
       "name": "security",
-      "text": "Keys & Security",
+      "text": "Device Security",
       "icon": "lock.svg",
       "view": "keys_view.KeysView"
     },
