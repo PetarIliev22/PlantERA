@@ -1,5 +1,4 @@
 from ui.common.PySide6_Qt import *
-from PySide6.QtGui import QPixmap
 from ui.components.auth_components.login import Login
 from ui.components.auth_components.alert import Alert
 from ui.components.auth_components.register import Register
@@ -12,13 +11,15 @@ from config.config_loader import load_config
 class AuthView(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.messages = load_config("auth_messages.json")
+        
         self.setObjectName("authView")
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         self.create_ui()
 
-        self.messages = load_config("auth_messages.json")
         self.login_handler = LoginHandler(self)
         self.register_handler = RegisterHandler(self)
+        
         self.submit_button.clicked.connect(self.submit)
 
     def create_ui(self):
@@ -86,7 +87,7 @@ class AuthView(QWidget):
 
         form.addWidget(self.pages)
 
-        self.submit_button = QPushButton("Login")
+        self.submit_button = QPushButton()
         self.submit_button.setObjectName("authSubmit")
         self.submit_button.setFixedHeight(48)
         self.submit_button.setCursor(Qt.CursorShape.PointingHandCursor)
@@ -104,13 +105,35 @@ class AuthView(QWidget):
         self.switch_page(0)
         fade_in_widget(self.form)
 
+    @property
+    def is_login_page(self) -> bool:
+        return self.pages.currentIndex() == 0
+
+    @property
+    def current_messages(self) -> dict:
+        return self.messages[
+            "login" if self.is_login_page else "register"
+        ]
+
     def submit(self):
-        if self.pages.currentIndex() == 0:
+        if self.is_login_page:
             self.login_handler.handle_login()
         else:
             self.register_handler.handle_register()
 
-    def switch_page(self, index):
+    def set_loading(self, loading: bool) -> None:
+        for button in (
+            self.submit_button,
+            self.login_tab,
+            self.register_tab
+        ):
+            button.setEnabled(not loading)
+
+        self.submit_button.setText(
+            self.current_messages["loading" if loading else "button"]
+        )
+
+    def switch_page(self, index: int) -> None:
         self.pages.setCurrentIndex(index)
 
         self.pages.setFixedHeight(
@@ -120,6 +143,4 @@ class AuthView(QWidget):
         self.login_tab.setChecked(index == 0)
         self.register_tab.setChecked(index == 1)
 
-        self.submit_button.setText(
-            "Login" if index == 0 else "Create Account"
-        )
+        self.submit_button.setText(self.current_messages["button"])

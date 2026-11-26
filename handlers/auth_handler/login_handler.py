@@ -15,7 +15,6 @@ class LoginHandler(QObject):
     async def handle_login(self):
         login = self.view.login
         messages = self.messages["login"]
-        button = self.view.submit_button
         alert = self.view.alert
 
         email = login.email.text().strip()
@@ -24,11 +23,8 @@ class LoginHandler(QObject):
         if not email or not password:
             alert.show_message(messages["empty_fields"])
             return
-
-        button.setEnabled(False)
-        button.setText(messages["loading"])
-        self.view.login_tab.setEnabled(False)
-        self.view.register_tab.setEnabled(False)
+        
+        self.view.set_loading(True)
         
         authenticated = False
         try:
@@ -57,11 +53,7 @@ class LoginHandler(QObject):
                 message = self.messages["general"]["unexpected_error"]
 
             alert.show_message(message)
-
+            
         finally:
             if not authenticated:
-                button.setEnabled(True)
-                button.setText(messages["button"])
-                self.view.login_tab.setEnabled(True)
-                self.view.register_tab.setEnabled(True)
-
+                self.view.set_loading(False)

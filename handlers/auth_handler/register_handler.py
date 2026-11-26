@@ -31,7 +31,6 @@ class RegisterHandler(QObject):
     async def handle_register(self):
         register = self.view.register
         messages = self.messages["register"]
-        button = self.view.submit_button
         alert = self.view.alert
 
         first_name = register.first_name.text().strip()
@@ -47,10 +46,7 @@ class RegisterHandler(QObject):
             alert.show_message(messages[error])
             return
 
-        button.setEnabled(False)
-        button.setText(messages["loading"])
-        self.view.login_tab.setEnabled(False)
-        self.view.register_tab.setEnabled(False)
+        self.view.set_loading(True)
 
         authenticated = False
         try:
@@ -92,11 +88,4 @@ class RegisterHandler(QObject):
 
         finally:
             if not authenticated:
-                button.setEnabled(True)
-                button.setText(
-                    self.messages["login"]["button"]
-                    if self.view.pages.currentIndex() == 0
-                    else messages["button"]
-                )
-                self.view.login_tab.setEnabled(True)
-                self.view.register_tab.setEnabled(True)
+                self.view.set_loading(False)
