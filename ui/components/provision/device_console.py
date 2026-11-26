@@ -3,7 +3,7 @@ from datetime import datetime
 from utils.svg_icons import svg_icon
 from config.config_loader import load_config
 
-console_config = load_config("device_console.json")
+CONSOLE_CONFIG = load_config("device_console.json")
 
 class DeviceConsole(QFrame):
     def __init__(self, parent=None):
@@ -74,14 +74,14 @@ class DeviceConsole(QFrame):
         return fmt  
 
     def append_log(self, message, level=None):
-        appearance = console_config["appearance"]
+        appearance = CONSOLE_CONFIG["appearance"]
 
         if level is None:
             level = appearance["default_level"]
 
         level = level.upper()
 
-        color = console_config["levels"].get(
+        color = CONSOLE_CONFIG["levels"].get(
             level,
             {"color": appearance["message_color"]}
         )["color"]
@@ -127,7 +127,7 @@ class DeviceConsole(QFrame):
         self.console.ensureCursorVisible()
         
     def log(self, key, level=None, **kwargs):
-        message = console_config["messages"][key].format(
+        message = CONSOLE_CONFIG["messages"][key].format(
             **kwargs
         )
 

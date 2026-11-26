@@ -2,7 +2,7 @@ from ui.common.PySide6_Qt import *
 from utils.svg_icons import svg_icon
 DEFAULT_VALUE = "Not available"
 
-rows = [
+DEVICE_INFO_ROWS = [
     ("chip", "Board:", False),
     ("uid", "Chip ID (UID):", True),
     ("firmware", "Firmware:", False),
@@ -25,7 +25,7 @@ class DeviceInfo(QFrame):
 
         self.create_title(layout)
         self.fields = {}
-        for name, text, copy in rows:
+        for name, text, copy in DEVICE_INFO_ROWS:
             self.fields[name] = self.create_row(layout, text, copy)
         
     def create_title(self, layout):
@@ -47,7 +47,7 @@ class DeviceInfo(QFrame):
         layout.addLayout(row)
         layout.addSpacing(6)
 
-    def create_row(self, layout, label_text, copy=False):
+    def create_row(self, layout, label_text: str, copyable: bool = False):
         row = QHBoxLayout()
         row.setSpacing(15)
 
@@ -61,7 +61,7 @@ class DeviceInfo(QFrame):
         row.addWidget(label)
         row.addWidget(value)
 
-        if copy:
+        if copyable:
             button = QPushButton()
             button.setObjectName("copyButton")
             button.setFixedSize(38, 38)
@@ -82,7 +82,7 @@ class DeviceInfo(QFrame):
         return value
     
     def set_device_info(self, **info):
-        for name, _, _ in rows:
+        for name, _, _ in DEVICE_INFO_ROWS:
             value = info.get(name) or DEFAULT_VALUE
             self.fields[name].setText(value)
         

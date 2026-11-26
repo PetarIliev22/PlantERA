@@ -2,7 +2,7 @@ from ui.common.PySide6_Qt import *
 from utils.svg_icons import svg_icon
 from config.config_loader import load_config
 
-actions = load_config("device_actions.json")["actions"]
+ACTIONS = load_config("device_actions.json")["actions"]
 
 class DeviceActions(QFrame):
     def __init__(self, parent=None):
@@ -44,7 +44,7 @@ class DeviceActions(QFrame):
         row = QHBoxLayout()
         row.setSpacing(10)
 
-        for action in actions:
+        for action in ACTIONS:
             name = action["id"]
 
             button = QPushButton()
@@ -68,10 +68,6 @@ class DeviceActions(QFrame):
                 ).pixmap(35, 35)
             )
             
-            icon_label.setAttribute(
-                Qt.WidgetAttribute.WA_TransparentForMouseEvents
-            )
-
             text_layout = QVBoxLayout()
             text_layout.setSpacing(3)
 
@@ -81,7 +77,7 @@ class DeviceActions(QFrame):
             subtitle_label = QLabel(action["subtitle"])
             subtitle_label.setObjectName("actionSubtitle")
 
-            for widget in (title_label, subtitle_label):
+            for widget in (icon_label, title_label, subtitle_label):
                 widget.setAttribute(
                     Qt.WidgetAttribute.WA_TransparentForMouseEvents
                 )

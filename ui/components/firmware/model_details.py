@@ -1,4 +1,3 @@
-
 from ui.common.PySide6_Qt import *
 from utils.svg_icons import svg_icon
 from utils.paths import resource_path
