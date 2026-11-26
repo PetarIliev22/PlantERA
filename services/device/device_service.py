@@ -46,19 +46,23 @@ class DeviceService(QObject):
             
 
     def detect(self, port, stop_event):
-        from esptool.cmds import detect_chip
+        try:
+            from esptool.cmds import detect_chip
+        except Exception:
+            logger.exception("Failed to initialize esptool")
+            
+            if not stop_event.is_set():
+                self.failed.emit()
+                
+            return
         
-        deadline = (
-            time.monotonic() + self.DETECTION_TIMEOUT
-        )
-        
+        deadline = (time.monotonic() + self.DETECTION_TIMEOUT)
         last_error = None
+        
         while not stop_event.is_set():
-            if time.monotonic() > deadline:
-                 if not stop_event.is_set():
-                    self.failed.emit()
-                    return
-
+            if time.monotonic() >= deadline:
+                break
+            
             try:
                 with detect_chip(port, connect_attempts=1) as esp:
                     if stop_event.is_set():
@@ -69,10 +73,10 @@ class DeviceService(QObject):
                         "uid": self.create_uid(esp.read_mac())
                     }
                     
-                    if not stop_event.is_set():
-                        self.detected.emit(info)
+                if not stop_event.is_set():
+                    self.detected.emit(info)
 
-                    return
+                return
 
             except Exception as e:
                 message = str(e)
@@ -84,8 +88,16 @@ class DeviceService(QObject):
                     )
                 last_error = message
 
-            if stop_event.wait(self.RETRY_INTERVAL):
+            remaining = deadline - time.monotonic()
+
+            if remaining <= 0:
+                break
+
+            if stop_event.wait(min(self.RETRY_INTERVAL, remaining)):
                 return
+            
+        if not stop_event.is_set():
+            self.failed.emit()
 
     @staticmethod
     def create_uid(mac):
