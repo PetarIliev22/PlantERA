@@ -1,8 +1,11 @@
 import re
 import asyncio
+import logging
 from PySide6.QtCore import QObject, Signal
 from qasync import asyncSlot
 from core.error_handler import is_network_error
+
+logger = logging.getLogger(__name__)
 
 class RegisterHandler(QObject):
     authenticated = Signal(object)
@@ -58,11 +61,14 @@ class RegisterHandler(QObject):
             response = await sign_up(email, password, first_name, last_name)
             if response.user and response.session:
                 if avatar_data:
-                    await update_user_avatar(response.user.id, avatar_data)
-
+                    try:
+                        await update_user_avatar(response.user.id, avatar_data)
+                    except Exception:
+                        logger.exception("Failed to upload user avatar")
+                        
                 authenticated = True
                 self.authenticated.emit(response.user)
-                
+
             elif response.user:
                 self.view.switch_page(0)
                 alert.show_message(messages["success"], success=True)
