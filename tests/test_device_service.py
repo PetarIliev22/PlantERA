@@ -79,3 +79,27 @@ def test_detection_timeout(monkeypatch):
 
     service.failed.emit.assert_called_once()
     service.detected.emit.assert_not_called()
+    
+def test_start_while_running():
+    service = Mock()
+    service.is_running = True
+
+    result = DeviceService.start(service, "COM3")
+
+    assert result is False
+    
+def test_stop_sets_event():
+    service = DeviceService()
+    service.stop_event = threading.Event()
+
+    DeviceService.stop(service)
+
+    assert service.stop_event.is_set()
+    
+def test_stop_without_worker():
+    service = DeviceService()
+
+    service.stop()
+
+    assert service.stop_event is None
+    assert service.is_running is False

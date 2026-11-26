@@ -20,7 +20,11 @@ class BootDialog(QFrame):
         self.button_action = None
         self.on_connected = on_connected
         self.cancelled = False
-
+        
+        self.cancel_timer = QTimer(self)
+        self.cancel_timer.setInterval(50)
+        self.cancel_timer.timeout.connect(self.finish_cancel)
+        
         self.service = DeviceService()
         self.service.detected.connect(self.device_detected)
         self.service.failed.connect(self.connection_failed)
@@ -157,10 +161,25 @@ class BootDialog(QFrame):
             )
 
     def cancel(self):
+        if self.cancelled:
+            return
+        
         self.cancelled = True
+        self.button.setEnabled(False)
         self.service.stop()
-        self.deleteLater()
+        
+        if self.service.is_running:
+            self.cancel_timer.start()
+        else:
+            self.deleteLater()
 
+    def finish_cancel(self):
+        if self.service.is_running:
+            return
+
+        self.cancel_timer.stop()
+        self.deleteLater()
+    
     def set_button_action(self, action):
         if self.button_action is not None:
             self.button.clicked.disconnect(self.button_action)
