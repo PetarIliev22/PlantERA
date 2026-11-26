@@ -1,10 +1,7 @@
 from qasync import asyncSlot
 from ui.common.PySide6_Qt import *
-from ui.components.toolbar import Toolbar
-from ui.components.sidebar import Sidebar
 from ui.components.window_controls import WindowControls
 from ui.views.auth_views import AuthView
-from core.page_manager import PageManager
 from .window_events import WindowEvents
 from .window_appearance import WindowAppearance
 from .window_updates import WindowUpdates
@@ -48,6 +45,10 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         )
 
     def show_main_ui(self):
+        from ui.components.toolbar import Toolbar
+        from ui.components.sidebar import Sidebar
+        from core.page_manager import PageManager
+        
         central = QWidget()
         central.setObjectName("mainContainer")
         self.setCentralWidget(central)

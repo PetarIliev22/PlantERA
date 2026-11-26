@@ -1,4 +1,3 @@
-
 from PySide6.QtCore import (
     Qt, Property, QPropertyAnimation, QEasingCurve,
 )
@@ -48,11 +47,15 @@ def fade_in_widget(widget, duration=300):
     effect = QGraphicsOpacityEffect(widget)
     widget.setGraphicsEffect(effect)
 
-    animation = QPropertyAnimation(effect, b"opacity", widget)
+    animation = QPropertyAnimation(effect, b"opacity", effect)
     animation.setDuration(duration)
     animation.setStartValue(0.0)
     animation.setEndValue(1.0)
     animation.setEasingCurve(QEasingCurve.Type.OutCubic)
 
-    widget.fade_animation = animation
+    def cleanup():
+        if widget.graphicsEffect() is effect:
+            widget.setGraphicsEffect(None)
+
+    animation.finished.connect(cleanup)
     animation.start()
