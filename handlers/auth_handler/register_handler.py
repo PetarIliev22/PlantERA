@@ -2,6 +2,7 @@ import re
 import asyncio
 from PySide6.QtCore import QObject, Signal
 from qasync import asyncSlot
+from core.error_handler import is_network_error
 
 class RegisterHandler(QObject):
     authenticated = Signal(object)
@@ -78,7 +79,7 @@ class RegisterHandler(QObject):
             if error_code in ("email_exists", "user_already_exists"):
                 message = messages["email_exists"]
 
-            elif isinstance(error, (ConnectionError, TimeoutError, OSError, httpx.ConnectError)):
+            elif is_network_error(error):
                 message = self.messages["general"]["network_error"]
 
             else:

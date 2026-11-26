@@ -102,9 +102,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
             self.reset_user_state()
 
             self.auth_view.switch_page(0)
-            self.auth_view.submit_button.setEnabled(True)
-            self.auth_view.login_tab.setEnabled(True)
-            self.auth_view.register_tab.setEnabled(True)
+            self.auth_view.set_loading(False)
 
             self.auth_view.alert.show_message(
                 self.auth_view.messages["general"]["unexpected_error"]

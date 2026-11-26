@@ -1,5 +1,6 @@
 import asyncio
 from PySide6.QtCore import QObject, Signal
+from core.error_handler import is_network_error
 from qasync import asyncSlot
 
 class LoginHandler(QObject):
@@ -46,7 +47,7 @@ class LoginHandler(QObject):
             if code == "invalid_credentials":
                 message = messages["invalid_credentials"]
                 
-            elif isinstance(error, (ConnectionError, TimeoutError, OSError, httpx.RequestError)):
+            elif is_network_error(error):
                 message = self.messages["general"]["network_error"]
                 
             else:
