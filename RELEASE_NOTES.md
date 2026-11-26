@@ -1,5 +1,14 @@
-- Added user profile management
-- Improved login and registration functionality
-- Optimized application startup and login performance
-- Improved authentication and sidebar UI design
-- General bug fixes and code improvements
+- Added Remember me functionality for persistent user sessions.
+- Added secure session storage using Windows Credential Manager.
+- Added automatic sign-in for remembered accounts.
+- Added personalized welcome screen with profile picture, name, and email.
+- Added animated loading spinner during session restoration.
+- Added local user profile caching for faster startup.
+- Improved authentication and session management.
+- Improved authentication UI and visual consistency.
+- Optimized application startup and resource usage.
+- Improved device detection and connection reliability.
+- Improved background worker lifecycle management.
+- Expanded automated test coverage.
+- Refactored internal components for improved code quality and maintainability.
+- General bug fixes and performance improvements.

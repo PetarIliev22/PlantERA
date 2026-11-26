@@ -4,6 +4,7 @@ from PyInstaller.utils.hooks import collect_submodules
 hiddenimports = ['encodings.idna',]
 hiddenimports += collect_submodules('esptool')
 hiddenimports += collect_submodules('ui.views')
+hiddenimports += collect_submodules('keyring.backends')
 hiddenimports += collect_submodules('services.supabase')
 
 a = Analysis(
