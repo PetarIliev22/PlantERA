@@ -1,6 +1,6 @@
 import asyncio
 from types import SimpleNamespace
-from unittest.mock import Mock, AsyncMock
+from unittest.mock import Mock, AsyncMock, call
 
 import pytest
 
@@ -50,10 +50,23 @@ def test_login(email, password, success, error, expected, monkeypatch):
     )
 
     asyncio.run(LoginHandler.handle_login.__wrapped__(handler))
-
+    
     if success:
         handler.authenticated.emit.assert_called_once_with(user)
         handler.view.alert.show_message.assert_not_called()
     else:
         handler.view.alert.show_message.assert_called_once_with(expected)
         handler.authenticated.emit.assert_not_called()
+
+    if not email or not password:
+        handler.view.set_loading.assert_not_called()
+        sign_in.assert_not_awaited()
+
+    elif success:
+        handler.view.set_loading.assert_called_once_with(True)
+
+    else:
+        assert handler.view.set_loading.call_args_list == [
+            call(True),
+            call(False)
+        ]
