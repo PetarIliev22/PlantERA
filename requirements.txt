@@ -5,3 +5,4 @@ supabase==2.32.0
 python-dotenv==1.2.4
 qasync==0.28.0
 packaging==26.3
+keyring==25.7.0

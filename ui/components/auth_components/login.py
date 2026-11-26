@@ -1,4 +1,5 @@
-from ui.common.PySide6_Qt import QWidget, QHBoxLayout, QVBoxLayout
+from ui.common.PySide6_Qt import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, Qt
+from PySide6.QtWidgets import QCheckBox
 from ui.components.auth_components.auth_field import create_auth_field
 
 class Login(QWidget):
@@ -20,15 +21,15 @@ class Login(QWidget):
         options = QHBoxLayout()
 
         # TODO : ---
-        # self.remember = QCheckBox("Remember me")
-        # self.remember.setObjectName("authRemember")
-        # self.remember.setChecked(False)
+        self.remember = QCheckBox("Remember me")
+        self.remember.setObjectName("authRemember")
+        self.remember.setChecked(False)
 
         # self.forgot_button = QPushButton("Forgot password?")
         # self.forgot_button.setObjectName("authLink")
         # self.forgot_button.setCursor(Qt.CursorShape.PointingHandCursor)
 
-        # options.addWidget(self.remember)
+        options.addWidget(self.remember)
         options.addStretch()
         # options.addWidget(self.forgot_button)
 

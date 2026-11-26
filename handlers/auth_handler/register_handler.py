@@ -79,7 +79,6 @@ class RegisterHandler(QObject):
                 )
 
         except Exception as error:
-            import httpx
             error_code = getattr(error, "code", None)
 
             if error_code in ("email_exists", "user_already_exists"):

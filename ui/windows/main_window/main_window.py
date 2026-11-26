@@ -144,6 +144,24 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.show_auth_ui()
         self.window_controls.raise_()
 
+    async def restore_user_session(self):
+        self.auth_view.set_loading(True)
+
+        try:
+            from services.supabase.supabase_auth import restore_session
+
+            response = await restore_session()
+
+            if response is not None and response.user is not None:
+                await self.on_authenticated(response.user)
+
+        except Exception as error:
+            print(f"Session restore failed: {error}")
+
+        finally:
+            if self.page_manager is None and not self._closing:
+                self.auth_view.set_loading(False)
+
     def position_window_controls(self):
         self.window_controls.move(
             self.width() - self.window_controls.width(),
