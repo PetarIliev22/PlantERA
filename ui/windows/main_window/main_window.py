@@ -117,10 +117,24 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
     async def load_user_profile(self):
         from services.supabase.supabase_queries import get_user_profile
+        from services.supabase.supabase_session import load_session, save_session
 
-        self.current_profile = await get_user_profile(
-            self.current_user.id
-        )
+        self.current_profile = await get_user_profile(self.current_user.id)
+
+        session = load_session()
+
+        if session is not None:
+            save_session(
+                session["access_token"],
+                session["refresh_token"],
+                {
+                    "user_id": self.current_user.id,
+                    "first_name": self.current_profile.get("first_name", ""),
+                    "last_name": self.current_profile.get("last_name", ""),
+                    "email": self.current_user.email,
+                    "avatar": self.current_profile.get("avatar")
+                }
+            )
 
     @asyncSlot()
     async def handle_logout(self):
