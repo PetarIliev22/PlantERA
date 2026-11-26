@@ -1,0 +1,19 @@
+QLabel#authAvatar {
+    background-color: #252525;
+    border: 3px solid #3B82F6;
+    border-radius: 48px;
+}
+
+QLabel#authProfileName {
+    background: transparent;
+    color: #3f3f3f;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+QLabel#authProfileEmail {
+    background: transparent;
+    color: #9CA3AF;
+    font-size: 15px;
+    font-weight: 400;
+}

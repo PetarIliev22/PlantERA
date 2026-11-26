@@ -23,6 +23,7 @@ def load_styles():
         "firmware/device_model_row.qss",
         "auth_style/auth.qss",
         "auth_style/alert.qss",
+        "auth_style/auth_remembered_profile.qss"
     ]
 
     styles = "\n".join(

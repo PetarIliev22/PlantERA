@@ -4,6 +4,8 @@ from ui.components.auth_components.alert import Alert
 from ui.components.auth_components.register import Register
 from handlers.auth_handler.login_handler import LoginHandler
 from handlers.auth_handler.register_handler import RegisterHandler
+from ui.components.auth_components.remembered_login import RememberedLogin
+from ui.components.loading_spinner import LoadingSpinner
 from utils.paths import resource_path
 from utils.animations import fade_in_widget
 from config.config_loader import load_config
@@ -59,10 +61,10 @@ class AuthView(QWidget):
         form.addSpacing(2)
         self.alert = Alert()
 
-        tabs = QFrame()
-        tabs.setObjectName("authTabs")
+        self.tabs = QFrame()
+        self.tabs.setObjectName("authTabs")
 
-        tabs_layout = QHBoxLayout(tabs)
+        tabs_layout = QHBoxLayout(self.tabs)
         tabs_layout.setContentsMargins(4, 4, 4, 4)
         tabs_layout.setSpacing(4)
 
@@ -74,7 +76,7 @@ class AuthView(QWidget):
             button.setCheckable(True)
             tabs_layout.addWidget(button)
 
-        form.addWidget(tabs)
+        form.addWidget(self.tabs)
         form.addWidget(self.alert)
 
         self.pages = QStackedWidget()
@@ -84,7 +86,16 @@ class AuthView(QWidget):
 
         self.pages.addWidget(self.login)
         self.pages.addWidget(self.register)
+        from services.supabase.supabase_profile_cache import load_profile
 
+        profile = load_profile()
+
+        self.remembered_login = None
+
+        if profile is not None:
+            self.remembered_login = RememberedLogin(profile)
+            self.pages.addWidget(self.remembered_login)
+            
         form.addWidget(self.pages)
 
         self.submit_button = QPushButton()
@@ -93,7 +104,15 @@ class AuthView(QWidget):
         self.submit_button.setCursor(Qt.CursorShape.PointingHandCursor)
 
         form.addWidget(self.submit_button)
+        
+        self.spinner = LoadingSpinner(size=48, color="#1687F8")
+        self.spinner.hide()
 
+        form.addWidget(
+            self.spinner,
+            alignment=Qt.AlignmentFlag.AlignCenter
+        )
+        
         layout.addWidget(
             self.form,
             alignment=Qt.AlignmentFlag.AlignCenter
@@ -102,13 +121,17 @@ class AuthView(QWidget):
         self.login_tab.clicked.connect(lambda: self.switch_page(0))
         self.register_tab.clicked.connect(lambda: self.switch_page(1))
 
-        self.switch_page(0)
+        self.switch_page(2 if self.remembered_login is not None else 0)
         fade_in_widget(self.form)
 
     @property
     def is_login_page(self) -> bool:
         return self.pages.currentIndex() == 0
-
+    
+    @property
+    def is_remembered_page(self) -> bool:
+        return self.pages.currentIndex() == 2
+    
     @property
     def current_messages(self) -> dict:
         return self.messages[
@@ -140,7 +163,20 @@ class AuthView(QWidget):
             self.pages.currentWidget().sizeHint().height()
         )
 
+        self.tabs.setVisible(index != 2)
+        self.submit_button.setVisible(index != 2)
+        self.spinner.setVisible(index == 2)
+
         self.login_tab.setChecked(index == 0)
         self.register_tab.setChecked(index == 1)
 
-        self.submit_button.setText(self.current_messages["button"])
+        self.subtitle.setText(
+            "Welcome back!" if index == 2
+            else "Sign in to your PlantERA account"
+        )
+
+        if index == 2:
+            self.spinner.start()
+        else:
+            self.spinner.stop()
+            self.submit_button.setText(self.current_messages["button"])
