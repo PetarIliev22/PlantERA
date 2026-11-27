@@ -10,8 +10,14 @@ sidebar = load_config("sidebar.json")["sidebar"]
 class Sidebar(QFrame):
     page_changed = Signal(str)
 
-    def __init__(self, parent):
+    def __init__(self, parent, role: str):
         super().__init__(parent)
+        
+        self.pages = [
+            item for item in sidebar
+            if role in item["roles"]
+        ]
+        
         self.active_name = sidebar[0]["name"] if sidebar else None
 
         self.setObjectName("sidebar")
@@ -50,11 +56,13 @@ class Sidebar(QFrame):
             
         self.indicator = QFrame(self)
         self.indicator.setObjectName("activeIndicator")
-        self.indicator.setGeometry(0, 118, 4, 54)
+        self.indicator.setFixedSize(4, 54)
+        self.indicator.move(0, 118)
+        self.indicator.setVisible(bool(self.pages))
 
         self.buttons = {}
 
-        for index, item in enumerate(sidebar):
+        for index, item in enumerate(self.pages):
             name = item["name"]
             active = name == self.active_name
 

@@ -7,7 +7,7 @@ from utils.animations import fade_in_page
 sidebarItems = load_config("sidebar.json")["sidebar"]
 
 class PageManager(QStackedWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent, role: str):
         super().__init__(parent)
 
         self.setObjectName("mainPages")
@@ -16,22 +16,22 @@ class PageManager(QStackedWidget):
         self.page_configs = {
             item["name"]: item
             for item in sidebarItems
+            if role in item["roles"]
         }
         
         if sidebarItems:
             self.change_page(sidebarItems[0]["name"])
 
-   
     def get_or_create_page(self, name):
-        page = self.pages.get(name)
-        
-        if page is not None:
-            return page
-
         item = self.page_configs.get(name)
 
         if item is None:
             return None
+
+        page = self.pages.get(name)
+
+        if page is not None:
+            return page
 
         module_name, class_name = item["view"].rsplit(".", 1)
         module = import_module(f"ui.views.{module_name}")

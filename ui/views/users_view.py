@@ -1,0 +1,7 @@
+from ui.common.PySide6_Qt import *
+
+class UsersView(QFrame):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.setObjectName("usersView")

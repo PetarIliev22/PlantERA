@@ -49,6 +49,8 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         from ui.components.sidebar import Sidebar
         from core.page_manager import PageManager
         
+        role = self.current_profile["role"]
+        
         central = QWidget()
         central.setObjectName("mainContainer")
         self.setCentralWidget(central)
@@ -58,7 +60,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        self.sidebar = Sidebar(self)
+        self.sidebar = Sidebar(self, role)
 
         self.sidebar.profile.logout_requested.connect(
             self.handle_logout
@@ -81,7 +83,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.toolbar = Toolbar(self)
         right_layout.addWidget(self.toolbar)
 
-        self.page_manager = PageManager(right_container)
+        self.page_manager = PageManager(right_container, role)
         right_layout.addWidget(self.page_manager, 1)
 
         self.sidebar.page_changed.connect(

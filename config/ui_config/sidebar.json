@@ -1,34 +1,53 @@
 {
   "sidebar": [
     {
+      "name": "home",
+      "text": "Home",
+      "icon": "microchip.svg",
+      "view": "home_view.HomeView",
+      "roles": ["administrator", "operator", "user"]
+    },
+    {
       "name": "provision",
       "text": "Provision Device",
       "icon": "microchip.svg",
-      "view": "provision_view.ProvisionView"
+      "view": "provision_view.ProvisionView",
+      "roles": ["administrator", "operator"]
     },
     {
       "name": "firmware",
       "text": "Firmware",
       "icon": "download.svg",
-      "view": "firmware_view.FirmwareView"
+      "view": "firmware_view.FirmwareView",
+      "roles": ["administrator", "operator"]
     },
     {
       "name": "security",
       "text": "Device Security",
       "icon": "lock.svg",
-      "view": "keys_view.KeysView"
+      "view": "keys_view.KeysView",
+      "roles": ["administrator"]
     },
     {
       "name": "settings",
       "text": "Settings",
       "icon": "gear.svg",
-      "view": "settings_view.SettingsView"
+      "view": "settings_view.SettingsView",
+      "roles": ["administrator", "operator", "user"]
+    },
+    {
+      "name": "users",
+      "text": "Users",
+      "icon": "user.svg",
+      "view": "users_view.UsersView",
+      "roles": ["administrator"]
     },
     {
       "name": "about",
       "text": "About",
       "icon": "circle-info.svg",
-      "view": "about_view.AboutView"
+      "view": "about_view.AboutView",
+      "roles": ["administrator", "operator", "user"]
     }
   ]
 }

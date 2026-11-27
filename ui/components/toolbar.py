@@ -1,9 +1,12 @@
 from ui.common.PySide6_Qt import *
 
+
 class Toolbar(QFrame):
     def __init__(self, parent):
         super().__init__(parent)
+
         self.drag_position = QPoint()
+
         self.setObjectName("toolbar")
         self.setFixedHeight(86)
 
@@ -13,66 +16,39 @@ class Toolbar(QFrame):
         layout = QHBoxLayout(self)
         layout.setContentsMargins(32, 0, 12, 0)
         layout.setSpacing(0)
-
-        title_frame = QFrame()
-        title_frame.setObjectName("toolbarTitleFrame")
-
-        title_layout = QVBoxLayout(title_frame)
-        title_layout.setContentsMargins(0, 0, 0, 0)
-        title_layout.setSpacing(0)
-
-        title = QLabel("Device Provisioning")
-        title.setObjectName("toolbarTitle")
-
-        subtitle = QLabel("Secure Device Configuration & Management")
-        subtitle.setObjectName("toolbarSubtitle")
-
-        title_layout.addWidget(title)
-        title_layout.addWidget(subtitle)
-
-        layout.addWidget(
-            title_frame,
-            0,
-            Qt.AlignmentFlag.AlignVCenter
-        )
-
         layout.addStretch()
-        
+
         self.bottom_line = QFrame(self)
         self.bottom_line.setObjectName("toolbarBottomLine")
         self.bottom_line.setFixedHeight(2)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
+            window = self.window()
             self.drag_position = (
                 event.globalPosition().toPoint()
-                - self.window().frameGeometry().topLeft()
+                - window.frameGeometry().topLeft()
             )
 
     def mouseMoveEvent(self, event):
-        if (
-            event.buttons() & Qt.MouseButton.LeftButton
-            and not self.window().isMaximized()
-        ):
-            new_pos = (
-                event.globalPosition().toPoint()
-                - self.drag_position
-            )
+        window = self.window()
 
-            screen = self.window().screen().availableGeometry()
+        if window.isMaximized():
+            return
 
-            x = max(
-                screen.left(),
-                min(new_pos.x(), screen.right() - self.window().width() + 1)
-            )
+        if not event.buttons() & Qt.MouseButton.LeftButton:
+            return
 
-            y = max(
-                screen.top(),
-                min(new_pos.y(), screen.bottom() - self.window().height() + 1)
-            )
+        position = event.globalPosition().toPoint() - self.drag_position
+        screen = window.screen().availableGeometry()
 
-            self.window().move(x, y)
-            
+        max_x = screen.right() - window.width() + 1
+        max_y = screen.bottom() - window.height() + 1
+
+        x = max(screen.left(), min(position.x(), max_x))
+        y = max(screen.top(), min(position.y(), max_y))
+
+        window.move(x, y)
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -81,9 +57,5 @@ class Toolbar(QFrame):
     def resizeEvent(self, event):
         super().resizeEvent(event)
 
-        self.bottom_line.setGeometry(
-            0,
-            self.height() - 2,
-            self.width(),
-            2
-        )
+        self.bottom_line.resize(self.width(), 2)
+        self.bottom_line.move(0, self.height() - 2)
