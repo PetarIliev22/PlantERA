@@ -47,3 +47,7 @@ async def sign_out():
 
 async def restore_session():
     return await asyncio.to_thread(_restore_session)
+
+async def get_active_session():
+    client = get_supabase_client()
+    return await asyncio.to_thread(client.auth.get_session)

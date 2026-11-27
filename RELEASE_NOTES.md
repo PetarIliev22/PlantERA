@@ -1,14 +1,17 @@
-- Added Remember me functionality for persistent user sessions.
-- Added secure session storage using Windows Credential Manager.
-- Added automatic sign-in for remembered accounts.
-- Added personalized welcome screen with profile picture, name, and email.
-- Added animated loading spinner during session restoration.
-- Added local user profile caching for faster startup.
-- Improved authentication and session management.
-- Improved authentication UI and visual consistency.
-- Optimized application startup and resource usage.
-- Improved device detection and connection reliability.
-- Improved background worker lifecycle management.
-- Expanded automated test coverage.
-- Refactored internal components for improved code quality and maintainability.
-- General bug fixes and performance improvements.
+- Added a personalized Home dashboard with user profile information.
+- Added role-based navigation and page access control.
+- Added a dedicated User Management interface for administrators.
+- Added user statistics, profile avatars, roles, and account status indicators.
+- Added user blocking, unblocking, and permanent account deletion.
+- Added real-time account blocking with automatic session termination.
+- Added a dedicated blocked account screen.
+- Added a reusable Supabase Realtime service for future real-time functionality.
+- Added custom confirmation dialogs with action-specific styling.
+- Added a reusable background overlay for application dialogs.
+- Improved administrative security through server-side access control.
+- Improved session restoration and local session cleanup.
+- Optimized Realtime initialization to prevent interface lag after login.
+- Improved asynchronous connection and resource management.
+- Refactored the main window into modular components for improved maintainability.
+- Reduced code duplication and improved overall code readability.
+- General bug fixes, UI refinements, and performance improvements.

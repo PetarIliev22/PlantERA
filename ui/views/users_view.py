@@ -54,7 +54,7 @@ class UsersView(QFrame):
         await self.execute_action("Delete", user, delete_user, user["id"])
 
     async def execute_action(self, action, user, operation, *args):
-        if not self.confirm_action(action, user):
+        if not await self.confirm_action(action, user):
             return
 
         self.users_table.setEnabled(False)
@@ -69,6 +69,21 @@ class UsersView(QFrame):
         finally:
             self.users_table.setEnabled(True)
 
-    def confirm_action(self, action, user):
+    async def confirm_action(self, action, user):
         dialog = ConfirmationDialog(action, user, self)
-        return dialog.exec() == QDialog.DialogCode.Accepted
+        future = asyncio.get_running_loop().create_future()
+
+        def on_finished(result):
+            if not future.done():
+                future.set_result(result)
+
+        dialog.finished.connect(on_finished)
+        dialog.open()
+
+        try:
+            result = await future
+            return result == QDialog.DialogCode.Accepted
+
+        finally:
+            dialog.hide()
+            dialog.deleteLater()
