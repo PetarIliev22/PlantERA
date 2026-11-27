@@ -75,7 +75,9 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
         right_container = QWidget()
         right_container.setObjectName("mainContent")
-
+        
+        main_layout.addWidget(right_container, 1)
+        
         right_layout = QVBoxLayout(right_container)
         right_layout.setContentsMargins(0, 0, 0, 0)
         right_layout.setSpacing(0)
@@ -89,8 +91,6 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
         self.sidebar.page_changed.connect(
             self.page_manager.change_page
         )
-
-        main_layout.addWidget(right_container, 1)
 
     async def handle_blocked_user(self):
         from services.supabase.supabase_auth import sign_out

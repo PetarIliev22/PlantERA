@@ -1,0 +1,87 @@
+QFrame#homeBanner {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+}
+
+QLabel#homeBannerSubtitle {
+    background: transparent;
+    color: #1687F8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QLabel#homeBannerTitle {
+    background: transparent;
+    color: #0F172A;
+    font-size: 42px;
+    font-weight: 700;
+}
+
+QLabel#homeBannerDescription {
+    background: transparent;
+    color: #64748B;
+    font-size: 15px;
+}
+
+QFrame#homeBannerSeparator {
+    background-color: #E2E8F0;
+    border: none;
+}
+
+QLabel#homeBannerInfoLabel {
+    background: transparent;
+    color: #64748B;
+    font-size: 11px;
+    min-height: 0px;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+QLabel#homeBannerInfoValue {
+    background: transparent;
+    color: #0F172A;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 0px;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+QLabel#homeBannerAvatar {
+    background-color: #EFF6FF;
+    border: 2px solid #1687F8;
+    border-radius: 42px;
+    padding: 0;
+    margin: 0;
+    color: #1687F8;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* cards */
+QFrame#homeCard {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+}
+
+QLabel#homeCardIcon {
+    background-color: #F0F6FF;
+    border: 2px solid #D6E6FA;
+    border-radius: 22px;
+}
+
+QLabel#homeCardTitle {
+    background: transparent;
+    color: #0F172A;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+QLabel#homeCardDescription {
+    background: transparent;
+    color: #64748B;
+    font-size: 13px;
+    font-weight: 400;
+}

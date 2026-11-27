@@ -24,7 +24,8 @@ def load_styles():
         "auth_style/auth.qss",
         "auth_style/alert.qss",
         "auth_style/auth_remembered_profile.qss",
-        "auth_style/auth_blocked_login.qss"
+        "auth_style/auth_blocked_login.qss",
+        "home_page/home.qss"
     ]
 
     styles = "\n".join(

@@ -10,7 +10,8 @@ CONFIG_FOLDERS = {
     "device_console.json": "devices_config",
     "device_images.json": "devices_config",
     "device_profiles.json": "devices_config",
-    "auth_messages.json": "auth_messages"
+    "auth_messages.json": "auth_messages",
+    "home.json": "home_config"
 }
 
 def load_config(filename):

@@ -1,6 +1,6 @@
 from ui.common.PySide6_Qt import *
 from utils.svg_icons import svg_icon
-from utils.compress_image import circular_pixmap
+from utils.avatar import set_avatar
 
 class SidebarProfile(QFrame):
     logout_requested = Signal()
@@ -68,18 +68,4 @@ class SidebarProfile(QFrame):
         self.name.setToolTip(name)
         self.role.setText(profile["role"].upper())
 
-        if image_data:
-            pixmap = QPixmap()
-
-            if pixmap.loadFromData(image_data):
-                self.avatar.setPixmap(
-                    circular_pixmap(pixmap, self.avatar.size())
-                )
-                return
-
-        initials = "".join(
-            part[0].upper() for part in name.split()[:2]
-        )
-
-        self.avatar.clear()
-        self.avatar.setText(initials or "?")
+        set_avatar(self.avatar, profile, image_data)

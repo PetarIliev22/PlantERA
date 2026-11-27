@@ -1,0 +1,38 @@
+{
+  "banner": {
+    "subtitle": "YOUR PLANTERA WORKSPACE",
+    "title": "Welcome",
+    "description": "A dedicated application for configuring, programming and managing PlantERA devices, providing a unified workspace for device provisioning, firmware management and secure hardware initialization.",
+    "information": {
+      "role": {
+        "icon": "lock.svg",
+        "label": "Access level"
+      },
+      "date": {
+        "icon": "calendar.svg",
+        "label": "Today"
+      },
+      "version": {
+        "icon": "circle-info.svg",
+        "label": "Application version"
+      }
+    }
+  },
+  "cards": [
+    {
+      "icon": "microchip.svg",
+      "title": "Device Provisioning",
+      "description": "Configure, initialize and register PlantERA devices. Manage hardware parameters, device identification and prepare devices for integration with the PlantERA platform."
+    },
+    {
+      "icon": "download.svg",
+      "title": "Firmware Management",
+      "description": "Manage firmware versions and software updates for PlantERA devices. Maintain compatibility, improve device functionality and ensure consistent firmware deployment."
+    },
+    {
+      "icon": "lock.svg",
+      "title": "Device Security",
+      "description": "Protect PlantERA devices through secure configuration, cryptographic key management and role-based access control."
+    }
+  ]
+}
