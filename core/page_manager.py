@@ -20,7 +20,7 @@ class PageManager(QStackedWidget):
         }
         
         if sidebarItems:
-            self.change_page(sidebarItems[0]["name"])
+            self.change_page(next(iter(self.page_configs)))
 
     def get_or_create_page(self, name):
         item = self.page_configs.get(name)

@@ -197,7 +197,7 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
             print(f"Session restore failed: {error}")
 
         finally:
-            if self.page_manager is None and not self._closing:
+            if not self._closing and self.centralWidget() is self.auth_view:
                 self.auth_view.set_loading(False)
 
     def position_window_controls(self):

@@ -3,7 +3,7 @@
     {
       "name": "home",
       "text": "Home",
-      "icon": "microchip.svg",
+      "icon": "house.svg",
       "view": "home_view.HomeView",
       "roles": ["administrator", "operator", "user"]
     },

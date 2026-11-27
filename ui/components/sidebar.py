@@ -18,7 +18,7 @@ class Sidebar(QFrame):
             if role in item["roles"]
         ]
         
-        self.active_name = sidebar[0]["name"] if sidebar else None
+        self.active_name = self.pages[0]["name"] if self.pages else None
 
         self.setObjectName("sidebar")
         self.setFixedWidth(260)
