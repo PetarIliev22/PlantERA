@@ -182,11 +182,11 @@ QPushButton#authSubmit {
 }
 
 QPushButton#authSubmit:hover {
-    background-color: #111727;
+    background-color: #1E293B;
 }
 
 QPushButton#authSubmit:pressed {
-    background-color: #131a2b;
+    background-color: #0B101C;
 }
 
 QPushButton#authSubmit:disabled {

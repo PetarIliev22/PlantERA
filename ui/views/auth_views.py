@@ -6,6 +6,7 @@ from handlers.auth_handler.login_handler import LoginHandler
 from handlers.auth_handler.register_handler import RegisterHandler
 from ui.components.auth_components.remembered_login import RememberedLogin
 from ui.components.loading_spinner import LoadingSpinner
+from ui.components.auth_components.blocked_login import BlockedLogin
 from utils.paths import resource_path
 from utils.animations import fade_in_widget
 from config.config_loader import load_config
@@ -13,6 +14,7 @@ from config.config_loader import load_config
 class AuthView(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.blocked_login = None
         self.messages = load_config("auth_messages.json")
         
         self.setObjectName("authView")
@@ -106,7 +108,6 @@ class AuthView(QWidget):
         form.addWidget(self.submit_button)
         
         self.spinner = LoadingSpinner(size=48, color="#1687F8")
-        self.spinner.hide()
 
         form.addWidget(
             self.spinner,
@@ -156,18 +157,40 @@ class AuthView(QWidget):
             self.current_messages["loading" if loading else "button"]
         )
 
+    def show_blocked(self):
+        if self.blocked_login is not None:
+            return
+        
+        self.spinner.stop()
+        self.form.hide()
+
+        self.blocked_login = BlockedLogin(self)
+        self.blocked_login.back_button.setEnabled(False)
+        self.blocked_login.back_requested.connect(self.show_login)
+        
+        self.layout().addWidget(self.blocked_login, alignment=Qt.AlignmentFlag.AlignCenter)
+    
+    def show_login(self):
+        self.blocked_login.hide()
+        self.blocked_login.deleteLater()
+        self.blocked_login = None
+
+        self.login.password.clear()
+        self.switch_page(0)
+        self.set_loading(False)
+        self.form.show()
+    
     def switch_page(self, index: int) -> None:
         self.pages.setCurrentIndex(index)
+        self.pages.setFixedHeight(self.pages.currentWidget().sizeHint().height())
 
-        self.pages.setFixedHeight(
-            self.pages.currentWidget().sizeHint().height()
-        )
+        remembered = self.is_remembered_page
+        
+        self.tabs.setVisible(not remembered)
+        self.submit_button.setVisible(not remembered)
+        self.spinner.setVisible(remembered)
 
-        self.tabs.setVisible(index != 2)
-        self.submit_button.setVisible(index != 2)
-        self.spinner.setVisible(index == 2)
-
-        self.login_tab.setChecked(index == 0)
+        self.login_tab.setChecked(self.is_login_page)
         self.register_tab.setChecked(index == 1)
 
         self.subtitle.setText(
@@ -175,7 +198,7 @@ class AuthView(QWidget):
             else "Sign in to your PlantERA account"
         )
 
-        if index == 2:
+        if remembered:
             self.spinner.start()
         else:
             self.spinner.stop()

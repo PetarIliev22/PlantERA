@@ -17,7 +17,7 @@ def _fetch_user_profile(user_id):
     client = get_supabase_client()
     response = (
         client.table("profiles")
-        .select("first_name, last_name, role, avatar")
+        .select("first_name, last_name, role, avatar, is_blocked")
         .eq("id", str(user_id))
         .single()
         .execute()

@@ -90,6 +90,26 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
 
         main_layout.addWidget(right_container, 1)
 
+    async def handle_blocked_user(self):
+        from services.supabase.supabase_auth import sign_out
+        from services.supabase.supabase_session import clear_session
+
+        self.auth_view.show_blocked()
+
+        try:
+            await sign_out()
+        except Exception as error:
+            print(f"Sign out failed: {error}")
+
+        try:
+            clear_session()
+        except Exception as error:
+            print(f"Session cleanup failed: {error}")
+            return
+
+        self.reset_user_state()
+        self.auth_view.blocked_login.back_button.setEnabled(True)
+    
     @asyncSlot(object)
     async def on_authenticated(self, user):
         if self.page_manager is not None:
@@ -110,30 +130,32 @@ class MainWindow(WindowEvents, WindowAppearance, WindowUpdates, QMainWindow):
             )
             return
 
+        if self.current_profile["is_blocked"]:
+            await self.handle_blocked_user()
+            return
+
         self.show_main_ui()
 
         if self.update_worker is None or not self.update_worker.isRunning():
             self.start_update_check()
-
+    
     async def load_user_profile(self):
         from services.supabase.supabase_queries import get_user_profile
-        from services.supabase.supabase_session import load_session, save_session
+        from services.supabase.supabase_session import load_session
+        from services.supabase.supabase_profile_cache import save_profile
 
         self.current_profile = await get_user_profile(self.current_user.id)
 
-        session = load_session()
+        if self.current_profile["is_blocked"]:
+            return
 
-        if session is not None:
-            save_session(
-                session["access_token"],
-                session["refresh_token"],
-                {
-                    "user_id": self.current_user.id,
-                    "first_name": self.current_profile.get("first_name", ""),
-                    "last_name": self.current_profile.get("last_name", ""),
-                    "email": self.current_user.email,
-                    "avatar": self.current_profile.get("avatar")
-                }
+        if load_session() is not None:
+            save_profile(
+                self.current_user.id,
+                self.current_profile.get("first_name", ""),
+                self.current_profile.get("last_name", ""),
+                self.current_user.email,
+                self.current_profile.get("avatar")
             )
 
     @asyncSlot()
