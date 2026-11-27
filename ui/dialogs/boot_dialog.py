@@ -2,6 +2,7 @@ from enum import Enum
 from ui.common.PySide6_Qt import *
 from utils.paths import resource_path
 from config.config_loader import load_config
+from utils.overlay import show_overlay
 
 texts = load_config("boot_dialog.json")
 
@@ -13,33 +14,30 @@ class BootState(Enum):
 class BootDialog(QFrame):
     def __init__(self, parent, port, on_connected, on_log=None):
         super().__init__(parent)
-        
+
         from services.device.device_service import DeviceService
+
         self.on_log = on_log
         self.port = port
         self.button_action = None
         self.on_connected = on_connected
         self.cancelled = False
-        
+
         self.cancel_timer = QTimer(self)
         self.cancel_timer.setInterval(50)
         self.cancel_timer.timeout.connect(self.finish_cancel)
-        
+
         self.service = DeviceService()
         self.service.detected.connect(self.device_detected)
         self.service.failed.connect(self.connection_failed)
 
-        self.setObjectName("bootOverlay")
-        self.setGeometry(parent.rect())
-
         self.create_ui()
         self.set_state(BootState.WAITING)
 
-        self.raise_()
-        self.show()
+        show_overlay(parent, self)
 
         self.service.start(self.port)
-
+        
     def create_ui(self):
         self.card = QFrame(self)
         self.card.setObjectName("bootCard")

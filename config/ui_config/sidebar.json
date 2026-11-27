@@ -21,6 +21,13 @@
       "view": "firmware_view.FirmwareView",
       "roles": ["administrator", "operator"]
     },
+     {
+      "name": "users",
+      "text": "Users",
+      "icon": "user.svg",
+      "view": "users_view.UsersView",
+      "roles": ["administrator"]
+    },
     {
       "name": "security",
       "text": "Device Security",
@@ -34,13 +41,6 @@
       "icon": "gear.svg",
       "view": "settings_view.SettingsView",
       "roles": ["administrator", "operator", "user"]
-    },
-    {
-      "name": "users",
-      "text": "Users",
-      "icon": "user.svg",
-      "view": "users_view.UsersView",
-      "roles": ["administrator"]
     },
     {
       "name": "about",

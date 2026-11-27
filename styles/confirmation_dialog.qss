@@ -1,0 +1,90 @@
+QFrame#confirmationContainer {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+}
+
+QLabel#confirmationIcon {
+    background-color: #F1F5F9;
+    border-radius: 36px;
+}
+
+QLabel#confirmationTitle {
+    background: transparent;
+    color: #0F172A;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+QLabel#confirmationDescription {
+    background: transparent;
+    color: #64748B;
+    font-size: 14px;
+}
+
+QFrame#confirmationUser {
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+}
+
+QLabel#confirmationUserName {
+    background: transparent;
+    color: #0F172A;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+QLabel#confirmationUserEmail {
+    background: transparent;
+    color: #64748B;
+    font-size: 13px;
+}
+
+QPushButton#confirmationCancel,
+QPushButton#confirmationSubmit {
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QPushButton#confirmationCancel {
+    background-color: #FFFFFF;
+    color: #475569;
+    border: 1px solid #E2E8F0;
+}
+
+QPushButton#confirmationCancel:hover {
+    background-color: #F1F5F9;
+}
+
+QPushButton#confirmationSubmit {
+    color: #FFFFFF;
+    border: none;
+}
+
+/* Delete */
+QPushButton#confirmationSubmit[action="delete"] {
+    background-color: #DC2626;
+}
+
+QPushButton#confirmationSubmit[action="delete"]:hover {
+    background-color: #B91C1C;
+}
+
+/* Block */
+QPushButton#confirmationSubmit[action="block"] {
+    background-color: #D97706;
+}
+
+QPushButton#confirmationSubmit[action="block"]:hover {
+    background-color: #B45309;
+}
+
+/* Unblock */
+QPushButton#confirmationSubmit[action="unblock"] {
+    background-color: #16A34A;
+}
+
+QPushButton#confirmationSubmit[action="unblock"]:hover {
+    background-color: #15803D;
+}
